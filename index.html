@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>One Motion — Digital Design Studio</title>
+  <meta name="description" content="One Motion — digital design studio. Systems, interfaces, 3D and motion." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Fallback font only. Replace with your licensed Actay/Actay Wide webfonts (see styles.css). -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body class="mode-home">
+  <div class="bg" aria-hidden="true">
+    <canvas class="bg__canvas"></canvas>
+    <div class="bg__noise"></div>
+        <svg class="bg__circles" viewBox="0 0 1920 1080" preserveAspectRatio="none">
+      <circle cx="1520" cy="300" r="420" />
+      <circle cx="1520" cy="300" r="560" />
+      <circle cx="1520" cy="300" r="700" />
+    </svg>
+  </div>
+
+  <header class="topbar">
+    <div class="topbar__inner">
+      <div class="brand">
+        <img class="brand__logo" src="./assets/logo.png" alt="ONE MOTION" />
+        </div>
+        <div class="brand__contacts">
+        <div class="brand__email">
+          <a href="mailto:hello@onemotion.studio" class="brand__emailIconLink">
+            <img class="brand__emailIcon" src="./assets/email.svg" alt="Email" />
+          </a>
+          <div class="brand__emailText">
+            <span class="brand__emailLabel">EMAIL</span>
+            <a class="brand__emailValue" href="mailto:hello@onemotion.studio">
+              hello@onemotion.studio
+            </a>
+          </div>
+        </div>
+
+
+        <div class="brand__whatsapp">
+          <a href="https://wa.me/48790272344" 
+             target="_blank" 
+             class="brand__waIconLink">
+            <img class="brand__waIcon" src="./assets/wa.svg" alt="WhatsApp" />
+          </a>
+
+          <div class="brand__waText">
+            <span class="brand__waLabel">WHATSAPP</span>
+            <a class="brand__waValue" 
+               href="https://wa.me/48790272344" 
+               target="_blank">
+              Quick response
+            </a>
+          </div>
+        </div>
+        
+
+
+      </div>
+
+      
+      <button class="cta" type="button" data-action="toggle-form" aria-controls="main" aria-expanded="false">
+        <span class="cta__text" data-cta-text>Let's connect</span>
+        <span class="cta__icon" aria-hidden="true">
+          <img src="./assets/arrow.svg" alt="" />
+        </span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main" class="page">
+    <section class="hero" aria-label="Hero">
+      <div class="wrap">
+        <h1 class="hero__title">
+          <span class="hero__titleLine hero__titleLine--black">YOUR</span>
+          <span class="hero__titleLine hero__titleLine--blue">DIGITAL DESIGN</span>
+          <span class="hero__titleLine hero__titleLine--black">STUDIO</span>
+        </h1>
+
+        <p class="hero__subtitle">
+          Precise solution for every challenge
+        </p>
+
+        <p class="hero__interest">
+          I'm interested in…
+        </p>
+
+        <div class="chips" aria-label="Capabilities">
+          <div class="chips__row">
+            <button class="chip chip--category" type="button" data-interest="Graphic design">Graphic design</button>
+            <button class="chip chip--glass" type="button" data-interest="Branding">Branding</button>
+            <button class="chip chip--glass" type="button" data-interest="Marketing Assets">Marketing Assets</button>
+            <button class="chip chip--glass" type="button" data-interest="Packaging">Packaging</button>
+            <button class="chip chip--glass" type="button" data-interest="Deck Design">Deck Design</button>
+            <button class="chip chip--glass" type="button" data-interest="Banners">Banners</button>
+          </div>
+
+          <div class="chips__row">
+            <button class="chip chip--category" type="button" data-interest="Web design">Web design</button>
+            <button class="chip chip--glass" type="button" data-interest="UX/UI">UX/UI</button>
+            <button class="chip chip--glass" type="button" data-interest="Landing Pages">Landing Pages</button>
+            <button class="chip chip--glass" type="button" data-interest="Corporate Websites">Corporate Websites</button>
+            <button class="chip chip--glass" type="button" data-interest="E-commerce">E-commerce</button>
+            <button class="chip chip--glass" type="button" data-interest="Dashboards">Dashboards</button>
+          </div>
+
+          <div class="chips__row">
+            <button class="chip chip--category" type="button" data-interest="3D design">3D design</button>
+            <button class="chip chip--glass" type="button" data-interest="Assets Modeling">Assets Modeling</button>
+            <button class="chip chip--glass" type="button" data-interest="Product Visualization">Product Visualization</button>
+            <button class="chip chip--glass" type="button" data-interest="3D Characters">3D Characters</button>
+            <button class="chip chip--glass" type="button" data-interest="Prototyping">Prototyping</button>
+            <button class="chip chip--glass" type="button" data-interest="3D for Web">3D for Web</button>
+          </div>
+
+          <div class="chips__row">
+            <button class="chip chip--category" type="button" data-interest="Motion design">Motion design</button>
+            <button class="chip chip--glass" type="button" data-interest="Promo Videos">Promo Videos</button>
+            <button class="chip chip--glass" type="button" data-interest="Explainer Videos">Explainer Videos</button>
+            <button class="chip chip--glass" type="button" data-interest="Content for Socials">Content for Socials</button>
+            <button class="chip chip--glass" type="button" data-interest="Video-editing">Video-editing</button>
+            <button class="chip chip--glass" type="button" data-interest="Web Animations">Web Animations</button>
+          </div>
+        </div>
+
+        <div class="best">
+          <a class="best__link" href="#" aria-label="Check out our best cases">
+            Check out our best cases
+                  </a>
+          <span class="best__chev" aria-hidden="true">›</span>
+          <div class="best__icons" aria-label="Portfolio links">
+            <a href="#" aria-label="Behance"><img src="./assets/Behance.svg" alt="" /></a>
+            <a href="#" aria-label="LinkedIn"><img src="./assets/Linkedin.svg" alt="" /></a>
+            <a href="#" aria-label="Instagram"><img src="./assets/Instagram.svg" alt="" /></a>
+            </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="form" aria-label="Contact form">
+      <div class="wrap">
+        
+        <div class="contact__sectionTitle">Your contact details</div>
+
+        <form class="contact" data-contact-form>
+          <div class="contact__grid">
+            <label class="field">
+              <span class="field__label">Name</span>
+              <input class="field__input" name="name" autocomplete="name" required />
+            </label>
+
+            <label class="field">
+              <span class="field__label">Email</span>
+              <input class="field__input" name="email" type="email" autocomplete="email" required />
+            </label>
+          </div>
+
+          <label class="field field--full">
+            <span class="field__label">Project details</span>
+            <textarea class="field__input field__textarea" name="details" rows="4"></textarea>
+          </label>
+
+          <div class="contact__actions">
+            <button class="submit" type="submit">Submit request</button>
+            </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <script src="./script.js"></script>
+</body>
+</html>
