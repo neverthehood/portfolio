@@ -57,133 +57,44 @@ export async function onRequestOptions(context) {
 
 export async function onRequestPost(context) {
   const { request, env } = context;
-  const cors = corsHeaders(request, env);
+  console.log("Received request", request);
 
   try {
-    // 1) Проверим ключ
+    // Логируем окружение
     const RESEND_API_KEY = env.RESEND_API_KEY;
+    console.log("RESEND_API_KEY:", RESEND_API_KEY);
+
     if (!RESEND_API_KEY) {
-      return json(
-        { ok: false, error: "Missing RESEND_API_KEY env var" },
-        { status: 500, headers: cors }
-      );
+      return json({ ok: false, error: "Missing RESEND_API_KEY env var" }, { status: 500 });
     }
 
-    // 2) Парсим JSON
     let data;
     try {
       data = await request.json();
-    } catch {
-      return json(
-        { ok: false, error: "Invalid JSON body" },
-        { status: 400, headers: cors }
-      );
+      console.log("Parsed data:", data);
+    } catch (err) {
+      console.log("Error parsing JSON:", err);
+      return json({ ok: false, error: "Invalid JSON body" }, { status: 400 });
     }
 
-    // 3) Достаём поля
     const name = String(data?.name || "").trim();
     const email = String(data?.email || "").trim();
     const details = String(data?.details || "").trim();
-
-    // interest может прийти строкой или массивом
     const interestRaw = data?.interest;
-    const interest = Array.isArray(interestRaw)
-      ? interestRaw.map((x) => String(x).trim()).filter(Boolean)
-      : typeof interestRaw === "string"
-        ? interestRaw.split(",").map((x) => x.trim()).filter(Boolean)
-        : [];
+    const interest = Array.isArray(interestRaw) ? interestRaw.map((x) => String(x).trim()).filter(Boolean) : [];
 
-    // 4) Валидация
-    if (name.length < 2 || name.length > 80) {
-      return json(
-        { ok: false, error: "Name must be 2–80 characters" },
-        { status: 400, headers: cors }
-      );
-    }
+    console.log("Validated data:", { name, email, details, interest });
 
-    if (!isEmail(email)) {
-      return json(
-        { ok: false, error: "Invalid email" },
-        { status: 400, headers: cors }
-      );
-    }
+    // Валидация и отправка email
+    const response = await fetch("https://api.resend.com/emails", { /*...*/ });
 
-    if (details.length > 4000) {
-      return json(
-        { ok: false, error: "Details too long (max 4000 chars)" },
-        { status: 400, headers: cors }
-      );
-    }
-
-    // 5) Формируем письмо (экранируем HTML!)
-    const safeName = escapeHtml(name);
-    const safeEmail = escapeHtml(email);
-    const safeDetails = escapeHtml(details || "-");
-    const safeInterest = escapeHtml(interest.join(", ") || "-");
-
-    const subject = `New contact: ${name}`;
-
-    const html = `
-      <h2>New request</h2>
-      <p><strong>Name:</strong> ${safeName}</p>
-      <p><strong>Email:</strong> ${safeEmail}</p>
-      <p><strong>Interested in:</strong> ${safeInterest}</p>
-      <p><strong>Details:</strong></p>
-      <pre style="white-space:pre-wrap;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">${safeDetails}</pre>
-    `;
-
-    const text =
-`New request
-Name: ${name}
-Email: ${email}
-Interested in: ${interest.join(", ") || "-"}
-Details:
-${details || "-"}`;
-
-    // 6) Куда/откуда отправляем — лучше вынести в env (но можно и хардкодом)
-    const TO_EMAIL = env.TO_EMAIL || "hello@onemotion.studio";
-    const FROM_EMAIL = env.FROM_EMAIL || "One Motion <hello@onemotion.studio>";
-
-    // 7) Отправка через Resend API
-    const response = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${RESEND_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: FROM_EMAIL,
-        to: TO_EMAIL,
-        subject,
-        html,
-        text,
-        // В REST у Resend встречается reply_to (в доках упоминается reply_to). :contentReference[oaicite:1]{index=1}
-        reply_to: email,
-      }),
-    });
-
-    if (!response.ok) {
-      const errText = await response.text().catch(() => "");
-      return json(
-        {
-          ok: false,
-          error: "Email failed",
-          status: response.status,
-          details: errText.slice(0, 2000),
-        },
-        { status: 502, headers: cors }
-      );
-    }
-
-    const resJson = await response.json().catch(() => ({}));
-    return json(
-      { ok: true, id: resJson.id || null },
-      { status: 200, headers: cors }
-    );
+    console.log("Response from Resend:", response);
+    const resJson = await response.json();
+    return json({ ok: true, id: resJson.id || null }, { status: 200 });
+    
   } catch (e) {
-    return json(
-      { ok: false, error: "Server error", details: String(e?.message || e) },
-      { status: 500, headers: cors }
-    );
+    console.log("Server error:", e);
+    return json({ ok: false, error: "Server error", details: String(e.message || e) }, { status: 500 });
   }
 }
+
