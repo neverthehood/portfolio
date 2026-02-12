@@ -12,17 +12,14 @@ const hint = document.querySelector('[data-form-hint]');
 let activeInterest = [];
 
 function setMode(mode){
-  const isForm = mode === 'form';
+  if (mode === 'form'){
+    body.classList.add('mode-form');
+    body.classList.remove('mode-home');
 
-  body.classList.toggle('mode-form', isForm);
-  body.classList.toggle('mode-home', !isForm);
-
-  if (toggleBtn) toggleBtn.setAttribute('aria-expanded', String(isForm));
-  if (ctaText) ctaText.textContent = isForm ? 'Back to home' : "Let's connect";
-
-  if (!isForm){
-    chips.forEach(c => c.classList.remove('is-active'));
-    activeInterest = [];
+    if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'true');
+    if (ctaText) ctaText.textContent = 'Back to home';
+  } else {
+    goHome();
   }
 }
 
@@ -43,12 +40,9 @@ if (toggleBtn){
   toggleBtn.addEventListener('click', () => {
     const isForm = body.classList.contains('mode-form');
     setMode(isForm ? 'home' : 'form');
-
-    if (isForm){
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
   });
 }
+
 
 chips.forEach((btn) => {
   btn.addEventListener('click', () => {
@@ -58,20 +52,32 @@ chips.forEach((btn) => {
 });
 
 if (form){
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
+
     const data = new FormData(form);
     const payload = Object.fromEntries(data.entries());
+
+
     payload.interest = activeInterest;
 
-    if (hint){
-      hint.textContent =
-        'Captured (front-end only): ' + JSON.stringify(payload);
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if(res.ok){
+      form.reset();
+      activeInterest = [];
+      goHome();
+    } else {
+      alert('Something went wrong. Please try again.');
     }
 
-    console.log(payload);
   });
 }
+
 
 setMode('home');
 
@@ -147,4 +153,39 @@ gradient.addColorStop(1, 'rgba(255,255,255,0)');
   }
 
   draw();
+}
+
+
+
+
+function goHome(){
+
+  body.classList.remove('mode-form');
+  body.classList.add('mode-home');
+
+  if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+  if (ctaText) ctaText.textContent = "Let's connect";
+
+  chips.forEach(c => c.classList.remove('is-active'));
+  activeInterest = [];
+
+  requestAnimationFrame(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'auto'
+    });
+  });
+}
+
+
+
+
+const logo = document.querySelector('.brand__logo');
+
+if (logo){
+  logo.addEventListener('click', (e) => {
+    e.preventDefault();
+    goHome();
+  });
 }

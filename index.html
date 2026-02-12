@@ -25,7 +25,10 @@
   <header class="topbar">
     <div class="topbar__inner">
       <div class="brand">
-        <img class="brand__logo" src="./assets/logo.png" alt="ONE MOTION" />
+        <button class="brand__homeBtn" type="button" data-action="go-home">
+          <img class="brand__logo" src="./assets/logo.png" alt="ONE MOTION" />
+        </button>
+
         </div>
         <div class="brand__contacts">
         <div class="brand__email">
@@ -160,9 +163,16 @@
           </div>
 
           <label class="field field--full">
-            <span class="field__label">Project details</span>
-            <textarea class="field__input field__textarea" name="details" rows="4"></textarea>
+            <span class="field__label">Drop us a line</span>
+            <input 
+              class="field__input" 
+              type="text" 
+              name="details" 
+              autocomplete="off"
+              required
+            />
           </label>
+
 
           <div class="contact__actions">
             <button class="submit" type="submit">Submit request</button>
