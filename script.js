@@ -58,25 +58,33 @@ if (form){
     const data = new FormData(form);
     const payload = Object.fromEntries(data.entries());
 
-
     payload.interest = activeInterest;
 
-    const res = await fetch('/api/contact', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
 
-    if(res.ok){
-      form.reset();
-      activeInterest = [];
-      goHome();
-    } else {
-      alert('Something went wrong. Please try again.');
+      const raw = await res.text(); // важно!
+      console.log('[contact] status:', res.status, raw);
+
+      if (res.ok){
+        form.reset();
+        activeInterest = [];
+        goHome();
+      } else {
+        alert(raw || 'Something went wrong. Please try again.');
+      }
+
+    } catch (err) {
+      console.error('[contact] network error:', err);
+      alert('Network error. Please try again.');
     }
-
   });
 }
+
 
 
 setMode('home');
