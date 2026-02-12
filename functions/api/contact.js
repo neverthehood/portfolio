@@ -87,9 +87,11 @@ export async function onRequestPost(context) {
 
     // Валидация и отправка email
     const response = await fetch("https://api.resend.com/emails", { /*...*/ });
-
-    console.log("Response from Resend:", response);
+    
+    // Парсим ответ как JSON
     const resJson = await response.json();
+    console.log("Response from Resend:", resJson); // Логируем реальный ответ
+
     return json({ ok: true, id: resJson.id || null }, { status: 200 });
     
   } catch (e) {
@@ -97,4 +99,5 @@ export async function onRequestPost(context) {
     return json({ ok: false, error: "Server error", details: String(e.message || e) }, { status: 500 });
   }
 }
+
 
