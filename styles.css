@@ -522,6 +522,7 @@ max-width: 100%;
 text-align: center;
 font-family: var(--fontBody);
 letter-spacing: 14px;
+text-transform: uppercase;
 }
 
 .chips{
