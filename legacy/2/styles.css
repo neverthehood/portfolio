@@ -164,8 +164,8 @@ rgba(255,255,255,.60) 0%,
 rgba(255,255,255,.25) 60%
 ),
 rgba(255,255,255,.18);
-backdrop-filter: blur(0px) saturate(100%);
--webkit-backdrop-filter: blur(2px) saturate(0%);
+backdrop-filter: blur(20px) saturate(180%);
+-webkit-backdrop-filter: blur(20px) saturate(180%);
 border: 1px solid rgba(255,255,255,.55);
 border-top: 1px solid rgba(255,255,255,.80);
 box-shadow:
@@ -176,40 +176,6 @@ transition: 600ms ease;
 padding-right: 12px;
 padding-left: 48px;
 }
-
-
-body.mode-form .topbar__inner {
-max-width: 1294px;
-width: calc(100% - 48px);
-
-height: 80px;
-margin: 32px auto 0;
-display: flex;
-align-items: center;
-justify-content: flex-start;
-border-radius: 120px;
-position: relative;
-overflow: hidden;
-background: linear-gradient(
-135deg,
-rgba(255,255,255,.60) 0%,
-rgba(255,255,255,.25) 60%
-),
-rgba(255,255,255,.18);
-backdrop-filter: blur(3px) saturate(100%);
--webkit-backdrop-filter: blur(2px) saturate(0%);
-border: 1px solid rgba(255,255,255,.55);
-border-top: 1px solid rgba(255,255,255,.80);
-box-shadow:
-0 24px 80px rgba(0,0,0,.09),
-inset 0 2px 6px rgba(255,255,255,.85),
-inset 0 -1px 1px rgba(0,0,0,.10);
-transition: 600ms ease;
-padding-right: 12px;
-padding-left: 48px;
-}
-
-
 
 .brand{
 display:flex;
@@ -421,7 +387,7 @@ background: rgba(49, 91, 255, .95);
 color: #fff;
 font-weight: 700;
 cursor:pointer;
-transition: 150ms ease;
+transition: 250ms ease;
 font-family: var(--fontDisplay);
 }
 
@@ -589,133 +555,111 @@ border: none;
 color:#282828;
 }
 
-/* =========================
-   AURORA GLASS CHIP
-   ========================= */
+.chip--glass {
+  position: relative;
+  overflow: hidden;
 
-.chip{
-  position:relative;
-  overflow:hidden;
-  border-radius:999px;
-}
+  background: rgba(255,255,255,.05);
 
-/* база */
-.chip--glass{
-  position:relative;
-  overflow:hidden;
+  backdrop-filter: blur(28px) saturate(220%);
+  -webkit-backdrop-filter: blur(28px) saturate(220%);
 
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.35);
-  border-radius: 999px;
-
-  backdrop-filter:none; /* важно */
+  border: 1px solid rgba(255,255,255,.35);
 
   box-shadow:
-    0 10px 30px rgba(0,0,0,.12),
-    inset 0 1px 0 rgba(255,255,255,.7);
+    0 20px 60px rgba(0,0,0,.15),
+    inset 0 1px 0 rgba(255,255,255,.65),
+    inset 0 -2px 6px rgba(0,0,0,.15);
 
-  transition: 300ms ease;
+  transition: 260ms ease;
 }
 
 
-
-/* внутреннее "искажение" */
-.chip--glass::before{
-  content:'';
-  position:absolute;
-  inset:-2px;
-  border-radius:inherit;
-
-  background: inherit;
-
-  filter: url(#edge-distort);
-
-  /* маска — чтобы искажение было только по краю */
-  -webkit-mask:
-    radial-gradient(
-      circle,
-      transparent 60%,
-      black 75%
-    );
-
-  mask:
-    radial-gradient(
-      circle,
-      transparent 60%,
-      black 75%
-    );
-
-  pointer-events:none;
-}
-
-
-
-  mix-blend-mode: overlay;
-  opacity:.5;
-  pointer-events:none;
-}
-
-/* aurora distortion texture */
-.chip--glass::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:inherit;
-
-  border:1px solid rgba(255,255,255,.18);
-  pointer-events:none;
-}
-
-
-/* hover */
-.chip--glass:hover{
-  transform: translateY(-2px);
+/* inner soft refraction layer */
+.chip--glass::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
 
   background:
     linear-gradient(
-      180deg,
-      rgba(255,255,255,.16),
-      rgba(255,255,255,.05)
+      115deg,
+      transparent 30%,
+      rgba(255,255,255,.25) 45%,
+      transparent 60%
     );
 
-  border-color: rgba(255,255,255,.55);
-
-  box-shadow:
-    0 14px 36px rgba(0,0,0,.18),
-    inset 0 1px 0 rgba(255,255,255,.85),
-    inset 0 -4px 10px rgba(255,255,255,.12);
+  opacity: .25;
+  transform: translateX(-120%);
+  transition: 700ms ease;
+  pointer-events: none;
 }
 
+.chip--glass:hover {
+  background: rgba(255,255,255,.12);
+  backdrop-filter: blur(34px) saturate(260%);
+  -webkit-backdrop-filter: blur(34px) saturate(260%);
+  border-color: rgba(255,255,255,.6);
 
-.chip--glass:hover::before{
-  opacity:.75;
-}
-
-
-@keyframes glassShift{
-  0%{ background-position: 0 0; }
-  100%{ background-position: 200px 150px; }
-}
-
-.chip--glass::after{
-  animation: glassShift 8s linear infinite;
-}
-
-
-body.mode-form .chip--glass{
-background: rgba(255,255,255,.08);
-border-color: rgba(255,255,255,.28);
-color:#fff;
-
-}
-
-body.mode-form .chip--glass:hover{
-background: rgba(255,255,255,.22);
-border-color: rgba(255,255,255,.45);
+  transform: translateY(-2px);
 }
 
 
 
+
+.chip--glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(255,255,255,.45) 0%,
+      rgba(255,255,255,.15) 25%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 85% 80%,
+      rgba(255,255,255,.25) 0%,
+      transparent 60%
+    );
+
+  mix-blend-mode: overlay;
+  opacity: .55;
+  pointer-events: none;
+}
+
+
+.chip{
+position:relative;
+overflow:hidden;
+}
+
+.chip--glass:hover{
+background: #fff;
+color: inherit;
+border-color: rgba(255,255,255,.65);
+backdrop-filter: blur(36px) saturate(220%);
+-webkit-backdrop-filter: blur(36px) saturate(220%);
+transform: translateY(-1px);
+}
+
+.chip--glassTint{
+
+background: rgba(255,255,255,.32);
+
+border: 1px solid rgba(255,255,255,.54);
+
+}
+
+.chip--glassTint:hover{
+
+background: rgba(255,255,255,.52);
+
+}
 
 /* ===== Best cases ===== */
 
@@ -1078,7 +1022,7 @@ box-shadow: var(--shadow2);
 
 }
 
-body.mode-form .brand__emailLabel{ color: rgba(255,255,255,.90); }
+body.mode-form .brand__emailLabel{ color: rgba(255,255,255,.72); }
 
 body.mode-form .brand__emailValue{ color: rgba(255,255,255,.90); }
 
@@ -1170,6 +1114,23 @@ color: var(--blue);
 
 }
 
+body.mode-form .chip--glass{
+background: rgba(255,255,255,.14);
+border-color: rgba(255,255,255,.28);
+color:#fff;
+backdrop-filter: blur(34px) saturate(220%);
+-webkit-backdrop-filter: blur(34px) saturate(220%);
+box-shadow:
+0 20px 60px rgba(0,0,0,.18),
+inset 0 1px 0 rgba(255,255,255,.55);
+}
+
+body.mode-form .chip--glass:hover{
+background: rgba(255,255,255,.22);
+border-color: rgba(255,255,255,.45);
+backdrop-filter: blur(40px) saturate(240%);
+-webkit-backdrop-filter: blur(40px) saturate(240%);
+}
 
 body.mode-form .best__link{ color: rgba(255,255,255,.88); font-family: var(--fontBody); }
 
@@ -1239,12 +1200,6 @@ backdrop-filter:blur(0)!important;
 
 }
 
-.chip.is-active::before{
-  display:none;
-}
-
-
-
 .best__chev{
 
 font-size:22px;
@@ -1279,11 +1234,7 @@ box-shadow:none
   font-weight: 600;
   opacity: 0;
   transform: translateY(-6px);
-  transition:
-  transform 120ms cubic-bezier(.4,0,.2,1),
-  box-shadow 120ms cubic-bezier(.4,0,.2,1),
-  background 140ms ease-out,
-  border-color 140ms ease-out;
+  transition: 400ms ease;
   pointer-events: none;
 }
 
@@ -1501,50 +1452,12 @@ body.mode-success .success {
 }
 
 
-.bg__aurora{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  isolation:isolate;
-  filter: saturate(120%) contrast(110%);
-}
-
-.bg__video{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  pointer-events:none;
-  transition: transform 1.2s ease;
-  mix-blend-mode: soft-light;   /* или overlay / lighten / soft-light */
-}
-
-
 .bg__noise{
   position:absolute;
   inset:0;
   pointer-events:none;
-
   background-image:url('./assets/grain.webp');
-  background-size:1200px;   /* КРУПНЕЕ */
-  opacity:.12;              /* заметнее */
-  mix-blend-mode:multiply;  /* для белого фона */
+  background-size:2500px;
+  opacity:.2;
+  mix-blend-mode:multiply;
 }
-
-
-.bg__grid{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-
-  background-image:url('./assets/grid.svg');
-  background-size:800px;   /* КРУПНЕЕ */
-  opacity:.12;              /* заметнее */
-  mix-blend-mode:multiply;  /* для белого фона */
-}
-
-
-
-  
-

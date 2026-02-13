@@ -161,26 +161,28 @@ if (canvas){
     ctx.clearRect(0,0,w,h);
 
     const cx =
-      w * 0.7 +
-      Math.sin(time * 0.4) * w * 0.08;
+      w * 0.5 +
+      Math.sin(time * 0.35) * w * 0.25 +
+      Math.sin(time * 0.9) * 40;
 
     const cy =
-      h * 0.55 +
-      Math.cos(time * 0.35) * h * 0.06;
+      h * 0.5 +
+      Math.cos(time * 0.28) * h * 0.22 +
+      Math.cos(time * 0.7) * 30;
 
-    const radius = Math.min(w,h) * 0.55;
+    const radius = Math.min(w,h) * 0.75;
 
     const r = 255;
-    const g = 90 + Math.sin(time * 0.3) * 15;
-    const b = 220 + Math.cos(time * 0.2) * 10;
+    const g = 90 + Math.sin(time * 0.3) * 20;
+    const b = 220 + Math.cos(time * 0.2) * 15;
 
     const gradient = ctx.createRadialGradient(
-      cx, cy, radius * 0.1,
+      cx, cy, radius * 0.2,
       cx, cy, radius
     );
 
-    gradient.addColorStop(0.2, `rgba(${r},${g},${b},0.55)`);
-    gradient.addColorStop(0.6, `rgba(${r},${g},${b},0.35)`);
+    gradient.addColorStop(0.3, `rgba(${r},${g},${b},0.35)`);
+    gradient.addColorStop(0.7, `rgba(${r},${g},${b},0.15)`);
     gradient.addColorStop(1, 'rgba(255,255,255,0)');
 
     ctx.fillStyle = gradient;
@@ -188,34 +190,9 @@ if (canvas){
     ctx.arc(cx, cy, radius, 0, Math.PI * 2);
     ctx.fill();
 
-    time += 0.01;
+    time += 0.015;
     requestAnimationFrame(draw);
   }
 
-
   draw();
-}
-
-
-function resetAutofill() {
-  const inputs = document.querySelectorAll('input, textarea');
-
-  inputs.forEach(input => {
-    const value = input.value;
-    input.value = '';
-    input.blur();
-
-    // небольшой хак чтобы Chrome пересчитал стили
-    setTimeout(() => {
-      input.value = value;
-    }, 10);
-  });
-}
-
-
-function setMode(mode){
-  body.classList.remove('mode-home', 'mode-form', 'mode-success');
-  body.classList.add(`mode-${mode}`);
-
-  resetAutofill();   // ← ВОТ ЭТО ДОБАВИТЬ
 }

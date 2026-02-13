@@ -20,13 +20,14 @@ function setMode(mode){
   body.classList.remove('mode-home', 'mode-form', 'mode-success');
   body.classList.add(`mode-${mode}`);
 
-  if (toggleBtn){
-    toggleBtn.setAttribute('aria-expanded', mode === 'form');
+  if (mode === 'form'){
+    if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'true');
+    if (ctaText) ctaText.textContent = 'Back to home';
   }
 
-  if (ctaText){
-    ctaText.textContent =
-      mode === 'form' ? 'Back to home' : "Let's connect";
+  if (mode === 'home'){
+    if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+    if (ctaText) ctaText.textContent = "Let's connect";
   }
 }
 
@@ -34,12 +35,21 @@ function goHome(){
   activeInterest = [];
   chips.forEach(c => c.classList.remove('is-active'));
   setMode('home');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: 'smooth'
+  });
 }
 
 function showSuccess(){
   setMode('success');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
 }
 
 function resetUI(){
@@ -47,18 +57,23 @@ function resetUI(){
   goHome();
 }
 
+
 // ===============================
 // EVENTS
 // ===============================
 
 if (toggleBtn){
   toggleBtn.addEventListener('click', () => {
+
+    // если success — всегда домой
     if (body.classList.contains('mode-success')){
       goHome();
       return;
     }
 
-    if (body.classList.contains('mode-form')){
+    const isForm = body.classList.contains('mode-form');
+
+    if (isForm){
       goHome();
     } else {
       setMode('form');
@@ -66,6 +81,7 @@ if (toggleBtn){
     }
   });
 }
+
 
 chips.forEach((btn) => {
   btn.addEventListener('click', () => {
@@ -78,9 +94,14 @@ if (restartBtn){
   restartBtn.addEventListener('click', resetUI);
 }
 
-document.querySelectorAll('[data-action="go-home"]').forEach(btn => {
-  btn.addEventListener('click', goHome);
+const homeBtns = document.querySelectorAll('[data-action="go-home"]');
+
+homeBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    goHome();
+  });
 });
+
 
 // ===============================
 // INTEREST LOGIC
@@ -122,23 +143,24 @@ if (form){
       console.log('[contact] status:', res.status, raw);
 
       if (res.ok){
-        showSuccess();
+        showSuccess();   // ← success экран
       } else {
-        alert(raw || 'Something went wrong.');
+        alert(raw || 'Something went wrong. Please try again.');
       }
 
     } catch (err) {
       console.error('[contact] network error:', err);
-      alert('Network error.');
+      alert('Network error. Please try again.');
     }
   });
 }
 
+// стартовое состояние
 setMode('home');
 
 
 // ===============================
-// CANVAS BACKGROUND
+// Canvas Background Animation
 // ===============================
 
 const canvas = document.querySelector('.bg__canvas');
@@ -161,26 +183,28 @@ if (canvas){
     ctx.clearRect(0,0,w,h);
 
     const cx =
-      w * 0.7 +
-      Math.sin(time * 0.4) * w * 0.08;
+      w * 0.5 +
+      Math.sin(time * 0.35) * w * 0.25 +
+      Math.sin(time * 0.9) * 40;
 
     const cy =
-      h * 0.55 +
-      Math.cos(time * 0.35) * h * 0.06;
+      h * 0.5 +
+      Math.cos(time * 0.28) * h * 0.22 +
+      Math.cos(time * 0.7) * 30;
 
-    const radius = Math.min(w,h) * 0.55;
+    const radius = Math.min(w,h) * 0.7;
 
-    const r = 255;
-    const g = 90 + Math.sin(time * 0.3) * 15;
-    const b = 220 + Math.cos(time * 0.2) * 10;
+    const r2 = 255;
+    const g2 = 90 + Math.sin(time * 0.3) * 20;
+    const b2 = 220 + Math.cos(time * 0.2) * 15;
 
     const gradient = ctx.createRadialGradient(
-      cx, cy, radius * 0.1,
+      cx, cy, radius * 0.2,
       cx, cy, radius
     );
 
-    gradient.addColorStop(0.2, `rgba(${r},${g},${b},0.55)`);
-    gradient.addColorStop(0.6, `rgba(${r},${g},${b},0.35)`);
+    gradient.addColorStop(0.35, `rgba(${r2},${g2},${b2},0.35)`);
+    gradient.addColorStop(0.7, `rgba(${r2},${g2},${b2},0.15)`);
     gradient.addColorStop(1, 'rgba(255,255,255,0)');
 
     ctx.fillStyle = gradient;
@@ -188,34 +212,9 @@ if (canvas){
     ctx.arc(cx, cy, radius, 0, Math.PI * 2);
     ctx.fill();
 
-    time += 0.01;
+    time += 0.015;
     requestAnimationFrame(draw);
   }
 
-
   draw();
-}
-
-
-function resetAutofill() {
-  const inputs = document.querySelectorAll('input, textarea');
-
-  inputs.forEach(input => {
-    const value = input.value;
-    input.value = '';
-    input.blur();
-
-    // небольшой хак чтобы Chrome пересчитал стили
-    setTimeout(() => {
-      input.value = value;
-    }, 10);
-  });
-}
-
-
-function setMode(mode){
-  body.classList.remove('mode-home', 'mode-form', 'mode-success');
-  body.classList.add(`mode-${mode}`);
-
-  resetAutofill();   // ← ВОТ ЭТО ДОБАВИТЬ
 }

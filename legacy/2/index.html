@@ -13,7 +13,7 @@
 </head>
 <body class="mode-home">
   <div class="bg" aria-hidden="true">
-    <div class="bg__grid"></div>
+    <canvas class="bg__canvas"></canvas>
     <div class="bg__noise"></div>
         <svg class="bg__circles" viewBox="0 0 1920 1080" preserveAspectRatio="none">
       <circle cx="1520" cy="300" r="420" />
@@ -191,12 +191,5 @@
   </main>
 
   <script src="./script.js"></script>
-  <svg width="0" height="0" style="position:absolute">
-  <filter id="glass-distortion">
-    <feTurbulence type="fractalNoise" baseFrequency="0.01 0.02" numOctaves="2" seed="2" result="noise"/>
-    <feDisplacementMap in="SourceGraphic" in2="noise" scale="12"/>
-  </filter>
-</svg>
-
 </body>
 </html>
