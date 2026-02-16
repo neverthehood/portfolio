@@ -491,7 +491,7 @@ font-size: var(--t1);
 
 line-height: var(--t1lh);
 
-letter-spacing: -0.02em;
+letter-spacing: 0.05em;
 
 text-align: center;
 
