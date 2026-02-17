@@ -37,7 +37,7 @@
 
 --barTop: 34px;
 
---t1: 84px;
+--t1: 80px;
 
 --t1lh: 0.95;
 
@@ -58,6 +58,7 @@ min-height: 100%;
 html {
 
   scrollbar-gutter: stable;
+  overflow-x:clip;
 
 }
 
@@ -147,8 +148,8 @@ z-index:10;
 }
 
 .topbar__inner {
-max-width: 1008px;
-width: calc(100% - 48px);
+width: 1170px;
+max-width: 1170px;
 
 height: 80px;
 margin: 22px auto 0;
@@ -159,19 +160,22 @@ border-radius: 120px;
 position: relative;
 overflow: hidden;
 background: linear-gradient(
-135deg,
-rgba(255,255,255,.60) 0%,
-rgba(255,255,255,.25) 60%
-),
-rgba(255,255,255,.18);
-backdrop-filter: blur(0px) saturate(100%);
--webkit-backdrop-filter: blur(2px) saturate(0%);
-border: 0px solid rgba(255,255,255,.55);
-border-top: 1px solid rgba(255,255,255,.80);
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  
+  /* Размытие того, что ПОД элементом (магия прозрачности) */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+border: 1px solid rgba(255,255,255,.80);
+
 box-shadow:
 0 24px 80px rgba(0,0,0,.09),
-inset 0 2px 6px rgba(255,255,255,.85),
-inset 0 -1px 1px rgba(0,0,0,.10);
+inset 0 2px 6px rgba(255,255,255,.45),
+inset 0 0px 1px rgba(0,0,0,.10);
+
 
 padding-right: 12px;
 padding-left: 20px;
@@ -179,7 +183,7 @@ padding-left: 20px;
 
 
 body.mode-form .topbar__inner {
-max-width: 1008px;
+max-width: 1170px;
 width: calc(100% - 48px);
 
 height: 80px;
@@ -215,7 +219,8 @@ padding-left: 28px;
 display:flex;
 align-items:center;
 gap: 72px;
-min-width: 520px;
+min-width: 374px;
+width: 374px;
 }
 
 .brand__logo{
@@ -267,7 +272,7 @@ text-decoration:none;
    ========================= */
 
 .brand__whatsapp {
-  display: none;
+  display: flex;
   align-items: center;
   gap: 14px;
 }
@@ -316,6 +321,7 @@ opacity:.85;
 
 
 .brand__waValue {
+  width: max-content;
   font-family: var(--fontBody);
   font-size: 14px;
   font-weight: 400;
@@ -353,11 +359,12 @@ body.mode-form .brand__emailValue:hover {
 }
 
 .brand__contacts {
+  min-width: 520px;
   display: flex;
   align-items: center;
   gap: 48px;
   margin-left: auto;
-  margin-right: 32px;
+  margin-right: 0px;
 }
 
 
@@ -414,7 +421,8 @@ align-items:center;
 justify-content: center;
 gap: 12px;
 padding: 10px 0px;
-width: 200px;
+width: 212px;
+min-width: 212px;
 border-radius: 999px;
 border: 1px solid rgba(255,255,255,.65);
 background: rgba(49, 91, 255, .95);
@@ -459,30 +467,50 @@ font-size: 18px;
 padding-left: 8px;
 }
 
+.cta__text {
+  white-space: nowrap;
+}
+
+.cta {
+  justify-content: center;
+}
+
+
 /* ========= Layout ========= */
 
-.page{
-
-padding-top: 132px;
-
-}
 
 .wrap{
 
 width:min(var(--headerW), calc(100% - (var(--padX) * 2)));
-
-margin:0 auto;
-
 }
 
-.hero{
-padding-top: 130px;
-transition: 550ms ease;
+.page {
+  min-height: 100vh;
 }
+
+
+.hero {
+  height: 100vh;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 170px;
+}
+
+
+.hero .wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+
 
 .hero__title{
 
-margin:0;
+margin-top: 24px;
+margin-bottom: 0px;
 
 font-family: var(--fontHeading);
   font-weight: 700;
@@ -491,7 +519,7 @@ font-size: var(--t1);
 
 line-height: var(--t1lh);
 
-letter-spacing: 0.05em;
+letter-spacing: 0px;
 
 text-align: center;
 
@@ -512,13 +540,13 @@ white-space: nowrap;
 overflow: hidden;
 text-overflow: ellipsis;
 margin: 22px 0 0;
-font-size: 22px;
+font-size: 16px;
 line-height: 1.45;
 color: rgba(17,17,17,.85);
 max-width: 100%;
 text-align: center;
 font-family: var(--fontBody);
-letter-spacing: 14px;
+letter-spacing: 10px;
 text-transform: uppercase;
 }
 
@@ -527,7 +555,16 @@ margin-top: 14px;
 display:flex;
 flex-direction:column;
 gap: 14px;
-padding-left: 54px;
+padding-left: 0px;
+}
+
+.chips-group{
+margin-top: 14px;
+display:flex;
+flex-direction:column;
+gap: 14px;
+padding-left: 20px;
+margin: auto;
 }
 
 .chips__row{
@@ -636,8 +673,8 @@ color:#282828;
   border-radius:inherit;
   background: inherit;
   filter: url(#edge-distort);
-  -webkit-mask: radial-gradient(circle, transparent 60%, black 75%);
-  mask: radial-gradient(circle, transparent 60%, black 75%);
+  -webkit-mask: radial-gradient(circle, transparent 60%, white 75%);
+  mask: radial-gradient(circle, transparent 60%, white 75%);
   pointer-events:none;
 }
 
@@ -691,8 +728,8 @@ color:#282828;
   background:
     linear-gradient(
       180deg,
-      rgba(255,255,255,.16),
-      rgba(255,255,255,.05)
+      rgba(255,255,255,.86),
+      rgba(255,255,255,.35)
     );
 
   border-color: rgba(255,255,255,.55);
@@ -737,7 +774,8 @@ border-color: rgba(255,255,255,.45);
 /* ===== Best cases ===== */
 
 .best{
-margin-top: 64px;
+margin-top: 225px;
+padding-bottom: 42px;
 display:flex;
 align-items:center;
 gap: 22px;
@@ -874,7 +912,8 @@ font-weight: 900;
 .contact{
 margin-top: 40px;
 max-width: 980px;
-padding-left: 54px;
+padding-left: 34px;
+padding-bottom: 66px;
 }
 
 .contact__grid{
@@ -1019,13 +1058,13 @@ body.mode-form {
 /* --- HERO stays on top in form mode --- */
 
 body.mode-form .hero{
-
-opacity:1;
-
-transform:none;
-
-padding-bottom:40px;
-
+    height: 68vh;
+    min-height: 68vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 192px;
+    margin: 0 auto;
 }
 
 body.mode-form .hero__titleLine--black,
@@ -1044,12 +1083,13 @@ color:rgba(255,255,255,.85);
 
 /* --- layout order --- */
 
-body.mode-form .form{
-opacity:1;
-transform:none;
-pointer-events:auto;
-padding-top:10px;
-padding-bottom: 60px;
+body.mode-form .form {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    width: 1170px;
+    min-width: 1170px;
+    margin: 0 auto;
 }
 
 /* move best cases to bottom */
@@ -1095,6 +1135,17 @@ box-shadow: var(--shadow2);
 
 }
 
+body.mode-form .brand{
+display:flex;
+align-items:center;
+gap: 72px;
+max-width: 460px;
+width: 460px;
+}
+
+
+
+
 body.mode-form .brand__emailLabel{ color: rgba(255,255,255,.90); }
 
 body.mode-form .brand__emailValue{ color: rgba(255,255,255,.90); }
@@ -1124,7 +1175,6 @@ opacity:.95;
 }
 
 body.mode-form .cta{
-width: 200px;
 background: rgba(255,255,255,.16);
 
 border-color: rgba(255,255,255,.25);
@@ -1310,7 +1360,8 @@ body.mode-form .hero__interest{
   opacity: 1;
   transform: translateY(0);
   color: rgba(255,255,255,.9);
-  padding-left: 54px;
+  padding-left: 20px;
+  align-items: flex-start !important;
 }
 
 /* hide best cases completely in form mode */
@@ -1327,7 +1378,7 @@ font-family: var(--fontBody);
 font-size: 22px;
 font-weight: 600;
 opacity: .9;
-padding-left: 54px;
+padding-left: 34px;
 }
 
 /* --- Logo switch in form mode --- */
@@ -1480,27 +1531,8 @@ body.mode-form .success {
 
 
 
-body.mode-home .hero {
-  min-height: calc(100vh - 140px); /* 140px = высота header + отступ */
-  display: flex;
-  align-items: center;
-  padding-top: 0;
-}
-
-
-
-body.mode-home .hero {
-  display: flex;
-  align-items: center;
-}
-
 
 /* ===== HOME (белый экран) ===== */
-
-body.mode-home .page {
-  min-height: 100vh;
-  overflow: hidden;
-}
 
 body.mode-home .form,
 body.mode-home .success {
@@ -1543,18 +1575,21 @@ body.mode-success .success {
   inset:0;
   pointer-events:none;
 
-  background:
-    radial-gradient(
-      circle at 20% 50%,
-      #c5d1e1 0%,
-      transparent 60%
-    ),
-    radial-gradient(
-      circle at 80% 50%,
-      #f0d7e8 0%,
-      transparent 60%
-    ),
-    #d6dce6;
+  background-color: #e4ebf5; 
+    
+    /* Наложение мягких световых пятен */
+    background-image:
+      /* Белое свечение из левого верхнего угла */
+      radial-gradient(at 0% 0%, rgba(255, 255, 255, 0.8) 0%, transparent 50%),
+      
+      /* Голубоватый акцент в центре и сверху */
+      radial-gradient(at 50% 0%, rgba(200, 215, 235, 0.5) 0%, transparent 60%),
+      
+      /* Едва заметный розоватый/теплый блик справа (как на скриншоте) */
+      radial-gradient(at 100% 40%, rgba(255, 230, 235, 0.4) 0%, transparent 40%),
+      
+      /* Темный мягкий акцент снизу для объема */
+      radial-gradient(at 50% 100%, rgba(210, 220, 240, 0.3) 0%, transparent 50%);
 }
 
 
@@ -1563,9 +1598,21 @@ body.mode-success .success {
   inset:0;
   pointer-events:none;
 
+  /*background-image:url('./assets/grid-1.svg');*/
+  background-size:800px;   /* КРУПНЕЕ */
+  opacity:.32;              /* заметнее */
+  mix-blend-mode:screen;  /* для белого фона */
+}
+
+
+body.mode-form .bg__grid{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+
   background-image:url('./assets/grid.svg');
   background-size:800px;   /* КРУПНЕЕ */
-  opacity:.12;              /* заметнее */
+  opacity:.05;              /* заметнее */
   mix-blend-mode:multiply;  /* для белого фона */
 }
 
@@ -1588,3 +1635,155 @@ body.mode-success .success {
   opacity: 0;
 }
 
+
+
+.hero__layout {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+
+.hero__content {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  /* Контейнер, который разрешает скролл */
+  .chips-group {
+    padding-left: 20px;
+    margin: 0;
+    width: 100vw; /* На всю ширину экрана */
+    overflow-x: auto; /* Включаем горизонтальный скролл */
+    -webkit-overflow-scrolling: touch; /* Плавный скролл на iOS */
+    display: block; /* Меняем флекс на блок для корректного скролла */
+  }
+
+  /* Ряд кнопок внутри контейнера */
+  .chips__row {
+    display: flex;
+    flex-wrap: nowrap; /* ЗАПРЕЩАЕМ перенос строк */
+    gap: 10px;
+    padding-right: 20px; /* Отступ в конце, чтобы последняя кнопка не липла к краю */
+    width: max-content; /* Растягиваем ряд по ширине всех кнопок */
+    margin-bottom: 14px;
+  }
+
+  /* Скрываем полосу прокрутки для красоты (опционально) */
+  .chips-group::-webkit-scrollbar {
+    display: none;
+  }
+  .chips-group {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    padding: 0px 0px 24px 10px;
+  }
+}
+
+
+
+@media (max-width: 768px) {
+  .topbar__inner {
+    width: calc(100% - 30px); /* Делаем пошире на мобилках */
+    height: 64px;
+    margin-top: 15px;
+    justify-content: space-between; /* Лого слева, кнопка справа */
+    padding: 0 15px;
+  }
+
+  body.mode-form .topbar__inner {
+    width: calc(100% - 30px); /* Делаем пошире на мобилках */
+    height: 64px;
+    margin-top: 15px;
+    justify-content: space-between; /* Лого слева, кнопка справа */
+    padding: 0 15px;
+}
+
+  /* Скрываем почту, ватсап и соцсети */
+  .brand__contacts, 
+  .social {
+    display: none !important;
+  }
+
+  /* Уменьшаем лого */
+  .brand {
+    min-width: auto;
+    width: auto;
+  }
+  .brand__logo {
+    width: 100px; /* Меньше на мобилках */
+  }
+
+  body.mode-form .brand__logo {
+    content: url('./assets/logo_white.svg');
+    width: 100px;
+    margin-right: 0px;
+    padding: 8px 8px;
+}
+
+  /* Делаем кнопку Let's Connect компактнее */
+  .cta {
+    width: auto;
+    min-width: auto;
+    padding: 8px 16px;
+    margin-right: -10px;
+  }
+  .cta__text {
+    font-size: 14px;
+  }
+
+}
+
+
+@media (max-width: 768px) {
+  .hero {
+    padding-top: 194px; /* Чуть выше под мобильный хедер */
+  }
+
+  .hero__title {
+    font-size: 42px; /* Уменьшаем размер, чтобы влезло в 2 строки */
+    line-height: 1.1;
+    display: block;
+    align-items: center;
+  }
+
+  body.mode-form  .hero__title {
+    font-size: 42px; /* Уменьшаем размер, чтобы влезло в 2 строки */
+    line-height: 1.1;
+    display: block;
+    align-items: center;
+    margin-top: -27px;
+  }
+
+  .hero__subtitle {
+    font-size: 14px;
+    letter-spacing: 4px; /* Уменьшаем огромный межбуквенный интервал */
+    white-space: normal; /* Разрешаем перенос строк */
+    display: block;
+    padding: 0 20px;
+    line-height: 1.4;
+  }
+
+  .best {
+    margin: 60px auto;
+
+    display: block;
+}
+
+  body.mode-form .form {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    margin-top: 115px;
+}
+
+  .contact {
+    margin-top: 40px;
+    max-width: 40vh;
+    padding-left: 34px;
+    padding-bottom: 66px;
+}
+}
