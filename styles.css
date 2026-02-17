@@ -1652,138 +1652,142 @@ body.mode-form .bg__grid{
 }
 
 @media (max-width: 768px) {
-  /* Контейнер, который разрешает скролл */
-  .chips-group {
-    padding-left: 20px;
-    margin: 0;
-    width: 100vw; /* На всю ширину экрана */
-    overflow-x: auto; /* Включаем горизонтальный скролл */
-    -webkit-overflow-scrolling: touch; /* Плавный скролл на iOS */
-    display: block; /* Меняем флекс на блок для корректного скролла */
+  /* 1. Унификация переменных для мобилок */
+  :root {
+    --padX: 20px;
+    --t1: 42px; /* Фиксируем размер заголовка */
   }
 
-  /* Ряд кнопок внутри контейнера */
-  .chips__row {
-    display: flex;
-    flex-wrap: nowrap; /* ЗАПРЕЩАЕМ перенос строк */
-    gap: 10px;
-    padding-right: 20px; /* Отступ в конце, чтобы последняя кнопка не липла к краю */
-    width: max-content; /* Растягиваем ряд по ширине всех кнопок */
-    margin-bottom: 14px;
-  }
-
-  /* Скрываем полосу прокрутки для красоты (опционально) */
-  .chips-group::-webkit-scrollbar {
-    display: none;
-  }
-  .chips-group {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    padding: 0px 0px 24px 10px;
-  }
-}
-
-
-
-@media (max-width: 768px) {
-  .topbar__inner {
-    width: calc(100% - 30px); /* Делаем пошире на мобилках */
-    height: 64px;
-    margin-top: 15px;
-    justify-content: space-between; /* Лого слева, кнопка справа */
-    padding: 0 15px;
-  }
-
+  /* 2. Шапка: Центрирование и фикс ширины */
+  .topbar__inner, 
   body.mode-form .topbar__inner {
-    width: calc(100% - 30px); /* Делаем пошире на мобилках */
-    height: 64px;
-    margin-top: 15px;
-    justify-content: space-between; /* Лого слева, кнопка справа */
-    padding: 0 15px;
-}
+    width: calc(100% - 30px) !important;
+    max-width: none !important;
+    height: 64px !important;
+    margin: 15px auto 0 !important;
+    padding: 0 15px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    left: 0;
+    right: 0;
+  }
 
-  /* Скрываем почту, ватсап и соцсети */
+  /* Скрываем лишнее, чтобы не распирало флекс */
   .brand__contacts, 
-  .social {
-    display: none !important;
+  .social,
+  .brand__email { 
+    display: none !important; 
   }
 
-  /* Уменьшаем лого */
   .brand {
-    min-width: auto;
-    width: auto;
-  }
-  .brand__logo {
-    width: 100px; /* Меньше на мобилках */
+    min-width: auto !important;
+    width: auto !important;
+    gap: 0 !important;
   }
 
+  .brand__logo,
   body.mode-form .brand__logo {
-    content: url('./assets/logo_white.svg');
-    width: 100px;
-    margin-right: 0px;
-    padding: 8px 8px;
-}
+    width: 100px !important;
+    height: auto;
+  }
 
-  /* Делаем кнопку Let's Connect компактнее */
+  /* Кнопка в шапке */
   .cta {
-    width: auto;
-    min-width: auto;
-    padding: 8px 16px;
-    margin-right: -10px;
+    width: auto !important;
+    min-width: auto !important;
+    padding: 8px 16px !important;
+    margin-right: -5px; /* Небольшая компенсация для визуального баланса */
   }
+
   .cta__text {
-    font-size: 14px;
+    font-size: 14px !important;
+    padding-left: 4px !important;
   }
 
-}
-
-
-@media (max-width: 768px) {
+  /* 3. Hero секция: Высота без скачков */
   .hero {
-    padding-top: 194px; /* Чуть выше под мобильный хедер */
+    padding-top: 160px !important;
+    height: auto !important;
+    margin: 0px !important;
+    min-height: 100dvh; /* Чтобы высота не прыгала при скрытии адресной строки в Safari */
   }
 
   .hero__title {
-    font-size: 42px; /* Уменьшаем размер, чтобы влезло в 2 строки */
-    line-height: 1.1;
+    margin-top: 0px;
+    font-size: var(--t1) !important;
+    line-height: 1.1 !important;
+    padding: 0px;
     display: block;
-    align-items: center;
   }
 
-  body.mode-form  .hero__title {
-    font-size: 42px; /* Уменьшаем размер, чтобы влезло в 2 строки */
-    line-height: 1.1;
-    display: block;
-    align-items: center;
-    margin-top: -27px;
+  .hero__content {
+    display: flex;
+    flex-direction: column;
+    margin: 0px;
+}
+
+  /* Фикс заголовка в режиме формы */
+  body.mode-form .hero__title {
+    margin-top: 0 !important;
+    font-size: var(--t1) !important;
   }
 
   .hero__subtitle {
-    font-size: 14px;
-    letter-spacing: 4px; /* Уменьшаем огромный межбуквенный интервал */
-    white-space: normal; /* Разрешаем перенос строк */
-    display: block;
+    font-size: 13px !important;
+    letter-spacing: 3px !important;
+    white-space: normal !important;
     padding: 0 20px;
+    margin-top: 15px !important;
     line-height: 1.4;
   }
 
-  .best {
-    margin: 60px auto;
+  /* 4. Горизонтальный скролл чипсов (без 100vw) */
+  .chips-group {
+    display: block !important;
+    width: 100% !important;
+    margin: 25px 0 0 0 !important;
+    padding: 0 0 24px 20px !important; /* Начинаем список с отступом слева */
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE */
+  }
 
-    display: block;
-}
+  .chips-group::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
 
+  .chips__row {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 10px !important;
+    padding-right: 40px !important; /* Запас в конце, чтобы последняя кнопка не липла */
+    width: max-content !important;
+  }
+
+  /* 5. Форма: Адаптация под узкие экраны */
   body.mode-form .form {
+    width: 100% !important;
+    min-width: 100% !important;
+    margin-top: 20px !important;
+    padding: 0 20px !important;
     opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-    margin-top: 115px;
-}
+    transform: none;
+  }
 
   .contact {
-    margin-top: 40px;
-    max-width: 40vh;
-    padding-left: 34px;
-    padding-bottom: 66px;
-}
+    margin-top: 30px !important;
+    max-width: 100% !important;
+    padding: 0 0 60px 0 !important; /* Убираем левый отступ, центрируем по контейнеру */
+  }
+
+  .contact__grid {
+    grid-template-columns: 1fr !important; /* Всегда в одну колонку */
+    gap: 25px !important;
+  }
+
+  /* Убираем лишнее в режиме формы */
+  body.mode-form .best {
+    display: none !important;
+  }
 }
