@@ -194,12 +194,13 @@ justify-content: flex-start;
 border-radius: 120px;
 position: relative;
 overflow: hidden;
-background: linear-gradient(
+background: rgba(255,255,255,.18);
+background-image: linear-gradient(
 135deg,
 rgba(255,255,255,.60) 0%,
 rgba(255,255,255,.25) 60%
-),
-rgba(255,255,255,.18);
+);
+
 backdrop-filter: blur(18px) saturate(100%);
 -webkit-backdrop-filter: blur(2px) saturate(0%);
 border: 1px solid rgba(255,255,255,.55);
@@ -1574,22 +1575,34 @@ body.mode-success .success {
   position:absolute;
   inset:0;
   pointer-events:none;
+  background-color: #f2f5f9;
 
-  background-color: #e4ebf5; 
+  background-image:
+    /* Белое мягкое свечение из левого верхнего угла */
+    radial-gradient(at 0% 0%, rgba(255, 255, 255, 1) 0%, transparent 40%),
     
-    /* Наложение мягких световых пятен */
-    background-image:
-      /* Белое свечение из левого верхнего угла */
-      radial-gradient(at 0% 0%, rgba(255, 255, 255, 0.8) 0%, transparent 50%),
-      
-      /* Голубоватый акцент в центре и сверху */
-      radial-gradient(at 50% 0%, rgba(200, 215, 235, 0.5) 0%, transparent 60%),
-      
-      /* Едва заметный розоватый/теплый блик справа (как на скриншоте) */
-      radial-gradient(at 100% 40%, rgba(255, 230, 235, 0.4) 0%, transparent 40%),
-      
-      /* Темный мягкий акцент снизу для объема */
-      radial-gradient(at 50% 100%, rgba(210, 220, 240, 0.3) 0%, transparent 50%);
+    /* Основное голубое пятно (холодный оттенок сверху) */
+    radial-gradient(at 50% 0%, rgba(210, 225, 245, 0.7) 0%, transparent 50%),
+    
+    /* Едва заметный розоватый блик справа (теплый акцент) */
+    radial-gradient(at 100% 30%, rgba(255, 235, 240, 1) 0%, transparent 40%),
+    
+    /* Нижнее мягкое затенение для объема */
+    radial-gradient(at 50% 100%, rgba(225, 235, 250, 0.4) 0%, transparent 50%);
+}
+
+
+.bg__noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0; /* Чем меньше число, тем нежнее шум */
+  filter: contrast(150%) brightness(100%);
+  
+  /* Генерируем текстуру шума через SVG */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  
+  pointer-events: none;
 }
 
 
@@ -1732,6 +1745,16 @@ body.mode-form .bg__grid{
     font-size: var(--t1) !important;
   }
 
+  body.mode-form .hero {
+    height: 68vh;
+    min-height: 68vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 192px !important;
+    margin: 0 auto;
+}
+
   .hero__subtitle {
     font-size: 13px !important;
     letter-spacing: 3px !important;
@@ -1745,7 +1768,6 @@ body.mode-form .bg__grid{
   .chips-group {
     display: block !important;
     width: 100% !important;
-    margin: 25px 0 0 0 !important;
     padding: 0 0 24px 20px !important; /* Начинаем список с отступом слева */
     overflow-x: auto !important;
     -webkit-overflow-scrolling: touch;
@@ -1790,4 +1812,16 @@ body.mode-form .bg__grid{
   body.mode-form .best {
     display: none !important;
   }
+
+  .best {
+    margin: 50px auto;
+    padding-bottom: 42px;
+    display: block;
+    align-items: center;
+}
+
+  .wrap {
+    width: calc(100% - 56px);
+    margin: 0 auto;
+}
 }
