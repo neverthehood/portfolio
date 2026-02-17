@@ -1746,12 +1746,11 @@ body.mode-form .bg__grid{
   }
 
   body.mode-form .hero {
-    height: 68vh;
-    min-height: 68vh;
-    display: flex;
+    height: 100%;
+     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding-top: 192px !important;
+    padding-top: 160px !important;
     margin: 0 auto;
 }
 
