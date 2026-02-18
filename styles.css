@@ -1753,6 +1753,7 @@ body.mode-form .bg__grid{
 
   /* 3. Hero секция: Высота без скачков */
   .hero {
+    position: relative;
     padding-top: 18px !important;
     height: auto !important;
     margin: 0px !important;
