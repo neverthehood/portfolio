@@ -78,6 +78,28 @@ transition: background 700ms ease, color 700ms ease;
 
 }
 
+
+/* Отключаем визуальный фокус на всех кнопках и ссылках */
+button:focus,
+a:focus,
+button:focus-visible,
+a:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Если используешь класс .chip или .cta, тоже сбрасываем */
+.chip:focus,
+.chip:focus-visible,
+.cta:focus,
+.cta:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+
+
+
 /* =========================
    BACKGROUND
    ========================= */
@@ -278,6 +300,15 @@ text-decoration:none;
   gap: 14px;
 }
 
+body.mode-form .brand__whatsapp {
+  transition: transform 10ms ease;
+}
+
+body.mode-form .brand__waLabel {
+  transition: transform 10ms ease;
+}
+
+
 .brand__waIconLink {
   display: inline-flex;
   align-items: center;
@@ -285,7 +316,7 @@ text-decoration:none;
   width: 50px;
   height: 50px;
   border-radius: 12px;
-  transition: transform 220ms ease;
+  transition: transform 10ms ease;
 }
 
 .brand__waIconLink:hover {
@@ -328,7 +359,7 @@ opacity:.85;
   font-weight: 400;
   text-decoration: none;
   color: inherit;
-  transition: opacity 200ms ease;
+  transition: opacity 20ms ease;
 }
 
 .brand__waValue:hover {
@@ -336,7 +367,7 @@ opacity:.85;
   font-weight: 400;
   text-decoration: none;
   color: #2848EA;
-  transition: opacity 200ms ease;
+  transition: opacity 20ms ease;
 }
 
 body.mode-form .brand__waValue:hover {
@@ -398,7 +429,7 @@ backdrop-filter: none;
 
 background: transparent;
 
-transition: 200ms ease;
+transition: 20ms ease;
 
 }
 
@@ -1058,9 +1089,9 @@ body.mode-form {
 
 /* --- HERO stays on top in form mode --- */
 
-body.mode-form .hero{
-    height: 68vh;
-    min-height: 68vh;
+body.mode-form .hero {
+    height: 100%;
+    min-height: fit-content;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -1325,13 +1356,6 @@ transform:translateY(1px)
 
 }
 
-input:focus-visible, textarea:focus-visible, button:focus-visible{
-
-outline:none;
-
-box-shadow:none
-
-}
 
 /* =============================
 
@@ -1664,6 +1688,8 @@ body.mode-form .bg__grid{
   margin: 0 auto;
 }
 
+
+
 @media (max-width: 768px) {
   /* 1. Унификация переменных для мобилок */
   :root {
@@ -1687,8 +1713,7 @@ body.mode-form .bg__grid{
 
   /* Скрываем лишнее, чтобы не распирало флекс */
   .brand__contacts, 
-  .social,
-  .brand__email { 
+  .social { 
     display: none !important; 
   }
 
@@ -1698,17 +1723,22 @@ body.mode-form .bg__grid{
     gap: 0 !important;
   }
 
-  .brand__logo,
   body.mode-form .brand__logo {
     width: 100px !important;
     height: auto;
   }
 
+  .brand__logo {
+    width: 100px !important;
+    height: auto;
+  }
+
+
   /* Кнопка в шапке */
   .cta {
-    width: auto !important;
+    width: 170px !important;
     min-width: auto !important;
-    padding: 8px 16px !important;
+    padding: 8px 8px !important;
     margin-right: -5px; /* Небольшая компенсация для визуального баланса */
   }
 
@@ -1733,6 +1763,16 @@ body.mode-form .bg__grid{
     display: block;
   }
 
+
+  .hero__subtitle {
+    font-size: 13px !important;
+    letter-spacing: 3px !important;
+    white-space: normal !important;
+    padding: 0 50px;
+    margin-top: 15px !important;
+    line-height: 1.4;
+}
+
   .hero__content {
     display: flex;
     flex-direction: column;
@@ -1750,7 +1790,7 @@ body.mode-form .bg__grid{
      display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding-top: 160px !important;
+    padding-top: 166px !important;
     margin: 0 auto;
 }
 
@@ -1815,8 +1855,21 @@ body.mode-form .bg__grid{
   .best {
     margin: 50px auto;
     padding-bottom: 42px;
-    display: block;
-    align-items: center;
+    display: flex;             
+    flex-direction: column;    
+    align-items: center;       
+    gap: 12px;                 
+  }
+
+  /* Иконки */
+  .best__icons {
+    display: flex;
+    gap: 16px;                
+    justify-content: center;  
+  }
+
+  .best__chev {
+  display: none;
 }
 
   .wrap {
@@ -1857,4 +1910,92 @@ body.mode-form .bg__grid{
   transition: 220ms ease;
 }
 
+  .scroll-hint {
+  position: absolute;
+  right: 27%;
+    top: 74%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 16px;
+    color: #333;
+    opacity: 1;
+    pointer-events: none;
+    animation: bounce 1.2s infinite alternate;
+}
+
+.scroll-hint img {
+  width: 36px;
+  height: 36px;
+}
+
+
+  body.mode-form .scroll-hint {
+  position: absolute;
+  right: 27%;
+    top: 47%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 16px;
+    color: #333;
+    opacity: 1;
+    pointer-events: none;
+    animation: bounce 1.2s infinite alternate;
+    filter: brightness(0) invert(1);
+}
+
+.contact__mobileCopy {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+body.mode-form .contact__mobileCopy {
+  display: flex;
+}
+
+.contact__mobileCopy .mobile-copy {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.contact__mobileCopy .brand__emailText,
+.contact__mobileCopy .brand__waText {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+}
+
+.contact__mobileCopy .brand__emailLabel,
+.contact__mobileCopy .brand__waLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.contact__mobileCopy .brand__emailValue,
+.contact__mobileCopy .brand__waValue {
+  font-size: 16px;
+  color: inherit;
+}
+
+
+
+}
+
+@media (min-width: 769px) {
+  .scroll-hint { display: none; }
+
+   .contact__mobileCopy {
+    display: none !important;
+  }
 }
