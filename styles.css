@@ -1753,10 +1753,12 @@ body.mode-form .bg__grid{
 
   /* 3. Hero секция: Высота без скачков */
   .hero {
-    position: relative;
-    padding-top: 18px !important;
-    height: auto !important;
-    margin: 0px !important;
+    height: 100%;
+     display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 148px !important;
+    margin: 0 auto;
   }
 
   .hero__title {
