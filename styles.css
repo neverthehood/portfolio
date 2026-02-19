@@ -74,7 +74,7 @@ font-family: var(--fontBody);
 
 overflow-x: hidden;
 
-transition: background 700ms ease, color 700ms ease;
+transition: background 70ms ease, color 70ms ease;
 
 }
 
@@ -301,11 +301,11 @@ text-decoration:none;
 }
 
 body.mode-form .brand__whatsapp {
-  transition: transform 10ms ease;
+  transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
 body.mode-form .brand__waLabel {
-  transition: transform 10ms ease;
+  transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
 
@@ -359,7 +359,7 @@ opacity:.85;
   font-weight: 400;
   text-decoration: none;
   color: inherit;
-  transition: opacity 20ms ease;
+
 }
 
 .brand__waValue:hover {
@@ -1421,7 +1421,7 @@ body.mode-form .brand__logo{
 
   place-items: center;
 
-  transition: 200ms ease;
+  transition: 20ms ease;
 
 }
 
