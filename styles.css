@@ -1976,7 +1976,7 @@ body.mode-form .contact__mobileCopy {
 .contact__mobileCopy .brand__waText {
   display: flex;
   flex-direction: column;
-  align-items: left;
+  align-items: center;
 }
 
 .contact__mobileCopy .brand__emailLabel,
