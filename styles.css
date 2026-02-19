@@ -88,6 +88,15 @@ a:focus-visible {
   box-shadow: none !important;
 }
 
+button,
+a,
+.chip,
+.cta {
+  -webkit-tap-highlight-color: transparent; /* отключаем стандартный эффект */
+  outline: none; /* на всякий случай */
+}
+
+
 /* Если используешь класс .chip или .cta, тоже сбрасываем */
 .chip:focus,
 .chip:focus-visible,
