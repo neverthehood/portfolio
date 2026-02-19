@@ -1859,7 +1859,7 @@ body.mode-form .bg__grid{
   }
 
   .best {
-    margin: 50px auto;
+    margin: 8px auto;
     padding-bottom: 0px;
     display: flex;             
     flex-direction: column;    
@@ -1933,7 +1933,7 @@ body.mode-form .bg__grid{
 .scroll-hint img {
   width: 36px;
   height: 36px;
-  margin-left: 8px;
+  padding-left: 8px;
 }
 
 
