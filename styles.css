@@ -1692,6 +1692,11 @@ body.mode-form .bg__grid{
   margin: 0 auto;
 }
 
+/* Скрываем перенос на десктопе */
+.mobile-br {
+  display: none;
+}
+
 
 
 @media (max-width: 768px) {
@@ -1699,6 +1704,11 @@ body.mode-form .bg__grid{
   :root {
     --padX: 20px;
     --t1: 42px; /* Фиксируем размер заголовка */
+  }
+
+
+   .mobile-br {
+    display: inline;
   }
 
   /* 2. Шапка: Центрирование и фикс ширины */
