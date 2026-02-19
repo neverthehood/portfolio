@@ -624,6 +624,7 @@ font-weight: 200;
 transition: 220ms ease;
 outline:none;
 font-family: var(--fontBody);
+touch-action: manipulation;
 }
 
 .chip::before {

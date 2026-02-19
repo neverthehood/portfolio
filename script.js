@@ -219,18 +219,3 @@ if (canvas){
   draw();
 }
 
-
-
-buttons.forEach(button => {
-  button.addEventListener('click', function () {
-
-    if (this.classList.contains('active')) {
-      this.classList.remove('active');
-      return;
-    }
-
-    buttons.forEach(btn => btn.classList.remove('active'));
-    this.classList.add('active');
-
-  });
-});
