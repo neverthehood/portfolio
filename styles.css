@@ -627,26 +627,6 @@ font-family: var(--fontBody);
 touch-action: manipulation;
 }
 
-.chip::before {
-  content: "";
-  position: absolute;
-  inset: -50%;
-  background-image: radial-gradient(#fff 1px, transparent 1px);
-  background-size: 6px 6px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-  animation: particles 8s linear infinite;
-}
-
-.chip:hover::before {
-  opacity: 0.1;
-}
-
-@keyframes particles {
-  from { transform: translate(0,0); }
-  to   { transform: translate(50px, -50px); }
-}
 
 
 
@@ -2015,6 +1995,13 @@ a:focus-visible {
   outline: none !important;
   box-shadow: none !important;
 }
+
+body.mode-form .chip--category:hover {
+    background: rgba(255,255,255,.10);
+    color:#fff;
+    box-shadow:none;
+}
+
 }
 
 @media (min-width: 769px) {
