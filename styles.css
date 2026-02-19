@@ -1984,6 +1984,7 @@ body.mode-form .contact__mobileCopy {
   font-size: 12px;
   font-weight: 600;
   color: #fff;
+  text-align: center;
 }
 
 .contact__mobileCopy .brand__emailValue,
