@@ -1753,13 +1753,17 @@ body.mode-form .bg__grid{
 
   /* 3. Hero секция: Высота без скачков */
   .hero {
-    height: 100%;
+    min-height: 100dvh;
      display: flex;
     flex-direction: column;
     justify-content: flex-start;
     padding-top: 148px !important;
     margin: 0 auto;
   }
+
+  .page {
+  min-height: 100svh;
+}
 
   .hero__title {
     margin-top: 0px;
@@ -2000,8 +2004,6 @@ a:focus-visible {
   outline: none !important;
   box-shadow: none !important;
 }
-
-
 }
 
 @media (min-width: 769px) {
