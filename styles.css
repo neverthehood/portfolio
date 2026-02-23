@@ -676,7 +676,7 @@ border-color: rgba(255,255,255,.45);
 
 
 .best{
-margin-top: 225px;
+margin-top: 110px;
 padding-bottom: 42px;
 display:flex;
 align-items:center;
@@ -1743,7 +1743,7 @@ body.mode-form .chip--category:hover {
 
 
 
-@media (min-width: 768px) and (max-width: 1024px) {
+@media (min-width: 768px) and (max-width: 1280px) and (orientation: portrait) {
   :root {
     --padX: 20px;
     --t1: 48px; /* заголовок */
@@ -1777,7 +1777,7 @@ body.mode-form .chip--category:hover {
 
 
   .best{
-  margin-top: 225px;
+  margin-top: 110px;
   padding-bottom: 42px;
   display:flex;
   align-items:center;
@@ -2112,7 +2112,7 @@ body.mode-form .chip--category:hover {
   }
 
 
-  @media (orientation: landscape) {
+  @media (min-width: 768px) and (max-width: 1280px) and (orientation: landscape) {
     .hero__3d {
       width: 280px;
       height: 280px;
@@ -2139,5 +2139,29 @@ body.mode-form .chip--category:hover {
     gap: 22px;
     justify-content: center;
 }
+
+    .topbar__inner {
+    width: fit-content;
+    max-width: none !important;
+    height: 70px !important;
+    padding: 0 8px 0px 20px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    left: 0;
+    right: 0;
+    box-shadow: 0 6px 9px rgb(0 0 0 / 7%), inset 0 2px 6px rgba(255, 255, 255, .05), inset 0 0px 1px rgba(0, 0, 0, .10);
+    }
+
+    body.mode-form .topbar__inner {
+    width: fit-content;
+    max-width: 100%;
+    height: 70px !important;
+    padding: 0 8px 0px 20px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    left: 0;
+    right: 0;
+    box-shadow: 0 6px 9px rgb(0 0 0 / 7%), inset 0 2px 6px rgba(255, 255, 255, .05), inset 0 0px 1px rgba(0, 0, 0, .10);
+    }
 }
 }
