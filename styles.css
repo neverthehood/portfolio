@@ -1269,7 +1269,7 @@ body.mode-success{
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: #1D1D1D;
+  color: #fff;
 }
 
 .contact__mobileCopy .brand__emailLabel,
@@ -1773,7 +1773,7 @@ body.mode-success {
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: #1D1D1D;
+  color: #fff;
 }
 
 .contact__mobileCopy .brand__emailLabel,
