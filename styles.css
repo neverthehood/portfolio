@@ -1724,7 +1724,6 @@ body.mode-form .chip--category:hover {
     color:#fff;
     box-shadow:none;
 }
-
 }
 
 @media (min-width: 1024px) {
@@ -1855,7 +1854,7 @@ body.mode-form .chip--category:hover {
   .header-left, .header-center, .header-right {
     display: flex;
     align-items: center;
-    gap: 30px; /* одинаковый промежуток */
+    gap: 30px;
   }
 
   .header-left {
@@ -1872,7 +1871,7 @@ body.mode-form .chip--category:hover {
     justify-content: flex-end;
   }
 
-  /* ===== Хедер ===== */
+
   .topbar__inner, 
   body.mode-form .topbar__inner {
     width: 100% !important;
@@ -1914,7 +1913,7 @@ body.mode-form .chip--category:hover {
     height: auto;
   }
 
-  /* email и CTA блоки видны */
+
   .brand__email {
     display: flex !important;
     align-items: center;
@@ -1934,11 +1933,11 @@ body.mode-form .chip--category:hover {
   }
 
   .cta-button {
-    max-width: 150px; /* чтобы не вылазила */
+    max-width: 150px;
     flex-shrink: 0;
   }
 
-  /* ===== Hero ===== */
+
   .hero {
     min-height: 100dvh;
     display: flex;
@@ -1948,10 +1947,10 @@ body.mode-form .chip--category:hover {
     margin: 0 auto;
   }
 
-  /* Главный заголовок и подзаголовок */
+
    .hero-title, .hero-subtitle {
      text-align: center;
-     white-space: normal; /* перенос строк */
+     white-space: normal; 
      overflow-wrap: break-word;
    }
 
@@ -1977,7 +1976,7 @@ body.mode-form .chip--category:hover {
     object-fit: contain;
   }
 
-  /* ===== Скиллы / Chips ===== */
+
   .chips-group {
     display: flex !important;
     flex-direction: row !important;
@@ -1997,7 +1996,7 @@ body.mode-form .chip--category:hover {
     min-width: max-content;
   }
 
-  /* скрываем горизонтальный скролл на мобильном (на планшете видим) */
+
   .chips-group::-webkit-scrollbar {
     display: none;
   }
@@ -2008,17 +2007,17 @@ body.mode-form .chip--category:hover {
 
 
 
-  /* Блок с кнопками скиллов */
+
     .chips {
-      padding-bottom: 40px; /* чтобы тени не обрезались */
+      padding-bottom: 40px; 
     }
 
     .skills-row::-webkit-scrollbar {
-      display: none; /* скрываем скролл */
+      display: none;
     }
 
     .skill-button {
-      flex: 0 0 auto; /* чтобы каждая кнопка не сжималась */
+      flex: 0 0 auto;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
 
@@ -2037,7 +2036,7 @@ body.mode-form .chip--category:hover {
     height: 24px;
   }
 
-  /* ===== Форма ===== */
+
   .form {
     width: 100% !important;
     max-width: 700px !important;
@@ -2073,7 +2072,18 @@ body.mode-form .chip--category:hover {
     align-items: flex-start !important;
 }
 
-  /* ===== Landscape планшет ===== */
+  body.mode-form .bg__grid{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    background-image:url('./assets/grid.svg');
+    background-size: 800px; 
+    background-repeat: repeat;  
+    opacity:.05;              
+    mix-blend-mode:multiply;  
+  }
+
+
   @media (orientation: landscape) {
     .hero__3d {
       width: 280px;
