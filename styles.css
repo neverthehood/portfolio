@@ -240,6 +240,7 @@ color: #2848EA;
 text-decoration:none;
 }
 
+
 .brand__whatsapp {
   display: flex;
   align-items: center;
@@ -252,6 +253,36 @@ body.mode-form .brand__whatsapp {
 
 body.mode-form .brand__waLabel {
   transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+
+body.mode-success .brand__emailLabel {
+  color: #1D1D1D;
+}
+
+
+body.mode-success .brand__emailValue {
+  color: #2848EA;
+}
+
+
+body.mode-success .brand__emailValue:hover {
+  color: #1D1D1D;
+}
+
+
+body.mode-success .brand__waLabel {
+  color: #1D1D1D;
+}
+
+
+body.mode-success .brand__waValue {
+  color: #2848EA;
+}
+
+
+body.mode-success .brand__waValue:hover {
+  color: #1D1D1D;
 }
 
 
