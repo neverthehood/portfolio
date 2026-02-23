@@ -30,6 +30,11 @@
 
 *{ box-sizing:border-box; }
 
+body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
 html,
 body {
 font-family: var(--fontBody);
@@ -39,8 +44,8 @@ min-height: 100%;
 }
 
 html {
-  scrollbar-gutter: stable;
-  overflow-x:clip;
+  overflow-y: auto;
+  overflow-x: clip;
 }
 
 body{
