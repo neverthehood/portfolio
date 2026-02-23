@@ -1727,7 +1727,7 @@ body.mode-form .chip--category:hover {
 
 }
 
-@media (min-width: 769px) {
+@media (min-width: 1024px) {
   .scroll-hint { display: none; }
 
    .contact__mobileCopy {
@@ -1738,80 +1738,237 @@ body.mode-form .chip--category:hover {
 
 
 
-@media (min-width: 769px) and (max-width: 1200px) {
+@media (min-width: 768px) and (max-width: 1024px) {
   :root {
-    --padX: 28px;
-    --t1: 64px;
+    --padX: 20px;
+    --t1: 48px; /* заголовок */
   }
 
-  .wrap {
-    width: calc(100% - (var(--padX) * 2));
+    body.mode-form .contact__mobileCopy {
+    display: none;
   }
 
-  .hero {
-    padding-top: 180px;
+
+  .best{
+  margin-top: 225px;
+  padding-bottom: 42px;
+  display:flex;
+  align-items:center;
+  gap: 22px;
+  justify-content: center;
   }
 
-  .hero__title {
-    font-size: var(--t1);
-    line-height: 1.1;
-    text-align: center;
-    margin: 0 auto 12px;
+  .best__link{
+  display:inline-flex;
+  align-items:center;
+  gap: 10px;
+  color: rgba(17,17,17,.85);
+  text-decoration:none;
+  font-family: var(--fontBody);
+  font-size: 18px;
+  font-weight: 600;
   }
 
-  .hero__subtitle {
+  .best__arrow{
+  width: 22px;
+  height: 22px;
+  display:grid;
+  place-items:center;
+  opacity:.55;
+  }
+
+  .best__arrow img {
+  width: 16px;
+  height: 16px;
+  transform: rotate(0deg);
+  }
+
+  .best__icons {
+  display:flex;
+  align-items:center;
+  gap: 18px;
+  }
+
+  .best__icons a {
+  width: 28px;
+  height: 28px;
+  display:grid;
+  place-items:center;
+  opacity:.95;
+  transition: 200ms ease;
+  }
+
+  .best__icons a:hover {
+  transform: translateY(-1px);
+  opacity:1;
+  }
+
+  .best__icons img {
+  width: 22px;
+  height: 22px;
+  }
+
+
+   .scroll-hint {
+  position: content;
+  margin: 0 auto;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 6px;
     font-size: 16px;
-    letter-spacing: 5px;
-    text-align: center;
-    padding: 0 40px;
-    margin-top: 12px;
-    line-height: 1.4;
-    white-space: normal;
+    color: #333;
+    opacity: 1;
+    pointer-events: none;
+    animation: bounce 1.2s infinite alternate;
+}
+
+.scroll-hint img {
+  width: 36px;
+  height: 36px;
+  padding-left: 8px;
+}
+
+
+  body.mode-form .scroll-hint {
+  position: content;
+  margin: 0 auto;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 16px;
+    color: #333;
+    opacity: 1;
+    pointer-events: none;
+    filter: brightness(0) invert(1);
+}
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    overflow: hidden;
   }
 
-  .chips-group {
+  .header-left, .header-center, .header-right {
+    display: flex;
+    align-items: center;
+    gap: 30px; /* одинаковый промежуток */
+  }
+
+  .header-left {
+    flex: 1;
+  }
+
+  .header-center {
+    flex: 2;
+    justify-content: center;
+  }
+
+  .header-right {
+    flex: 1;
+    justify-content: flex-end;
+  }
+
+  /* ===== Хедер ===== */
+  .topbar__inner, 
+  body.mode-form .topbar__inner {
+    width: 100% !important;
+    max-width: none !important;
+    height: 70px !important;
+    margin: 0 auto !important;
+    padding: 0 8px 0px 20px !important;
     display: flex !important;
-    flex-wrap: nowrap;
-    overflow-x: auto !important;
-    -webkit-overflow-scrolling: touch;
-    gap: 14px;
-    padding: 0 20px 30px;
-    margin: auto;
+    justify-content: space-between !important;
+    left: 0;
+    right: 0;
+    box-shadow: 0 6px 9px rgb(0 0 0 / 7%), inset 0 2px 6px rgba(255, 255, 255, .05), inset 0 0px 1px rgba(0, 0, 0, .10);
+    }
+
+  .header {
+    box-shadow:
+    0 24px 80px rgba(0,0,0,.09),
+    inset 0 2px 6px rgba(255,255,255,.05),
+    inset 0 0px 1px rgba(0,0,0,.10);
   }
 
-  .chips__row {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    gap: 14px;
+
+  .brand {
+    width: auto !important;
+    min-width: auto !important;
+    gap: 12px !important;
   }
 
-  .chip {
-    flex: 0 0 auto;
-    min-width: 120px;
+  .brand__contacts {
+    min-width: fit-content;
+    display: flex !important;
+    align-items: center;
+    gap: 16px;
+    margin-left: auto;
+  }
+
+  .brand__logo {
+    width: 100px !important;
+    height: auto;
+  }
+
+  /* email и CTA блоки видны */
+  .brand__email {
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
   }
 
   .cta {
-    width: 180px !important;
+    display: inline-flex !important;
+    width: 164px !important;
     min-width: auto !important;
-    font-size: 16px;
-    padding: 8px 12px !important;
-    margin: 0 auto;
+    padding: 8px 10px !important;
   }
 
   .cta__text {
-    font-size: 16px !important;
-    white-space: nowrap;
-    padding-left: 6px;
+    font-size: 14px !important;
+    padding-left: 4px !important;
   }
 
+  .cta-button {
+    max-width: 150px; /* чтобы не вылазила */
+    flex-shrink: 0;
+  }
+
+  /* ===== Hero ===== */
+  .hero {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 140px !important;
+    margin: 0 auto;
+  }
+
+  /* Главный заголовок и подзаголовок */
+   .hero-title, .hero-subtitle {
+     text-align: center;
+     white-space: normal; /* перенос строк */
+     overflow-wrap: break-word;
+   }
+
+   .hero__content {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 100%;
+}
+
+  /* 3D объект */
   .hero__3d {
-    top: 250px; 
+    width: 250px;
+    height: 250px;
+    top: 220px;
     left: 50%;
     transform: translateX(-50%);
-    width: 280px;
-    height: 280px;
-    pointer-events: none;
   }
 
   .hero__3d video {
@@ -1820,35 +1977,120 @@ body.mode-form .chip--category:hover {
     object-fit: contain;
   }
 
-  @media (orientation: portrait) {
-    .hero {
-      padding-top: 160px;
-    }
-
-    .hero__3d {
-      top: 220px;
-      width: 260px;
-      height: 260px;
-    }
-
-    .chips-group {
-      padding: 0 16px 30px;
-    }
+  /* ===== Скиллы / Chips ===== */
+  .chips-group {
+    display: flex !important;
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    gap: 12px;
+    padding: 0 50px !important;
+    margin: 20px 0 !important;
   }
 
+  .chips__row {
+    flex-wrap: nowrap !important;
+  }
+
+  .chip {
+    flex: 0 0 auto;
+    min-width: max-content;
+  }
+
+  /* скрываем горизонтальный скролл на мобильном (на планшете видим) */
+  .chips-group::-webkit-scrollbar {
+    display: none;
+  }
+
+  .chips-group {
+    scrollbar-width: none;
+  }
+
+
+
+  /* Блок с кнопками скиллов */
+    .chips {
+      padding-bottom: 40px; /* чтобы тени не обрезались */
+    }
+
+    .skills-row::-webkit-scrollbar {
+      display: none; /* скрываем скролл */
+    }
+
+    .skill-button {
+      flex: 0 0 auto; /* чтобы каждая кнопка не сжималась */
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+  .social {
+    display: flex !important;
+    gap: 10px;
+  }
+
+  .social__link {
+    width: 36px;
+    height: 36px;
+  }
+
+  .social__link img {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* ===== Форма ===== */
+  .form {
+    width: 100% !important;
+    max-width: 700px !important;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .contact__grid {
+    display: grid;
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+
+  .field__input,
+  .field__textarea {
+    font-size: 18px !important;
+  }
+
+  .submit {
+    width: 100% !important;
+    font-size: 16px !important;
+  }
+
+  .wrap {
+      width: 90vw;
+  }
+
+  body.mode-form .hero__interest {
+    opacity: 1;
+    transform: translateY(0);
+    color: rgba(255,255,255,.9);
+    padding-left: 50px;
+    align-items: flex-start !important;
+}
+
+  /* ===== Landscape планшет ===== */
   @media (orientation: landscape) {
-    .hero {
-      padding-top: 140px;
-    }
-
     .hero__3d {
+      width: 280px;
+      height: 280px;
       top: 200px;
-      width: 300px;
-      height: 300px;
     }
 
-    .chips-group {
-      padding: 0 24px 30px;
+    .hero__title {
+      font-size: 50px !important;
+    }
+
+    .hero__subtitle {
+      font-size: 16px !important;
+    }
+
+    .cta {
+      width: 160px !important;
     }
   }
 }
