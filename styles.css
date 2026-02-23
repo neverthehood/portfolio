@@ -6,43 +6,24 @@
 --fontBody: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 --fontHeading: "Outfit", system-ui, sans-serif;
 
-
 --blue: #2F5BFF;
-
 --blue2: #2347FF;
-
 --text: #111111;
-
 --muted: rgba(17,17,17,.62);
-
 --glass: rgba(255,255,255,.45);
-
 --glass2: rgba(255,255,255,.62);
-
 --glassStroke: rgba(255,255,255,.65);
-
 --shadow: 0 22px 60px rgba(17,17,17,.10);
-
 --shadow2: 0 22px 60px rgba(0,0,0,.22);
-
 --radiusBar: 26px;
-
 --radiusChip: 999px;
-
 --wrap: 1240px; /* content width */
-
 --headerW: 1294px; /* header width */
-
 --padX: 120px;
-
 --barTop: 34px;
-
 --t1: 80px;
-
 --t1lh: 0.95;
-
 --t2: 20px;
-
 }
 
 *{ box-sizing:border-box; }
@@ -56,30 +37,19 @@ min-height: 100%;
 }
 
 html {
-
   scrollbar-gutter: stable;
   overflow-x:clip;
-
 }
 
 body{
-
 margin: 0;
-
 background: #ffffff;
-
 color: var(--text);
-
 font-family: var(--fontBody);
-
 overflow-x: hidden;
-
 transition: background 70ms ease, color 70ms ease;
-
 }
 
-
-/* Отключаем визуальный фокус на всех кнопках и ссылках */
 button:focus,
 a:focus,
 button:focus-visible,
@@ -92,12 +62,11 @@ button,
 a,
 .chip,
 .cta {
-  -webkit-tap-highlight-color: transparent; /* отключаем стандартный эффект */
-  outline: none; /* на всякий случай */
+  -webkit-tap-highlight-color: transparent; 
+  outline: none; 
 }
 
 
-/* Если используешь класс .chip или .cta, тоже сбрасываем */
 .chip:focus,
 .chip:focus-visible,
 .cta:focus,
@@ -106,12 +75,6 @@ a,
   box-shadow: none !important;
 }
 
-
-
-
-/* =========================
-   BACKGROUND
-   ========================= */
 
 .bg {
   position: fixed;
@@ -129,7 +92,6 @@ a,
 }
 
 
-
 @keyframes testMove {
   from { transform: translateX(0); }
   to   { transform: translateX(300px); }
@@ -137,51 +99,30 @@ a,
 
 
 .bg__circles{
-
 position:absolute;
-
 inset:0;
-
 width:100%;
-
 height:100%;
-
 }
 
 .bg__circles circle{
-
 fill:none;
-
-/* на белом фоне делаем тонкие светло‑серые линии */
-
 stroke: rgba(0,0,0,.06);
-
 stroke-width: 1;
-
 opacity:.6;
-
 }
 
-/* ========= Topbar ========= */
-
 .topbar{
-
 position:fixed;
-
 top: var(--barTop);
-
 left:0;
-
 right:0;
-
 z-index:10;
-
 }
 
 .topbar__inner {
 width: 1170px;
 max-width: 1170px;
-
 height: 80px;
 margin: 22px auto 0;
 display: flex;
@@ -196,7 +137,7 @@ background: linear-gradient(
     rgba(255, 255, 255, 0.05) 100%
   );
   
-  /* Размытие того, что ПОД элементом (магия прозрачности) */
+  
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 
@@ -244,8 +185,6 @@ inset 0 -1px 1px rgba(0,0,0,.10);
 padding-right: 12px;
 padding-left: 28px;
 }
-
-
 
 .brand{
 display:flex;
@@ -298,10 +237,6 @@ font-size: 14px;
 color: #2848EA;
 text-decoration:none;
 }
-
-/* =========================
-   WHATSAPP BLOCK
-   ========================= */
 
 .brand__whatsapp {
   display: flex;
@@ -411,52 +346,33 @@ body.mode-form .brand__emailValue:hover {
 
 
 .social{
-
 display:flex;
-
 align-items:center;
-
 gap: 10px;
-
 }
 
 .social__link{
-
 width: 44px;
-
 height: 44px;
-
 display:grid;
-
 place-items:center;
-
 border: none;
-
 backdrop-filter: none;
-
 -webkit-backdrop-filter: none;
-
 background: transparent;
-
 transition: 20ms ease;
-
 }
 
 .social__link img{
-
 width: 28px;
-
 height: 28px;
-
 }
 
-.social__link:hover{
-
+.social__link:hover {
 transform: translateY(-3px);
-
 }
 
-.cta{
+.cta {
 display:inline-flex;
 align-items:center;
 justify-content: center;
@@ -474,7 +390,7 @@ transition: 150ms ease;
 font-family: var(--fontDisplay);
 }
 
-.cta__icon{
+.cta__icon {
 width: 34px;
 height: 34px;
 border-radius: 999px;
@@ -483,22 +399,15 @@ place-items:center;
 background: rgba(255,255,255,.18);
 }
 
-.cta__icon img{
-
+.cta__icon img {
 width: 16px;
-
 height: 16px;
-
 filter: brightness(0) invert(1);
-
 }
 
 .cta:hover{
-
 transform: translateY(-1px);
-
 box-shadow: 0 10px 24px rgba(49,91,255,.25);
-
 }
 
 span.cta__text {
@@ -517,11 +426,7 @@ padding-left: 8px;
 }
 
 
-/* ========= Layout ========= */
-
-
 .wrap{
-
 width:min(var(--headerW), calc(100% - (var(--padX) * 2)));
 }
 
@@ -550,8 +455,6 @@ body.mode-form .hero {
   }
 
 
-
-
 .hero .wrap {
   flex: 1;
   display: flex;
@@ -559,36 +462,33 @@ body.mode-form .hero {
 }
 
 
-
 .hero__title{
-
 margin-top: 24px;
 margin-bottom: 0px;
-
 font-family: var(--fontHeading);
-  font-weight: 700;
-
+font-weight: 700;
 font-size: var(--t1);
-
 line-height: var(--t1lh);
-
 letter-spacing: 0px;
-
 text-align: center;
-
 }
+
 
 .hero__titleLine{
-
 display:inline;
-
 }
 
-.hero__titleLine--black{ color: #0f0f0f; font-weight: 900; }
+.hero__titleLine--black {
+ color: #0f0f0f; 
+ font-weight: 900; 
+}
 
-.hero__titleLine--blue{ color: var(--blue); font-weight: 900; }
+.hero__titleLine--blue { 
+  color: var(--blue); 
+  font-weight: 900; 
+}
 
-.hero__subtitle{
+.hero__subtitle {
 white-space: nowrap;
 overflow: hidden;
 text-overflow: ellipsis;
@@ -603,7 +503,7 @@ letter-spacing: 10px;
 text-transform: uppercase;
 }
 
-.chips{
+.chips {
 margin-top: 14px;
 display:flex;
 flex-direction:column;
@@ -611,7 +511,7 @@ gap: 14px;
 padding-left: 0px;
 }
 
-.chips-group{
+.chips-group {
 margin-top: 14px;
 display:flex;
 flex-direction:column;
@@ -620,16 +520,11 @@ padding-left: 20px;
 margin: auto;
 }
 
-.chips__row{
-
+.chips__row {
 display:flex;
-
 flex-wrap:wrap;
-
 gap: 14px;
-
 align-items:center;
-
 }
 
 .chip{
@@ -649,37 +544,21 @@ touch-action: manipulation;
 }
 
 
-
-
-
-.chip--category{
-
+.chip--category {
 background-color: #2F5BFF;
-
 border: none;
-
 backdrop-filter: blur(16px) saturate(150%);
-
 -webkit-backdrop-filter: blur(16px) saturate(150%);
-
 color: #fff;
-
-
-
 }
 
-.chip--category:hover{
+.chip--category:hover {
 background: #fff;
 border: none;
 color:#282828;
 }
 
-/* =========================
-   AURORA GLASS CHIP
-   ========================= */
 
-
-/* база */
 .chip--glass{
   position:relative;
   overflow:hidden;
@@ -688,7 +567,7 @@ color:#282828;
   border: 1px solid rgba(255,255,255,0.35);
   border-radius: 999px;
 
-  backdrop-filter:none; /* важно */
+  backdrop-filter:none;
 
   box-shadow:
     0 10px 30px rgba(0,0,0,.12),
@@ -698,8 +577,6 @@ color:#282828;
 }
 
 
-
-/* distortion */
 .chip--glass::before {
   content:'';
   position:absolute;
@@ -717,7 +594,6 @@ color:#282828;
   position: absolute;
   inset: 0;
   border-radius: inherit;
-
   background:
     radial-gradient(
       circle at 30% 40%,
@@ -742,20 +618,16 @@ color:#282828;
 }
 
 
-
-/* aurora distortion texture */
 .chip--glass::after{
   content:"";
   position:absolute;
   inset:0;
   border-radius:inherit;
-
   border:1px solid rgba(255,255,255,.18);
   pointer-events:none;
 }
 
 
-/* hover */
 .chip--glass:hover{
   transform: translateY(-2px);
 
@@ -803,10 +675,6 @@ border-color: rgba(255,255,255,.45);
 }
 
 
-
-
-/* ===== Best cases ===== */
-
 .best{
 margin-top: 225px;
 padding-bottom: 42px;
@@ -828,149 +696,95 @@ font-weight: 600;
 }
 
 .best__arrow{
-
 width: 22px;
-
 height: 22px;
-
 display:grid;
-
 place-items:center;
-
 opacity:.55;
-
 }
 
-.best__arrow img{
-
+.best__arrow img {
 width: 16px;
-
 height: 16px;
-
 transform: rotate(0deg);
-
 }
 
-.best__icons{
-
+.best__icons {
 display:flex;
-
 align-items:center;
-
 gap: 18px;
-
 }
 
-.best__icons a{
-
+.best__icons a {
 width: 28px;
-
 height: 28px;
-
 display:grid;
-
 place-items:center;
-
 opacity:.95;
-
 transition: 200ms ease;
-
 }
 
-.best__icons a:hover{
-
+.best__icons a:hover {
 transform: translateY(-1px);
-
 opacity:1;
-
 }
 
-.best__icons img{
-
+.best__icons img {
 width: 22px;
-
 height: 22px;
-
 }
 
-/* ========= Form mode section ========= */
 
-.form{
-
+.form {
 padding-top: 40px;
-
 opacity:0;
-
 transform: translateY(18px);
-
 pointer-events:none;
-
 transition: 550ms ease;
-
 }
 
-.form__title{
-
+.form__title {
 margin:0;
-
 font-size: 62px;
-
 line-height: 1.05;
-
 font-weight: 900;
-
 letter-spacing: -0.02em;
-
 }
 
 .form__subtitle{
-
 margin: 18px 0 0;
-
 font-size: 20px;
-
 line-height: 1.45;
-
 opacity:.82;
-
 max-width: 860px;
-
 }
 
-.form__interestValue{
-
+.form__interestValue {
 font-weight: 900;
-
 }
 
-.contact{
+.contact {
 margin-top: 40px;
 max-width: 980px;
 padding-left: 34px;
 padding-bottom: 66px;
 }
 
-.contact__grid{
-
+.contact__grid {
 display:grid;
-
 grid-template-columns: 1fr 1fr;
-
 gap: 34px;
-
 }
 
-.field{
-
+.field {
 display:flex;
-
 flex-direction:column;
-
 gap: 10px;
-
 }
 
-.field--full{ margin-top: 22px; }
+.field--full { 
+  margin-top: 22px; 
+}
 
 .field__label{
 font-family: var(--fontBody);
@@ -990,38 +804,24 @@ font-size: 22px;
 outline:none;
 font-family: var(--fontHeading);
 font-weight: 400;
-
 }
 
 .field__input:focus{
-
 outline:none;
-
 box-shadow:none;
-
 }
 
-
-/* ========= A11y + reduced motion ========= */
 
 :focus-visible{
-
 outline: 3px solid rgba(49,91,255,.45);
-
 outline-offset: 3px;
-
 border-radius: 10px;
-
 }
 
-/* remove rounding for form fields */
 
 .field__input:focus-visible,
-
-.field__textarea:focus-visible{
-
+.field__textarea:focus-visible {
 border-radius: 0 !important;
-
 }
 
 
@@ -1053,7 +853,6 @@ color: #fff;
 font-family: var(--fontBody);
 position:relative;
 overflow:hidden;
-
 border:none;
 height:46px;
 padding:0 26px;
@@ -1071,17 +870,15 @@ transition:240ms ease;
 font-size:large;
 }
 
-.submit:hover{ transform: translateY(-1px); }
-
-.contact__hint{
-
-opacity:.75;
-
-font-size: 14px;
-
+.submit:hover { 
+  transform: translateY(-1px); 
 }
 
-/* ========= Mode switching (HOME <-> FORM) ========= */
+.contact__hint {
+opacity:.75;
+font-size: 14px;
+}
+
 
 body.mode-form {
   color: #fff;
@@ -1089,23 +886,15 @@ body.mode-form {
 }
 
 
-/* --- HERO stays on top in form mode --- */
-
 body.mode-form .hero__titleLine--black,
-
-body.mode-form .hero__titleLine--blue{
-
+body.mode-form .hero__titleLine--blue {
 color:#fff;
-
 }
 
-body.mode-form .hero__subtitle{
-
+body.mode-form .hero__subtitle {
 color:rgba(255,255,255,.85);
-
 }
 
-/* --- layout order --- */
 
 body.mode-form .form {
     opacity: 1;
@@ -1116,50 +905,38 @@ body.mode-form .form {
     margin: 0 auto;
 }
 
-/* move best cases to bottom */
 
-body.mode-form .best{
-
+body.mode-form .best {
 margin-top:60px;
-
 }
 
-/* remove header icon backgrounds */
 
-body.mode-form .social__link{
-
+body.mode-form .social__link {
 background:transparent !important;
-
 border:none !important;
-
 }
 
-body.mode-form .social__link img{
-
+body.mode-form .social__link img {
 filter:brightness(0) invert(1);
-
 }
 
-/* Make background slightly calmer in form mode */
 
-body.mode-form .bg::before{
+body.mode-form .bg::before {
 opacity: .55;
 }
 
 
-body.mode-form .bg__noise{ opacity: .06; }
-
-body.mode-form .topbar__inner{
-
-background: rgba(255,255,255,.14);
-
-border-color: rgba(255,255,255,.18);
-
-box-shadow: var(--shadow2);
-
+body.mode-form .bg__noise { 
+  opacity: .06; 
 }
 
-body.mode-form .brand{
+body.mode-form .topbar__inner {
+background: rgba(255,255,255,.14);
+border-color: rgba(255,255,255,.18);
+box-shadow: var(--shadow2);
+}
+
+body.mode-form .brand {
 display:flex;
 align-items:center;
 gap: 72px;
@@ -1167,21 +944,15 @@ max-width: 460px;
 width: 460px;
 }
 
-
-
-
 body.mode-form .brand__emailLabel{ color: rgba(255,255,255,.90); }
 
 body.mode-form .brand__emailValue{ color: rgba(255,255,255,.90); }
 
 body.mode-form .brand__emailIcon{ filter: brightness(0) invert(1); }
 
-body.mode-form .social__link{
-
+body.mode-form .social__link {
 background: rgba(255,255,255,.10);
-
 border-color: rgba(255,255,255,.16);
-
 }
 
 
@@ -1190,75 +961,51 @@ body.mode-form .brand__waIcon {
 }
 
 
-body.mode-form .social__link img{
-
+body.mode-form .social__link img {
 filter: brightness(0) invert(1);
-
 opacity:.95;
-
 }
 
-body.mode-form .cta{
+body.mode-form .cta {
 background: rgba(255,255,255,.16);
-
 border-color: rgba(255,255,255,.25);
-
 color:#fff;
-
 }
 
-body.mode-form .cta__icon{
-
+body.mode-form .cta__icon {
 background: rgba(255,255,255,.14);
-
 }
 
-body.mode-form .cta__icon img{
-
+body.mode-form .cta__icon img {
 filter: brightness(0) invert(1);
-
 }
 
-body.mode-form .form{
-
+body.mode-form .form {
 opacity:1;
-
 transform: translateY(0);
-
 pointer-events:auto;
-
 }
 
-body.mode-form .bg__circles circle{
-
+body.mode-form .bg__circles circle {
 stroke: rgba(255,255,255,.26);
-
 opacity:.55;
-
 }
 
-body.mode-form .chip--category{
-
+body.mode-form .chip--category {
 background: rgba(255,255,255,.10);
-
 color:#fff;
-
 box-shadow:none;
-
 }
 
-body.mode-form .chip--category:hover{
+body.mode-form .chip--category:hover {
 background: #fff;
 border: none;
 color:#282828;
 }
 
-body.mode-form .chip--categoryActive{
-
+body.mode-form .chip--categoryActive {
 background: #fff;
-
 color: var(--blue);
-
 }
 
 
@@ -1266,27 +1013,19 @@ body.mode-form .best__link{ color: rgba(255,255,255,.88); font-family: var(--fon
 
 body.mode-form .best__icons img{ filter: brightness(0) invert(1); }
 
-/* ========= A11y + reduced motion ========= */
 
 :focus-visible{
-
 outline: 3px solid rgba(49,91,255,.45);
-
 outline-offset: 3px;
-
 border-radius: 10px;
-
 }
 
 @media (prefers-reduced-motion: reduce){
-
 body{ animation:none; }
 
 *{ transition: none !important; }
-
 }
 
-/* ========= Small screens (basic) ========= */
 
 @media (max-width: 1100px){
 
@@ -1302,7 +1041,7 @@ body{ animation:none; }
 
 }
 
-@keyframes noiseDrift{
+@keyframes noiseDrift {
 
 0%{transform:translate3d(0,0,0)}
 
@@ -1316,46 +1055,28 @@ body{ animation:none; }
 
 }
 
-.chip.is-active{
-
+.chip.is-active {
 background:#fff !important;
-
 color:#0f0f0f !important;
-
 border-color:rgba(255,255,255,.92) !important;
-
 backdrop-filter:blur(0)!important;
-
 -webkit-backdrop-filter:blur(0)!important
-
 }
 
-.chip.is-active::before{
+.chip.is-active::before {
   display:none;
 }
 
 
-
-.best__chev{
-
+.best__chev {
 font-size:22px;
-
 line-height:1;
-
 opacity:.45;
-
 transform:translateY(1px)
-
 }
 
 
-/* =============================
-
-   Interest line under subtitle
-
-   ============================= */
-
-.hero__interest{
+.hero__interest {
   font-family: var(--fontBody);
   margin-top: 28px;
   margin-bottom: 0;
@@ -1371,9 +1092,8 @@ transform:translateY(1px)
   pointer-events: none;
 }
 
-/* show only in form mode */
 
-body.mode-form .hero__interest{
+body.mode-form .hero__interest {
   opacity: 1;
   transform: translateY(0);
   color: rgba(255,255,255,.9);
@@ -1381,12 +1101,9 @@ body.mode-form .hero__interest{
   align-items: flex-start !important;
 }
 
-/* hide best cases completely in form mode */
 
-body.mode-form .best{
-
+body.mode-form .best {
 display:none;
-
 }
 
 .contact__sectionTitle{
@@ -1398,41 +1115,31 @@ opacity: .9;
 padding-left: 34px;
 }
 
-/* --- Logo switch in form mode --- */
 
-body.mode-form .brand__logo{
-
+body.mode-form .brand__logo {
   content: url('./assets/logo_white.svg');
   width: 124px;
-
 }
 
-.brand__emailIconLink{
-
+.brand__emailIconLink {
   display: inline-grid;
-
   place-items: center;
-
   transition: 20ms ease;
-
 }
 
-.brand__emailIconLink:hover{
-
+.brand__emailIconLink:hover {
   transform: translateY(-3px);
-
 }
 
 
 
-.bg__canvas{
+.bg__canvas {
   position:absolute;
   inset:0;
   width:100%;
   height:100%;
   display:block;
 }
-
 
 
 @keyframes noiseMove {
@@ -1506,13 +1213,13 @@ body.mode-form .brand__logo{
   transform: translateY(-1px);
 }
 
-/* ============ SUCCESS MODE ============ */
+
 body.mode-success{
   color: #fff;
   background: var(--blue2);
 }
 
-/* hide everything except header */
+
 body.mode-success .hero,
 body.mode-success .chips,
 body.mode-success .best,
@@ -1520,7 +1227,7 @@ body.mode-success .form{
   display: none !important;
 }
 
-/* show success block */
+
 body.mode-success .success{
   display: flex;
   opacity: 1;
@@ -1550,10 +1257,6 @@ body.mode-form .success {
   display: none;
 }
 
-
-
-
-/* ===== HOME (белый экран) ===== */
 
 body.mode-home .form,
 body.mode-home .success {
@@ -1587,7 +1290,7 @@ body.mode-success .success {
   object-fit:cover;
   pointer-events:none;
   transition: transform 1.2s ease;
-  mix-blend-mode: soft-light;   /* или overlay / lighten / soft-light */
+  mix-blend-mode: soft-light;
 }
 
 
@@ -1598,16 +1301,12 @@ body.mode-success .success {
   background-color: #f2f5f9;
 
   background-image:
-    /* Белое мягкое свечение из левого верхнего угла */
     radial-gradient(at 0% 0%, rgba(255, 255, 255, 1) 0%, transparent 40%),
-    
-    /* Основное голубое пятно (холодный оттенок сверху) */
+
     radial-gradient(at 50% 0%, rgba(210, 225, 245, 0.7) 0%, transparent 50%),
     
-    /* Едва заметный розоватый блик справа (теплый акцент) */
     radial-gradient(at 100% 30%, rgba(255, 235, 240, 1) 0%, transparent 40%),
     
-    /* Нижнее мягкое затенение для объема */
     radial-gradient(at 50% 100%, rgba(225, 235, 250, 0.4) 0%, transparent 50%);
 }
 
@@ -1618,10 +1317,7 @@ body.mode-success .success {
   inset: 0;
   opacity: 0; /* Чем меньше число, тем нежнее шум */
   filter: contrast(150%) brightness(100%);
-  
-  /* Генерируем текстуру шума через SVG */
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  
   pointer-events: none;
 }
 
@@ -1632,9 +1328,9 @@ body.mode-success .success {
   pointer-events:none;
 
   /*background-image:url('./assets/grid-1.svg');*/
-  background-size:800px;   /* КРУПНЕЕ */
-  opacity:.32;              /* заметнее */
-  mix-blend-mode:screen;  /* для белого фона */
+  background-size:800px;  
+  opacity:.32;             
+  mix-blend-mode:screen; 
 }
 
 
@@ -1644,21 +1340,20 @@ body.mode-form .bg__grid{
   pointer-events:none;
 
   background-image:url('./assets/grid.svg');
-  background-size:800px;   /* КРУПНЕЕ */
-  opacity:.05;              /* заметнее */
-  mix-blend-mode:multiply;  /* для белого фона */
+  background-size:800px;  
+  opacity:.05;              
+  mix-blend-mode:multiply;  
 }
 
 
 
-  /* контейнер частиц */
 .chip .particles {
   position: absolute;
   inset: 0;
   pointer-events: none;
 }
 
-/* отдельная частица */
+
 .chip .particle {
   position: absolute;
   width: 3px;
@@ -1685,38 +1380,35 @@ body.mode-form .bg__grid{
 }
 
 
-
-/* Скрываем перенос на десктопе */
 .mobile-br {
   display: none;
 }
 
 
 .hero__3d {
-  position: absolute;   /* или fixed, если нужно поверх всего */
+  position: absolute; 
   top: 300px;
   left: 210px;
   width: 300px;
   height: 300px;
-  pointer-events: none; /* клики проходят сквозь видео */
+  pointer-events: none; 
   overflow: hidden;
-  z-index: 0;           /* под кнопками */
+  z-index: 0;        
 }
 
 .hero__3d video {
   width: 100%;
   height: 100%;
-  object-fit: contain;   /* сохраняет пропорции, можно cover для полного экрана */
+  object-fit: contain;   
 }
 
 
 
 
 @media (max-width: 768px) {
-  /* 1. Унификация переменных для мобилок */
   :root {
     --padX: 20px;
-    --t1: 42px; /* Фиксируем размер заголовка */
+    --t1: 42px;
   }
 
 
@@ -1725,8 +1417,6 @@ body.mode-form .bg__grid{
   }
 
 
-
-  /* 2. Шапка: Центрирование и фикс ширины */
   .topbar__inner, 
   body.mode-form .topbar__inner {
     width: calc(100% - 30px) !important;
@@ -1740,7 +1430,7 @@ body.mode-form .bg__grid{
     right: 0;
   }
 
-  /* Скрываем лишнее, чтобы не распирало флекс */
+
   .brand__contacts, 
   .social { 
     display: none !important; 
@@ -1763,12 +1453,11 @@ body.mode-form .bg__grid{
   }
 
 
-  /* Кнопка в шапке */
   .cta {
     width: 170px !important;
     min-width: auto !important;
     padding: 8px 8px !important;
-    margin-right: -5px; /* Небольшая компенсация для визуального баланса */
+    margin-right: -5px; 
   }
 
   .cta__text {
@@ -1776,7 +1465,7 @@ body.mode-form .bg__grid{
     padding-left: 4px !important;
   }
 
-  /* 3. Hero секция: Высота без скачков */
+
   .hero {
     min-height: 100dvh;
      display: flex;
@@ -1814,7 +1503,7 @@ body.mode-form .bg__grid{
     margin: 0px;
 }
 
-  /* Фикс заголовка в режиме формы */
+
   body.mode-form .hero__title {
     margin-top: 0 !important;
     font-size: var(--t1) !important;
@@ -1838,11 +1527,11 @@ body.mode-form .bg__grid{
     line-height: 1.4;
   }
 
-  /* 4. Горизонтальный скролл чипсов (без 100vw) */
+
   .chips-group {
     display: block !important;
     width: 100% !important;
-    padding: 0 0 44px 20px !important; /* Начинаем список с отступом слева */
+    padding: 0 0 44px 20px !important;
     overflow-x: auto !important;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none; /* Firefox */
@@ -1857,11 +1546,11 @@ body.mode-form .bg__grid{
     display: flex !important;
     flex-wrap: nowrap !important;
     gap: 10px !important;
-    padding-right: 40px !important; /* Запас в конце, чтобы последняя кнопка не липла */
+    padding-right: 40px !important; 
     width: max-content !important;
   }
 
-  /* 5. Форма: Адаптация под узкие экраны */
+
   body.mode-form .form {
     width: 100% !important;
     min-width: 100% !important;
@@ -1874,15 +1563,15 @@ body.mode-form .bg__grid{
   .contact {
     margin-top: 30px !important;
     max-width: 100% !important;
-    padding: 0 0 60px 0 !important; /* Убираем левый отступ, центрируем по контейнеру */
+    padding: 0 0 60px 0 !important; 
   }
 
   .contact__grid {
-    grid-template-columns: 1fr !important; /* Всегда в одну колонку */
+    grid-template-columns: 1fr !important; 
     gap: 25px !important;
   }
 
-  /* Убираем лишнее в режиме формы */
+  
   body.mode-form .best {
     display: none !important;
   }
@@ -1896,7 +1585,7 @@ body.mode-form .bg__grid{
     gap: 12px;                 
   }
 
-  /* Иконки */
+
   .best__icons {
     display: flex;
     gap: 16px;                
@@ -2043,5 +1732,123 @@ body.mode-form .chip--category:hover {
 
    .contact__mobileCopy {
     display: none !important;
+  }
+}
+
+
+
+
+@media (min-width: 769px) and (max-width: 1200px) {
+  :root {
+    --padX: 28px;
+    --t1: 64px;
+  }
+
+  .wrap {
+    width: calc(100% - (var(--padX) * 2));
+  }
+
+  .hero {
+    padding-top: 180px;
+  }
+
+  .hero__title {
+    font-size: var(--t1);
+    line-height: 1.1;
+    text-align: center;
+    margin: 0 auto 12px;
+  }
+
+  .hero__subtitle {
+    font-size: 16px;
+    letter-spacing: 5px;
+    text-align: center;
+    padding: 0 40px;
+    margin-top: 12px;
+    line-height: 1.4;
+    white-space: normal;
+  }
+
+  .chips-group {
+    display: flex !important;
+    flex-wrap: nowrap;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    gap: 14px;
+    padding: 0 20px 30px;
+    margin: auto;
+  }
+
+  .chips__row {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 14px;
+  }
+
+  .chip {
+    flex: 0 0 auto;
+    min-width: 120px;
+  }
+
+  .cta {
+    width: 180px !important;
+    min-width: auto !important;
+    font-size: 16px;
+    padding: 8px 12px !important;
+    margin: 0 auto;
+  }
+
+  .cta__text {
+    font-size: 16px !important;
+    white-space: nowrap;
+    padding-left: 6px;
+  }
+
+  .hero__3d {
+    top: 250px; 
+    left: 50%;
+    transform: translateX(-50%);
+    width: 280px;
+    height: 280px;
+    pointer-events: none;
+  }
+
+  .hero__3d video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  @media (orientation: portrait) {
+    .hero {
+      padding-top: 160px;
+    }
+
+    .hero__3d {
+      top: 220px;
+      width: 260px;
+      height: 260px;
+    }
+
+    .chips-group {
+      padding: 0 16px 30px;
+    }
+  }
+
+  @media (orientation: landscape) {
+    .hero {
+      padding-top: 140px;
+    }
+
+    .hero__3d {
+      top: 200px;
+      width: 300px;
+      height: 300px;
+    }
+
+    .chips-group {
+      padding: 0 24px 30px;
+    }
   }
 }
