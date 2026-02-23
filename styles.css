@@ -2130,5 +2130,14 @@ body.mode-form .chip--category:hover {
     .cta {
       width: 160px !important;
     }
-  }
+
+    .best {
+    margin-top: 110px;
+    padding-bottom: 42px;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    justify-content: center;
+}
+}
 }
