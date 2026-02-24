@@ -65,7 +65,6 @@ function resetUI(){
 if (toggleBtn){
   toggleBtn.addEventListener('click', () => {
 
-    // если success — всегда домой
     if (body.classList.contains('mode-success')){
       goHome();
       return;
@@ -78,10 +77,16 @@ if (toggleBtn){
     } else {
       setMode('form');
       window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      // GA4: form opened
+      if (typeof gtag === 'function') {
+        gtag('event', 'form_open', {
+          event_category: 'engagement'
+        });
+      }
     }
   });
 }
-
 
 chips.forEach((btn) => {
   btn.addEventListener('click', () => {
@@ -120,6 +125,7 @@ function toggleInterest(btn){
   }
 }
 
+
 // ===============================
 // FORM SUBMIT
 // ===============================
@@ -143,7 +149,16 @@ if (form){
       console.log('[contact] status:', res.status, raw);
 
       if (res.ok){
-        showSuccess();   // ← success экран
+
+        // GA4: successful lead
+        if (typeof gtag === 'function') {
+          gtag('event', 'generate_lead', {
+            event_category: 'contact',
+            event_label: 'contact_form'
+          });
+        }
+
+        showSuccess();
       } else {
         alert(raw || 'Something went wrong. Please try again.');
       }
@@ -154,6 +169,36 @@ if (form){
     }
   });
 }
+
+
+// ===============================
+// CONTACT CLICK TRACKING
+// ===============================
+
+const waLinks = document.querySelectorAll('a[href*="wa.me"]');
+waLinks.forEach(link => {
+  link.addEventListener('click', () => {
+    if (typeof gtag === 'function') {
+      gtag('event', 'contact_click', {
+        event_category: 'engagement',
+        event_label: 'whatsapp'
+      });
+    }
+  });
+});
+
+const emailLinks = document.querySelectorAll('a[href^="mailto:"]');
+emailLinks.forEach(link => {
+  link.addEventListener('click', () => {
+    if (typeof gtag === 'function') {
+      gtag('event', 'contact_click', {
+        event_category: 'engagement',
+        event_label: 'email'
+      });
+    }
+  });
+});
+
 
 // стартовое состояние
 setMode('home');
@@ -218,6 +263,3 @@ if (canvas){
 
   draw();
 }
-
-
-
