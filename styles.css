@@ -1485,6 +1485,15 @@ body.mode-form .bg__grid{
   }
 
 
+  button,
+  a,
+  .chip,
+  .cta {
+    -webkit-tap-highlight-color: transparent !important; 
+    outline: none; 
+  }
+
+
    .mobile-br {
     display: inline;
   }
