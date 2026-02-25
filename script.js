@@ -200,7 +200,7 @@ emailLinks.forEach(link => {
 });
 
 
-// стартовое состояние
+
 setMode('home');
 
 

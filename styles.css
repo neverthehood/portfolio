@@ -17,8 +17,8 @@
 --shadow2: 0 22px 60px rgba(0,0,0,.22);
 --radiusBar: 26px;
 --radiusChip: 999px;
---wrap: 1240px; /* content width */
---headerW: 1294px; /* header width */
+--wrap: 1240px; 
+--headerW: 1294px; 
 --padX: 120px;
 --barTop: 34px;
 --t1: 80px;
@@ -313,7 +313,7 @@ opacity:.9;
 }
 
 .brand__waIconLink {
-  width: 40px;   /* меняешь тут размер */
+  width: 40px; 
   height: 40px;
 }
 
@@ -2062,7 +2062,7 @@ body.mode-form .chip--category:hover {
     width: 100%;
 }
 
-  /* 3D объект */
+
   .hero__3d {
     width: 250px;
     height: 250px;
