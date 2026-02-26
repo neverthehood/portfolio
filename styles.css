@@ -128,7 +128,7 @@ z-index:10;
 }
 
 .topbar__inner {
-width: 60%;
+width: 85%;
 max-width: 1170px;
 height: 80px;
 margin: 22px auto 0;
@@ -198,8 +198,8 @@ padding-left: 28px;
 display:flex;
 align-items:center;
 gap: 72px;
-min-width: 374px;
-width: 374px;
+min-width: auto;
+width: auto;
 }
 
 .brand__logo{
@@ -380,6 +380,8 @@ body.mode-form .brand__emailValue:hover {
   gap: 48px;
   margin-left: auto;
   margin-right: 0px;
+  justify-content: end;
+  padding-right: 20px;
 }
 
 
@@ -561,7 +563,7 @@ margin: auto;
 
 .chips__row {
 display:flex;
-flex-wrap:wrap;
+flex-wrap: nowrap;
 gap: 14px;
 align-items:center;
 }
@@ -580,6 +582,7 @@ transition: 220ms ease;
 outline:none;
 font-family: var(--fontBody);
 touch-action: manipulation;
+white-space: nowrap;
 }
 
 
@@ -981,7 +984,7 @@ display:flex;
 align-items:center;
 gap: 72px;
 max-width: 460px;
-width: 460px;
+width: auto;
 }
 
 body.mode-form .brand__emailLabel{ color: rgba(255,255,255,.90); }
@@ -1816,7 +1819,7 @@ body.mode-form .chip--category:hover {
 }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1000px) {
   .scroll-hint { display: none; }
 
    .contact__mobileCopy {
@@ -2018,6 +2021,8 @@ body.mode-form .chip--category:hover {
     align-items: center;
     gap: 16px;
     margin-left: auto;
+    justify-content: end;
+    padding-right: 20px;
   }
 
   .brand__logo {
