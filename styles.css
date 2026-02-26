@@ -2224,7 +2224,6 @@ body.mode-form .chip--category:hover {
     justify-content: space-between !important;
     left: 0;
     right: 0;
-    box-shadow: 0 6px 9px rgb(0 0 0 / 7%), inset 0 2px 6px rgba(255, 255, 255, .05), inset 0 0px 1px rgba(0, 0, 0, .10);
     }
 
     body.mode-form .topbar__inner {
@@ -2236,7 +2235,6 @@ body.mode-form .chip--category:hover {
     justify-content: space-between !important;
     left: 0;
     right: 0;
-    box-shadow: 0 6px 9px rgb(0 0 0 / 7%), inset 0 2px 6px rgba(255, 255, 255, .05), inset 0 0px 1px rgba(0, 0, 0, .10);
     }
 
       .success__title {
@@ -2272,8 +2270,18 @@ body.mode-form .chip--category:hover {
     max-width: 1100px !important;
     margin: 20px auto 0 !important;
     border: 0px solid rgba(255, 255, 255, .4) !important;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, .15), inset 0 1px 0 rgba(255, 255, 255, .06) !important;
   }
+
+  .hero__title {
+    margin-top: 60px;
+    margin-bottom: 0px;
+    font-family: var(--fontHeading);
+    font-weight: 700;
+    font-size: var(--t1);
+    line-height: var(--t1lh);
+    letter-spacing: 0px;
+    text-align: center;
+}
 
   .brand {
     min-width: auto !important;
