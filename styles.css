@@ -2260,3 +2260,56 @@ body.mode-form .chip--category:hover {
 
 }
 }
+
+
+
+/* ===== iPad Header Fix ===== */
+@media (min-width: 768px) and (max-width: 1200px) {
+
+  .topbar__inner,
+  body.mode-form .topbar__inner {
+    width: calc(100% - 40px) !important;
+    max-width: 1100px !important;
+    margin: 20px auto 0 !important;
+    border: 0px solid rgba(255, 255, 255, .4) !important;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, .15), inset 0 1px 0 rgba(255, 255, 255, .06) !important;
+  }
+
+  .brand {
+    min-width: auto !important;
+    width: auto !important;
+  }
+
+  .brand__contacts {
+    min-width: auto !important;
+    gap: 20px !important;
+    margin-right: 20px;
+  }
+
+  .cta {
+    width: 190px !important;
+    min-width: auto !important;
+  }
+
+  .brand__email {
+    display: flex !important;
+  }
+
+  body.mode-form .topbar__inner {
+    background: linear-gradient(
+      135deg,
+      rgba(255,255,255,.35),
+      rgba(255,255,255,.15)
+    ) !important;
+
+    backdrop-filter: blur(20px) saturate(120%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(120%) !important;
+
+  }
+
+  .topbar__inner,
+  body.mode-form .topbar__inner {
+    width: calc(100% - 40px) !important;
+  }
+
+}
