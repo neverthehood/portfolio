@@ -1500,6 +1500,15 @@ body.mode-form .bg__grid{
   }
 
 
+  .contact__actions{
+  margin-top: 34px;
+  display:flex;
+  align-items:center;
+  gap: 18px;
+  justify-content: center;
+  }
+
+
    .mobile-br {
     display: inline;
   }
