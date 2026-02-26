@@ -1496,6 +1496,7 @@ body.mode-form .bg__grid{
   .cta {
     -webkit-tap-highlight-color: transparent !important; 
     outline: none; 
+    text-decoration: none;
   }
 
 
@@ -2372,6 +2373,11 @@ body.mode-form .chip--category:hover {
     transition: opacity 0.25s ease, transform 0.25s ease;
     width: 195px;
     justify-content: center;
+    text-decoration: none;
 }
+
+  .brand__email {
+    text-decoration: none;
+  }
 
 }
