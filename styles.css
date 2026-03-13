@@ -111,6 +111,7 @@ a:-webkit-any-link {
 padding:40px 20px 50px;
 display:flex;
 justify-content:center;
+z-index:20;
 }
 
 body.mode-home .footer{
@@ -1201,6 +1202,17 @@ body{ animation:none; }
 100%{transform:translate3d(0,0,0)}
 
 }
+
+
+.footer{
+
+bottom:18px;
+left:0;
+right:0;
+padding:0;
+z-index:20;
+}
+
 
 .chip.is-active {
 background:#fff !important;
@@ -2533,15 +2545,3 @@ margin-top:40px;
 }
 }
 
-
-@media (min-height: 720px){
-
-.footer{
-bottom:18px;
-left:0;
-right:0;
-padding:0;
-z-index:20;
-}
-
-}
