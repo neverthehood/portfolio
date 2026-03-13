@@ -123,7 +123,6 @@ right:0;
 
 body.mode-form .footer,
 body.mode-success .footer{
-position:static;
 margin-top:40px;
 }
 
@@ -1956,14 +1955,13 @@ body.mode-form .chip--category:hover {
   }
 
 
-  body.mode-home .footer{
+body.mode-home .footer{
 position:fixed;
 bottom:18px;
 left:0;
 right:0;
 }
 
-}
 
 body.mode-form .footer,
 body.mode-success .footer{
