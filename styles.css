@@ -1203,16 +1203,6 @@ body{ animation:none; }
 }
 
 
-.footer{
-display: flex;
-bottom:18px;
-left:0;
-right:0;
-padding:0;
-z-index:20;
-}
-
-
 .chip.is-active {
 background:#fff !important;
 color:#0f0f0f !important;
