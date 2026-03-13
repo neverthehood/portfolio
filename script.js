@@ -172,6 +172,50 @@ if (form){
 
 
 // ===============================
+// COOKIE CONSENT + GA LOAD
+// ===============================
+
+const cookieBanner = document.getElementById('cookieBanner');
+const cookieAccept = document.getElementById('cookieAccept');
+
+function loadGA(){
+
+  const script = document.createElement('script');
+  script.src = "https://www.googletagmanager.com/gtag/js?id=G-NX7RHVLFQX";
+  script.async = true;
+
+  document.head.appendChild(script);
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  window.gtag = gtag;
+
+  gtag('js', new Date());
+  gtag('config', 'G-NX7RHVLFQX');
+}
+
+if (localStorage.getItem('cookieConsent') === 'true') {
+
+  loadGA();
+
+} else {
+
+  cookieBanner.style.display = 'flex';
+
+}
+
+cookieAccept?.addEventListener('click', () => {
+
+  localStorage.setItem('cookieConsent','true');
+
+  cookieBanner.style.display = 'none';
+
+  loadGA();
+
+});
+
+
+// ===============================
 // CONTACT CLICK TRACKING
 // ===============================
 
