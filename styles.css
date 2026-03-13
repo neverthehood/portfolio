@@ -138,7 +138,7 @@ bottom:20px;
 left:50%;
 transform:translateX(-50%);
 z-index:1000;
-
+color: var(--text);
 display:none;
 align-items:center;
 gap:16px;
@@ -157,6 +157,7 @@ width:calc(100% - 40px);
 }
 
 .cookie__text{
+color: var(--text);
 opacity:.75;
 line-height:1.4;
 }
@@ -2495,6 +2496,19 @@ body.mode-form .chip--category:hover {
   .wrap {
     width: 88vw;
     margin: 0 auto !important;
+}
+}
+
+
+@media (min-height: 720px){
+
+.footer{
+position:fixed;
+bottom:18px;
+left:0;
+right:0;
+padding:0;
+z-index:20;
 }
 
 }
