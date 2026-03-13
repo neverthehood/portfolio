@@ -108,9 +108,23 @@ a:-webkit-any-link {
 }
 
 .footer{
-padding: 40px 20px 50px;
+padding:40px 20px 50px;
 display:flex;
 justify-content:center;
+}
+
+body.mode-home .footer{
+position:fixed;
+bottom:18px;
+left:0;
+right:0;
+}
+
+
+body.mode-form .footer,
+body.mode-success .footer{
+position:static;
+margin-top:40px;
 }
 
 .footer__inner{
@@ -119,6 +133,7 @@ gap:14px;
 font-size:14px;
 opacity:.65;
 font-family: var(--fontBody);
+margin-bottom: 10px !important;
 }
 
 .footer a{
@@ -1938,6 +1953,22 @@ body.mode-form .chip--category:hover {
    .contact__mobileCopy {
     display: none !important;
   }
+
+
+  body.mode-home .footer{
+position:fixed;
+bottom:18px;
+left:0;
+right:0;
+}
+
+}
+
+body.mode-form .footer,
+body.mode-success .footer{
+position:static;
+margin-top:40px;
+}
 }
 
 
