@@ -194,13 +194,17 @@ function loadGA(){
   gtag('config', 'G-NX7RHVLFQX');
 }
 
-if (localStorage.getItem('cookieConsent') === 'true') {
+if (cookieBanner) {
 
-  loadGA();
+  if (localStorage.getItem('cookieConsent') === 'true') {
 
-} else {
+    loadGA();
 
-  cookieBanner.style.display = 'flex';
+  } else {
+
+    cookieBanner.style.display = 'flex';
+
+  }
 
 }
 
@@ -213,7 +217,6 @@ cookieAccept?.addEventListener('click', () => {
   loadGA();
 
 });
-
 
 // ===============================
 // CONTACT CLICK TRACKING
