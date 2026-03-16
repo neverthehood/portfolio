@@ -188,6 +188,10 @@ max-width:835px;
 width:fit-content;
 }
 
+.cookie{
+display:none;
+}
+
 .cookie__text{
 color: var(--text);
 flex:1;

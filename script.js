@@ -210,20 +210,23 @@ if (form){
   const EU = [
     "AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR",
     "HU","IE","IT","LV","LT","LU","MT","NL","PL","PT","RO",
-    "SK","SI","ES","SE","IS","LI","NO","GB"
+    "SK","SI","ES","SE","IS","LI","NO","GB","CH"
   ];
 
   const country = document
     .querySelector('meta[name="user-country"]')
     ?.content;
 
-  if (!country || EU.includes(country)) {
+  if (!country) return;
+
+  if (EU.includes(country)) {
 
     cookieBanner.style.display = 'flex';
 
   } else {
 
     loadGA();
+    return;
 
   }
 
