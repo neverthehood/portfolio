@@ -175,13 +175,13 @@ if (form){
 // COOKIE CONSENT + GA LOAD
 // ===============================
 
-document.addEventListener("DOMContentLoaded", async () => {
+(function(){
 
   const cookieBanner = document.getElementById('cookieBanner');
+  if (!cookieBanner) return;
+
   const cookieAccept = document.getElementById('cookieAccept');
   const cookieDecline = document.getElementById('cookieDecline');
-
-  if (!cookieBanner) return;
 
   function loadGA(){
     const script = document.createElement('script');
@@ -190,8 +190,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.head.appendChild(script);
 
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    window.gtag = gtag;
+    window.gtag = function(){dataLayer.push(arguments);};
 
     gtag('js', new Date());
     gtag('config', 'G-NX7RHVLFQX');
@@ -208,31 +207,23 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  try {
+  const EU = [
+    "AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR",
+    "HU","IE","IT","LV","LT","LU","MT","NL","PL","PT","RO",
+    "SK","SI","ES","SE","IS","LI","NO","GB"
+  ];
 
-    const res = await fetch("https://ipapi.co/json/");
-    const geo = await res.json();
+  const country = document
+    .querySelector('meta[name="user-country"]')
+    ?.content;
 
-    const EU_COUNTRIES = [
-      "AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR",
-      "HU","IE","IT","LV","LT","LU","MT","NL","PL","PT","RO",
-      "SK","SI","ES","SE","IS","LI","NO","GB"
-    ];
+  if (!country || EU.includes(country)) {
 
-    if (EU_COUNTRIES.includes(geo.country_code)) {
-
-      cookieBanner.style.display = 'flex';
-
-    } else {
-
-      loadGA();
-
-    }
-
-  } catch (e) {
-
-    // fallback если API не ответил
     cookieBanner.style.display = 'flex';
+
+  } else {
+
+    loadGA();
 
   }
 
@@ -247,7 +238,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     cookieBanner.style.display = 'none';
   });
 
-});
+})();
 
 
 // ===============================
