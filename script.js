@@ -175,10 +175,11 @@ if (form){
 // COOKIE CONSENT + GA LOAD
 // ===============================
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
 
   const cookieBanner = document.getElementById('cookieBanner');
   const cookieAccept = document.getElementById('cookieAccept');
+  const cookieDecline = document.getElementById('cookieDecline');
 
   if (!cookieBanner) return;
 
@@ -196,26 +197,45 @@ document.addEventListener("DOMContentLoaded", () => {
     gtag('config', 'G-NX7RHVLFQX');
   }
 
-  if (localStorage.getItem('cookieConsent') === 'true') {
+  const consent = localStorage.getItem('cookieConsent');
 
+  if (consent === 'true') {
     loadGA();
+    return;
+  }
 
-  } else {
+  if (consent === 'declined') {
+    return;
+  }
 
+  try {
+
+    const res = await fetch("https://ipwho.is/");
+    const geo = await res.json();
+
+    if (geo.is_eu) {
+      cookieBanner.style.display = 'flex';
+    } else {
+      loadGA();
+    }
+
+  } catch (e) {
+    // fallback если API не ответил
     cookieBanner.style.display = 'flex';
-
   }
 
   cookieAccept?.addEventListener('click', () => {
-
     localStorage.setItem('cookieConsent','true');
     cookieBanner.style.display = 'none';
     loadGA();
+  });
 
+  cookieDecline?.addEventListener('click', () => {
+    localStorage.setItem('cookieConsent','declined');
+    cookieBanner.style.display = 'none';
   });
 
 });
-
 
 
 // ===============================
