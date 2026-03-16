@@ -1642,6 +1642,7 @@ flex-direction:column;
 align-items:center;
 text-align:center;
 gap:14px;
+border-radius:16px;
 }
 
 .cookie__actions{
@@ -1670,7 +1671,7 @@ border:1px solid rgba(0,0,0,.08);
 
 .cookie__text{
 text-align: center;
-padding-bottom: 10px;
+padding-bottom: 2px;
 white-space:normal;
 }
 
