@@ -164,7 +164,7 @@ left:50%;
 transform:translateX(-50%);
 z-index:1000;
 
-display:none;
+display:flex;
 align-items:center;
 justify-content:space-between;
 
@@ -178,12 +178,17 @@ border-radius:16px;
 box-shadow:0 12px 40px rgba(0,0,0,.12);
 
 font-size:14px;
-max-width:620px;
+max-width:720px;
 width:calc(100% - 40px);
+
+flex-wrap:nowrap;
 }
 
 .cookie__text{
 color: var(--text);
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
 flex:1;
 line-height:1.4;
 opacity:.8;
@@ -1641,6 +1646,8 @@ font-size:15px;
 
 .cookie__text{
 text-align: center;
+padding-bottom: 10px;
+white-space:normal;
 }
 
   .contact__actions{
