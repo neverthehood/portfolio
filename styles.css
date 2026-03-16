@@ -1643,6 +1643,8 @@ align-items:center;
 text-align:center;
 gap:14px;
 border-radius:16px;
+max-width:420px;
+width:fit-content;
 }
 
 .cookie__actions{
