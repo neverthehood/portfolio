@@ -210,18 +210,30 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   try {
 
-    const res = await fetch("https://ipwho.is/");
+    const res = await fetch("https://ipapi.co/json/");
     const geo = await res.json();
 
-    if (geo.is_eu) {
+    const EU_COUNTRIES = [
+      "AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR",
+      "HU","IE","IT","LV","LT","LU","MT","NL","PL","PT","RO",
+      "SK","SI","ES","SE","IS","LI","NO","GB"
+    ];
+
+    if (EU_COUNTRIES.includes(geo.country_code)) {
+
       cookieBanner.style.display = 'flex';
+
     } else {
+
       loadGA();
+
     }
 
   } catch (e) {
+
     // fallback если API не ответил
     cookieBanner.style.display = 'flex';
+
   }
 
   cookieAccept?.addEventListener('click', () => {

@@ -175,17 +175,17 @@ justify-content:space-between;
 text-align: center;
 
 gap:20px;
-padding:16px 22px;
+padding:16px 32px;
 
 background:rgba(255,255,255,.9);
 backdrop-filter:blur(16px);
 
-border-radius:16px;
+border-radius:58px;
 box-shadow:0 12px 40px rgba(0,0,0,.12);
 
 font-size:14px;
-max-width:774px;
-width:calc(100% - 40px);
+max-width:835px;
+width:fit-content;
 }
 
 .cookie__text{
