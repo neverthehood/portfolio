@@ -217,7 +217,10 @@ if (form){
     .querySelector('meta[name="user-country"]')
     ?.content;
 
-  if (!country) return;
+  if (!country) {
+    cookieBanner.style.display = 'flex';
+    return;
+  }
 
   if (EU.includes(country)) {
 
@@ -226,7 +229,6 @@ if (form){
   } else {
 
     loadGA();
-    return;
 
   }
 
