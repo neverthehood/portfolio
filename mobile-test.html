@@ -493,8 +493,37 @@
     </main>
 
     <footer class="footer">
-      <div class="footer__inner"><span>© 2026 One Motion Studio</span><a href="/privacy.html">Privacy Policy</a></div>
-    </footer>
+    <div class="footer__inner"><span>© 2026 One Motion Studio</span><a href="/privacy.html">Privacy Policy</a></div>
+  </footer>
+
+  <!-- LIGHTBOX VIEWER -->
+  <div id="case-viewer" class="case-viewer">
+    <button class="case-close-btn" onclick="closeCase()" aria-label="Close case">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </button>
+    
+    <div class="case-viewer__container">
+      <div class="case-viewer__top-bar">PROJECT CASE STUDY</div>
+      
+      <div class="case-viewer__header">
+        <div class="case-viewer__header-inner">
+          <div class="case-viewer__info">
+            <h2 id="case-title" class="case-viewer__title">Project Title</h2>
+            <div id="case-client" class="case-viewer__client">Client: Name</div>
+            <div id="case-tags" class="p-tags" style="margin-top: 15px;"></div>
+          </div>
+        </div>
+        <div class="container" style="margin-top: 30px;">
+          <p id="case-desc" class="case-viewer__description" style="max-width: 800px; line-height: 1.6; color: #555;"></p>
+        </div>
+      </div>
+
+      <div id="case-images-stack" class="case-images-stack">
+        <!-- Images will be injected by JS -->
+      </div>
+    </div>
   </div>
 
   <script src="./script.js"></script>
