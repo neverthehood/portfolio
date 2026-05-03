@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Portfolio Case Builder — One Motion</title>
+    <style>
+        body { font-family: 'Poppins', sans-serif; padding: 30px; background: #f0f2f5; display: none; }
+        .admin-wrap { max-width: 900px; margin: 0 auto; background: #fff; padding: 40px; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+        h1 { font-size: 24px; margin-bottom: 30px; border-bottom: 2px solid #f0f0f0; padding-bottom: 15px; font-weight: 600; }
+        .grid-form { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .form-group { display: flex; flex-direction: column; gap: 8px; }
+        .form-group.full { grid-column: span 2; }
+        label { font-weight: 500; font-size: 13px; color: #555; opacity: 0.7; }
+        input, textarea { padding: 12px; border: 1px solid #eee; border-radius: 12px; font-size: 14px; background: #fafafa; font-family: inherit; }
+        
+        /* Стили для управляемой очереди превью */
+        .preview-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+            padding: 15px;
+            background: #fafafa;
+            border: 2px dashed #eee;
+            border-radius: 12px;
+        }
+        .preview-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #fff;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #eee;
+        }
+        .preview-card img {
+            width: 80px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+        .preview-info { flex-grow: 1; font-size: 12px; color: #666; overflow: hidden; text-overflow: ellipsis; }
+        .preview-controls { display: flex; gap: 5px; }
+        .ctrl-btn { 
+            padding: 5px 10px; 
+            border: none; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-size: 12px; 
+            font-weight: 600;
+        }
+        .btn-up-down { background: #eee; color: #333; }
+        .btn-remove { background: #ffebeb; color: #ff4d4d; }
+
+        .actions { margin-top: 30px; display: flex; gap: 15px; }
+        .btn { padding: 16px 25px; border: none; border-radius: 12px; cursor: pointer; font-weight: 600; transition: 0.3s; font-family: inherit; }
+        .btn-add { background: #2F5BFF; color: #fff; flex: 1; }
+        .btn-save { background: #111; color: #fff; }
+        .btn-add:hover { background: #2347FF; transform: translateY(-2px); }
+        .list { margin-top: 50px; border-top: 1px solid #eee; padding-top: 20px; }
+        .item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border: 1px solid #eee; border-radius: 12px; margin-bottom: 10px; background: #fff; }
+        .btn-del { background: none; color: #ff4d4d; border: none; font-weight: 600; cursor: pointer; }
+        .hint { font-size: 11px; color: #888; margin-top: 4px; }
+    </style>
+</head>
+<body id="adminBody">
+
+<div class="admin-wrap">
+    <h1>Portfolio & Case Builder</h1>
+    
+    <div class="grid-form">
+        <div class="form-group">
+            <label>ID проекта (латиницей)</label>
+            <input type="text" id="id" placeholder="e.g. skinz-system">
+        </div>
+        <div class="form-group">
+            <label>Client Name</label>
+            <input type="text" id="client" placeholder="e.g. TOYMAK3R">
+        </div>
+        <div class="form-group full">
+            <label>Project Title</label>
+            <input type="text" id="title" placeholder="e.g. PLAY OR DIE">
+        </div>
+        <div class="form-group full">
+            <label>Description</label>
+            <textarea id="desc" rows="3" placeholder="Describe project..."></textarea>
+        </div>
+        <div class="form-group">
+            <label>Wide Image (1626px)</label>
+            <input type="text" id="wideImg" placeholder="p_wide_1.png">
+        </div>
+        <div class="form-group">
+            <label>Story Image (732px)</label>
+            <input type="text" id="storyImg" placeholder="p_story_1.png">
+        </div>
+        
+        <div class="form-group full">
+            <label>Gallery / Portyanka (Очередь изображений)</label>
+            <input type="file" id="galleryFiles" multiple accept="image/*">
+            <p class="hint">Выберите файлы, а затем настройте их порядок кнопками</p>
+            <div id="galleryPreview" class="preview-container"></div>
+        </div>
+
+        <div class="form-group full">
+            <label>Tags (comma separated)</label>
+            <input type="text" id="tags" placeholder="Branding, UI">
+        </div>
+    </div>
+
+    <div class="actions">
+        <button class="btn btn-add" onclick="addCase()">Add to List</button>
+        <button class="btn btn-save" onclick="downloadJSON()">Download portfolio.json</button>
+    </div>
+
+    <div class="list" id="caseList"></div>
+</div>
+
+<script>
+    const pass = prompt("Введите пароль администратора:");
+    if (pass === "505Hollender") {
+        document.getElementById('adminBody').style.display = "block";
+    } else {
+        alert("Доступ запрещен");
+        window.location.href = "index.html";
+    }
+
+    let cases = JSON.parse(localStorage.getItem('portfolio_db')) || [];
+    
+    // Очередь файлов в виде объектов { name: '..', src: '..' }
+    let galleryQueue = [];
+
+    const galleryInput = document.getElementById('galleryFiles');
+    const galleryPreview = document.getElementById('galleryPreview');
+
+    galleryInput.addEventListener('change', function() {
+        const files = Array.from(this.files);
+        
+        files.forEach(file => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                galleryQueue.push({
+                    name: file.name,
+                    src: e.target.result
+                });
+                renderPreview();
+            }
+            reader.readAsDataURL(file);
+        });
+        this.value = ''; // Сбрасываем инпут для повторного выбора тех же файлов
+    });
+
+    function renderPreview() {
+        galleryPreview.innerHTML = galleryQueue.length === 0 ? '<p style="text-align:center; opacity:0.5; font-size:12px;">Очередь пуста</p>' : '';
+
+        galleryQueue.forEach((item, index) => {
+            const card = document.createElement('div');
+            card.className = 'preview-card';
+            card.innerHTML = `
+                <img src="${item.src}">
+                <div class="preview-info">${item.name}</div>
+                <div class="preview-controls">
+                    <button class="ctrl-btn btn-up-down" onclick="moveItem(${index}, -1)">↑</button>
+                    <button class="ctrl-btn btn-up-down" onclick="moveItem(${index}, 1)">↓</button>
+                    <button class="ctrl-btn btn-remove" onclick="removeItem(${index})">✕</button>
+                </div>
+            `;
+            galleryPreview.appendChild(card);
+        });
+    }
+
+    function moveItem(index, direction) {
+        const newIndex = index + direction;
+        if (newIndex >= 0 && newIndex < galleryQueue.length) {
+            const temp = galleryQueue[index];
+            galleryQueue[index] = galleryQueue[newIndex];
+            galleryQueue[newIndex] = temp;
+            renderPreview();
+        }
+    }
+
+    function removeItem(index) {
+        galleryQueue.splice(index, 1);
+        renderPreview();
+    }
+
+    function renderList() {
+        const list = document.getElementById('caseList');
+        list.innerHTML = '<h3>Current Projects</h3>';
+        cases.forEach((c, i) => {
+            list.innerHTML += `
+                <div class="item">
+                    <span><strong>${c.id}</strong>: ${c.title}</span>
+                    <button class="btn-del" onclick="deleteCase(${i})">Delete</button>
+                </div>
+            `;
+        });
+        localStorage.setItem('portfolio_db', JSON.stringify(cases));
+    }
+
+    function addCase() {
+        const newCase = {
+            id: document.getElementById('id').value,
+            client: document.getElementById('client').value,
+            title: document.getElementById('title').value,
+            desc: document.getElementById('desc').value,
+            wideImg: document.getElementById('wideImg').value,
+            storyImg: document.getElementById('storyImg').value,
+            tags: document.getElementById('tags').value.split(',').map(t => t.trim()),
+            // Берем имена из нашей отсортированной очереди
+            gallery: galleryQueue.map(item => item.name)
+        };
+        
+        if (!newCase.id || !newCase.title) return alert("ID и Title обязательны!");
+        
+        cases.push(newCase);
+        renderList();
+
+        document.querySelectorAll('input:not([type="button"]), textarea').forEach(el => el.value = '');
+        galleryQueue = [];
+        renderPreview();
+    }
+
+    function deleteCase(index) {
+        if (confirm("Удалить этот проект?")) {
+            cases.splice(index, 1);
+            renderList();
+        }
+    }
+
+    function downloadJSON() {
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(cases, null, 2));
+        const dlAnchor = document.createElement('a');
+        dlAnchor.setAttribute("href", dataStr);
+        dlAnchor.setAttribute("download", "portfolio.json");
+        document.body.appendChild(dlAnchor);
+        dlAnchor.click();
+        dlAnchor.remove();
+    }
+
+    renderList();
+</script>
+</body>
+</html>

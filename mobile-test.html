@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <!-- Primary SEO -->
+  <title>Mobile Test - One Motion Studio</title>
+  <meta name="description" content="Premium digital design studio delivering web design, graphic design, 3D visuals, motion graphics and UX/UI for ambitious global brands." />
+  <meta name="keywords" content="web design studio, graphic design studio, 3D design, motion design, UX UI design, branding studio, product visualization, corporate website design, ecommerce design" />
+  <meta name="author" content="One Motion Studio" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://onemotion.studio/" />
+
+  <!-- Open Graph (LinkedIn, WhatsApp, Facebook) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="One Motion Studio - Your Digital Design Team" />
+  <meta property="og:description" content="Precise solution for every challenge. Web, 3D & Motion design for global brands." />
+  <meta property="og:url" content="https://onemotion.studio/" />
+  <meta property="og:image" content="https://onemotion.studio/assets/og-preview.jpg" />
+  <meta property="og:site_name" content="One Motion Studio" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="One Motion Studio - Your Digital Design Team" />
+  <meta name="twitter:description" content="Premium digital design studio for ambitious brands worldwide." />
+  <meta name="twitter:image" content="https://onemotion.studio/assets/og-preview.jpg" />
+
+  <!-- Performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="./styles.css" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon.png">
+
+  <!-- Structured Data (Schema.org) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "One Motion Studio",
+    "url": "https://onemotion.studio",
+    "logo": "https://onemotion.studio/assets/logo.svg",
+    "description": "International digital design studio specializing in web design, 3D visuals and motion graphics.",
+    "email": "hello@onemotion.studio",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "customer support",
+      "email": "hello@onemotion.studio",
+      "availableLanguage": ["English"]
+    },
+    "sameAs": [
+      "https://behance.net/YOUR_LINK",
+      "https://linkedin.com/company/YOUR_LINK",
+      "https://instagram.com/YOUR_LINK"
+    ]
+  }
+  </script>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+</head>
+<body class="mode-home">
+  <div id="test-content">
+    <div class="bg" aria-hidden="true">
+      <div class="bg__noise"></div>
+      <div class="bg__grid"></div>
+    </div>
+
+    <header class="topbar">
+      <div class="topbar__inner">
+        <div class="brand">
+          <button class="brand__homeBtn" type="button" data-action="go-home">
+            <img class="brand__logo" src="./assets/logo.svg" alt="One Motion Studio - Digital Design Studio" />
+          </button>
+        </div>
+        <nav class="site-nav" aria-label="Main navigation">
+          <a class="site-nav__link" href="#about">About</a>
+          <a class="site-nav__link" href="#services">Services</a>
+          <a class="site-nav__link site-nav__link--active" href="#portfolio">Portfolio</a>
+          <a class="site-nav__link" href="#engagement">Engagement</a>
+          <button class="cta" type="button" data-action="toggle-form" aria-controls="main" aria-expanded="false">
+            <span class="cta__text">Let's connect</span>
+            <span class="cta__icon" aria-hidden="true">
+              <img src="./assets/arrow.svg" alt="" />
+            </span>
+          </button>
+        </nav>
+
+        <button class="menu-toggle" type="button" aria-label="Toggle menu" data-action="toggle-menu">
+          <span></span>
+          <span></span>
+        </button>
+
+        <button class="cta" type="button" data-action="toggle-form" aria-controls="main" aria-expanded="false">
+          <span class="cta__text" data-cta-text>Let's connect</span>
+          <span class="cta__icon" aria-hidden="true">
+            <img src="./assets/arrow.svg" alt="" />
+          </span>
+        </button>
+      </div>
+    </header>
+
+    <main id="main" class="page">
+      <section class="hero" id="about" aria-label="Hero">
+        <div class="hero__visual-loose">
+          <img src="./assets/hero-letters-loose.png" alt="Decorative 3D letters floating">
+        </div>
+        <div class="hero__visual-main">
+          <img src="./assets/hero-letters-main.png" alt="One Motion Studio logo in 3D">
+        </div>
+        <div class="hero__content">
+          <div class="hero__text-wrap">
+            <h1 class="hero__title font-heading">
+              White-label production <br> 
+              for <span class="text-accent">ambitious</span> agencies
+            </h1>
+            <p class="hero__asterisk">
+              <span class="blue-star">*</span> senior-level output with zero oversight
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="form" id="contacts" aria-label="Contact form">
+        <div class="wrap">
+          <div class="form__interest">
+            <p class="hero__interest">I'm interested in...</p>
+            <div class="chips-group">
+              <div class="chips" aria-label="Capabilities">
+                <div class="chips__row">
+                  <button class="chip chip--category" type="button" data-interest="Graphic design">Graphic design</button>
+                  <button class="chip chip--glass" type="button" data-interest="Branding">Branding</button>
+                  <button class="chip chip--glass" type="button" data-interest="Marketing Assets">Marketing Assets</button>
+                  <button class="chip chip--glass" type="button" data-interest="Packaging">Packaging</button>
+                  <button class="chip chip--glass" type="button" data-interest="Deck Design">Deck Design</button>
+                  <button class="chip chip--glass" type="button" data-interest="Banners">Banners</button>
+                </div>
+                <div class="chips__row">
+                  <button class="chip chip--category" type="button" data-interest="Web design">Web design</button>
+                  <button class="chip chip--glass" type="button" data-interest="UX/UI">UX/UI</button>
+                  <button class="chip chip--glass" type="button" data-interest="Landing Pages">Landing Pages</button>
+                  <button class="chip chip--glass" type="button" data-interest="Corporate Websites">Corporate Websites</button>
+                  <button class="chip chip--glass" type="button" data-interest="E-commerce">E-commerce</button>
+                  <button class="chip chip--glass" type="button" data-interest="Dashboards">Dashboards</button>
+                </div>
+                <div class="chips__row">
+                  <button class="chip chip--category" type="button" data-interest="3D design">3D design</button>
+                  <button class="chip chip--glass" type="button" data-interest="Assets Modeling">Assets Modeling</button>
+                  <button class="chip chip--glass" type="button" data-interest="Product Visualization">Product Visualization</button>
+                  <button class="chip chip--glass" type="button" data-interest="3D Characters">3D Characters</button>
+                  <button class="chip chip--glass" type="button" data-interest="Prototyping">Prototyping</button>
+                  <button class="chip chip--glass" type="button" data-interest="3D for Web">3D for Web</button>
+                </div>
+                <div class="chips__row">
+                  <button class="chip chip--category" type="button" data-interest="Motion design">Motion design</button>
+                  <button class="chip chip--glass" type="button" data-interest="Promo Videos">Promo Videos</button>
+                  <button class="chip chip--glass" type="button" data-interest="Explainer Videos">Explainer Videos</button>
+                  <button class="chip chip--glass" type="button" data-interest="Content for Socials">Content for Socials</button>
+                  <button class="chip chip--glass" type="button" data-interest="Video-editing">Video-editing</button>
+                  <button class="chip chip--glass" type="button" data-interest="Web Animations">Web Animations</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="contact__sectionTitle">Your contact details</div>
+          <form class="contact" data-contact-form>
+            <div class="contact__grid">
+              <label class="field">
+                <span class="field__label">Name</span>
+                <input class="field__input" name="name" required />
+              </label>
+              <label class="field">
+                <span class="field__label">Email</span>
+                <input class="field__input" name="email" type="email" required />
+              </label>
+            </div>
+            <label class="field field--full">
+              <span class="field__label">Drop us a line</span>
+              <input class="field__input" name="details" required />
+            </label>
+            <div class="contact__actions">
+              <button class="submit" type="submit">Submit request</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section class="success" data-success>
+        <h2 class="success__title">Thanks! We got your message.</h2>
+        <button class="success__restart" type="button" data-action="restart">Start over</button>
+      </section>
+
+      <section id="services" class="services">
+        <div class="container services-header-grid">
+          <div class="services-asset-block assets-left">
+            <img src="./assets/Num_1_left.png" alt="Decorative geometric shape" class="services-bg-img" loading="lazy">
+          </div>
+          <div class="services-asset-block assets-right">
+            <img src="./assets/Num_1_right.png" alt="Section 01" class="services-bg-img" loading="lazy">
+          </div>
+        </div>
+        <div class="swiper services-slider-wrap">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <div class="service-card" data-cat="graphic">
+                <div class="service-card__left">
+                  <div class="service-card__info">
+                    <h3 class="service-card__title">Graphic Design</h3>
+                    <p class="service-card__intro">We build visual systems that stay consistent across product, marketing, and growth.</p>
+                    <ul class="service-card__skills">
+                      <li class="skill-item active"><span>Branding</span><div class="skill-item__text">A clear identity that works in real scenarios.</div></li>
+                      <li class="skill-item"><span>Marketing Assets</span><div class="skill-item__text">Design that supports your funnel.</div></li>
+                      <li class="skill-item"><span>Packaging</span><div class="skill-item__text">Packaging that communicates fast.</div></li>
+                      <li class="skill-item"><span>Deck Design</span><div class="skill-item__text">Clear, structured presentations.</div></li>
+                      <li class="skill-item"><span>Banners</span><div class="skill-item__text">Lightweight visuals built for performance.</div></li>
+                    </ul>
+                  </div>
+                  <div class="inner-slider-controls">
+                    <div class="project-meta">
+                      <span class="meta-label">Project</span>
+                      <h4 class="meta-title" data-project-title>Loading...</h4>
+                      <div class="meta-tags" data-project-tags></div>
+                    </div>
+                    <div class="meta-nav">
+                      <button class="nav-btn prev"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                      <button class="nav-btn next"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    </div>
+                  </div>
+                </div>
+                <div class="service-card__right">
+                  <img src="assets/renders/Render_3.png" alt="Graphic Design" class="render-img" loading="lazy">
+                </div>
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="service-card" data-cat="web">
+                <div class="service-card__left">
+                  <div class="service-card__info">
+                    <h3 class="service-card__title">Web Design</h3>
+                    <p class="service-card__intro">We design interfaces that are easy to understand, fast to navigate, and built to support real product goals.</p>
+                    <ul class="service-card__skills">
+                      <li class="skill-item active"><span>UX/UI</span><div class="skill-item__text">Interfaces that reduce friction.</div></li>
+                      <li class="skill-item"><span>Landing Pages</span><div class="skill-item__text">Pages structured to guide attention.</div></li>
+                      <li class="skill-item"><span>Corporate Websites</span><div class="skill-item__text">Websites that present your company.</div></li>
+                      <li class="skill-item"><span>E-commerce</span><div class="skill-item__text">Product pages and flows.</div></li>
+                      <li class="skill-item"><span>Dashboards</span><div class="skill-item__text">Interfaces for complex data.</div></li>
+                    </ul>
+                  </div>
+                  <div class="inner-slider-controls">
+                    <div class="project-meta">
+                      <span class="meta-label">Project</span>
+                      <h4 class="meta-title" data-project-title>Loading...</h4>
+                      <div class="meta-tags" data-project-tags></div>
+                    </div>
+                    <div class="meta-nav">
+                      <button class="nav-btn prev"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                      <button class="nav-btn next"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    </div>
+                  </div>
+                </div>
+                <div class="service-card__right">
+                  <img src="assets/renders/Render_2.png" alt="Web Design" class="render-img" loading="lazy">
+                </div>
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="service-card" data-cat="threeD">
+                <div class="service-card__left">
+                  <div class="service-card__info">
+                    <h3 class="service-card__title">3D Design</h3>
+                    <p class="service-card__intro">We create 3D visuals that help explain your product.</p>
+                    <ul class="service-card__skills">
+                      <li class="skill-item active"><span>Assets Modeling</span><div class="skill-item__text">Custom 3D elements.</div></li>
+                      <li class="skill-item"><span>Product Visualization</span><div class="skill-item__text">3D visuals for marketing.</div></li>
+                      <li class="skill-item"><span>3D Characters</span><div class="skill-item__text">Characters with personality.</div></li>
+                      <li class="skill-item"><span>Prototyping</span><div class="skill-item__text">3D concepts to test ideas.</div></li>
+                      <li class="skill-item"><span>3D for Web</span><div class="skill-item__text">Lightweight 3D for web.</div></li>
+                    </ul>
+                  </div>
+                  <div class="inner-slider-controls">
+                    <div class="project-meta">
+                      <span class="meta-label">Project</span>
+                      <h4 class="meta-title" data-project-title>Loading...</h4>
+                      <div class="meta-tags" data-project-tags></div>
+                    </div>
+                    <div class="meta-nav">
+                      <button class="nav-btn prev"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                      <button class="nav-btn next"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    </div>
+                  </div>
+                </div>
+                <div class="service-card__right">
+                  <img src="assets/renders/Render_1.png" alt="3D Design" class="render-img" loading="lazy">
+                </div>
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="service-card" data-cat="motion">
+                <div class="service-card__left">
+                  <div class="service-card__info">
+                    <h3 class="service-card__title">Motion Design</h3>
+                    <p class="service-card__intro">We use motion to guide users and explain interactions.</p>
+                    <ul class="service-card__skills">
+                      <li class="skill-item active"><span>Promo Videos</span><div class="skill-item__text">Short-form product highlights.</div></li>
+                      <li class="skill-item"><span>Web Animations</span><div class="skill-item__text">Subtle motion in interfaces.</div></li>
+                      <li class="skill-item"><span>Explainer Videos</span><div class="skill-item__text">Step-by-step visuals.</div></li>
+                      <li class="skill-item"><span>Content for Socials</span><div class="skill-item__text">Adaptable motion content.</div></li>
+                      <li class="skill-item"><span>Video Editing</span><div class="skill-item__text">Clean, structured editing.</div></li>
+                    </ul>
+                  </div>
+                  <div class="inner-slider-controls">
+                    <div class="project-meta">
+                      <h4 class="meta-title" data-project-title>Loading...</h4>
+                      <div class="meta-tags" data-project-tags></div>
+                    </div>
+                    <div class="meta-nav">
+                      <button class="nav-btn prev"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                      <button class="nav-btn next"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    </div>
+                  </div>
+                </div>
+                <div class="service-card__right">
+                  <img src="assets/renders/Render_4.png" alt="Motion Design" class="render-img" loading="lazy">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="container services-main-nav">
+          <div class="main-nav__wrapper">
+            <button class="main-nav-btn swiper-prev" type="button"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button class="main-nav-btn swiper-next" type="button"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <div class="main-nav__line"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="collaboration" class="collaboration">
+        <div class="container services-header-grid">
+          <div class="services-asset-block assets-left">
+            <img src="./assets/Num_2_left.png" alt="Collaboration shape" class="services-bg-img" loading="lazy">
+          </div>
+          <div class="services-asset-block assets-right">
+            <img src="./assets/Num_2_right.png" alt="Working formats" class="services-bg-img" loading="lazy">
+          </div>
+        </div>
+        <div><h3 class="collaboration__main-title">We adapt to your product, not the other way around</h3></div>
+        <div class="container collaboration__content">
+          <div class="collaboration__grid">
+            <div class="collab-card"><div class="collab-card__visual"><img src="assets/collaboration/Scheme_1.png" alt="Ongoing Support" loading="lazy"></div></div>
+            <div class="collab-card"><div class="collab-card__visual"><img src="assets/collaboration/Scheme_2.png" alt="Project Work" loading="lazy"></div></div>
+            <div class="collab-card"><div class="collab-card__visual"><img src="assets/collaboration/Scheme_3.png" alt="Embedded Team" loading="lazy"></div></div>
+          </div>
+          <div class="collaboration__footer">
+            <button class="collab-hint-btn" data-action="toggle-form">Not sure what fits? We'll figure it out together ›</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="portfolio" class="portfolio">
+        <div class="container services-header-grid">
+          <div class="services-asset-block assets-left">
+            <img src="./assets/Num_3_left.png" alt="Portfolio shape" class="services-bg-img" loading="lazy">
+          </div>
+          <div class="services-asset-block assets-right">
+            <img src="./assets/Num_3_right.png" alt="Case study" class="services-bg-img" loading="lazy">
+            <div class="portfolio-nav">
+              <button class="main-nav-btn portfolio-prev" type="button"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <button class="main-nav-btn portfolio-next" type="button"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
+          </div>
+        </div>
+        <div class="swiper portfolio-slider">
+          <div class="swiper-wrapper" id="portfolio-list"></div>
+        </div>
+        <div class="portfolio-footer">
+          <div class="container footer-socials">
+            <span class="keep-up">Keep up with us ›</span>
+            <div class="social-icons">
+              <a href="#"><img src="./assets/Linkedin.png" alt="Linkedin" loading="lazy"></a>
+              <a href="#"><img src="./assets/Instagram.svg" alt="Instagram" loading="lazy"></a>
+              <a href="#"><img src="./assets/Behance.svg" alt="Behance" loading="lazy"></a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="how-work" id="process">
+        <div class="container services-header-grid">
+          <div class="services-asset-block assets-left">
+            <img src="assets/Num_4_left.png" alt="Process shape" class="services-bg-img" loading="lazy">
+          </div>
+          <div class="services-asset-block assets-right">
+            <img src="assets/Num_4_right.png" alt="Process section" class="services-bg-img" loading="lazy">
+          </div>
+        </div>
+        <div class="container">
+          <div class="process-grid">
+            <div class="process-item">
+              <div class="process-img"><img src="assets/how_we_work_1.png" alt="Clarity" loading="lazy"></div>
+              <h3>START WITH CLARITY</h3>
+              <p>We take time to understand the product, context, and constraints.</p>
+            </div>
+            <div class="process-item">
+              <div class="process-img"><img src="assets/how_we_work_2.png" alt="Product-first" loading="lazy"></div>
+              <h3>PRODUCT-FIRST</h3>
+              <p>We design with the product in mind — not just the visuals.</p>
+            </div>
+            <div class="process-item">
+              <div class="process-img"><img src="assets/how_we_work_3.png" alt="Iterations" loading="lazy"></div>
+              <h3>FAST ITERATIONS</h3>
+              <p>Instead of long cycles, we move in smaller steps.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="testimonials" id="reviews">
+        <div class="container services-header-grid">
+          <div class="services-asset-block assets-left">
+            <img src="assets/Num_5_left.png" alt="Reviews shape" class="services-bg-img" loading="lazy">
+          </div>
+          <div class="services-asset-block assets-right">
+            <img src="assets/Num_5_right.png" alt="Reviews section" class="services-bg-img" loading="lazy">
+            <div class="portfolio-nav reviews-nav">
+              <button class="main-nav-btn reviews-prev" type="button"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <button class="main-nav-btn reviews-next" type="button"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
+          </div>
+        </div>
+        <div class="reviews-slider-container">
+          <div class="blue-glow"></div>
+          <div class="swiper reviews-swiper">
+            <div class="swiper-wrapper" id="reviews-list"></div>
+          </div>
+        </div>
+        <div class="logos-bar">
+          <img src="assets/logos.png" alt="Partners Logos" class="logos-img" loading="lazy">
+        </div>
+      </section>
+
+      <section class="engagement-models" id="engagement">
+        <div class="container services-header-grid">
+          <div class="services-asset-block assets-left">
+            <img src="assets/Num_6_left.png" alt="Engagement shape" class="services-bg-img" loading="lazy">
+          </div>
+          <div class="services-asset-block assets-right">
+            <img src="assets/Num_6_right.png" alt="Engagement section" class="services-bg-img" loading="lazy">
+          </div>
+        </div>
+        <div class="engagement-models__intro">Pick <strong>how we integrate</strong> with your team - from quick, one-off support to fully embedded weekly production.</div>
+        <div class="engagement-models__cards">
+          <a class="engagement-card" href="#contacts"><img src="assets/workday.png" alt="Workday" loading="lazy"></a>
+          <a class="engagement-card" href="#contacts"><img src="assets/week.png" alt="Weekly" loading="lazy"></a>
+        </div>
+        <div class="engagement-models__footer">
+          <div class="engagement-models__footer-text">
+            <p>Both models are flexible and can be adjusted based on scope.</p>
+            <p><strong>Need something custom? Let's talk.</strong></p>
+          </div>
+          <img src="assets/target.png" alt="Target" class="engagement-models__target" loading="lazy">
+        </div>
+      </section>
+
+      <section class="contacts-final" id="contact-final">
+        <div class="container contacts-final__inner">
+          <div class="contacts-final__left"><h2>Let's create something<br>great together</h2></div>
+          <div class="contacts-final__right">
+            <p class="contacts-final__lead">Tell us what you're working on.<br>We'll take it from there.</p>
+            <div class="contacts-final__links">
+              <a href="mailto:hello@onemotion.studio" class="contacts-final__contact"><img src="assets/email.svg" alt="Email" aria-hidden="true" loading="lazy"><span><strong>EMAIL</strong>hello@onemotion.studio</span></a>
+              <a href="https://wa.me/48790272344" target="_blank" class="contacts-final__contact"><img src="assets/wa.svg" alt="WhatsApp" aria-hidden="true" loading="lazy"><span><strong>WHATSAPP</strong>Quick response</span></a>
+            </div>
+            <button class="cta" type="button" data-action="toggle-form"><span class="cta__text">Let's connect</span></button>
+          </div>
+        </div>
+        <div class="contacts-final__letters"><img src="assets/lets-connect.png" alt="Let's connect" loading="lazy"></div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer__inner"><span>© 2026 One Motion Studio</span><a href="/privacy.html">Privacy Policy</a></div>
+    </footer>
+  </div>
+
+  <script src="./script.js"></script>
+</body>
+</html>

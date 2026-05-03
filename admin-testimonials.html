@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Testimonials Admin</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; padding: 40px; background: #f0f2f5; }
+        .admin-wrap { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .form-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; }
+        textarea, input { padding: 12px; border: 1px solid #ddd; border-radius: 8px; }
+        .btn { padding: 15px; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; width: 100%; margin-top: 10px; }
+        .btn-add { background: #2F5BFF; color: white; }
+        .btn-save { background: #111; color: white; }
+    </style>
+</head>
+<body>
+<div class="admin-wrap">
+    <h2>Add New Testimonial</h2>
+    <div class="form-group">
+        <label>Отзыв</label>
+        <textarea id="text" rows="4" placeholder="One Motion delivered a system..."></textarea>
+    </div>
+    <div class="form-group">
+        <label>Имя</label>
+        <input type="text" id="author" placeholder="Maria Chen">
+    </div>
+    <div class="form-group">
+        <label>Компания и должность</label>
+        <input type="text" id="company" placeholder="CPO, Clarifi">
+    </div>
+    <button class="btn btn-add" onclick="addReview()">Add to List</button>
+    <button class="btn btn-save" onclick="downloadJSON()">Download testimonials.json</button>
+    <div id="status" style="margin-top: 20px; font-size: 14px; color: #666;"></div>
+</div>
+
+<script>
+    let reviews = [];
+    function addReview() {
+        const item = {
+            text: document.getElementById('text').value,
+            author: document.getElementById('author').value,
+            company: document.getElementById('company').value
+        };
+        reviews.push(item);
+        document.getElementById('status').innerText = `Добавлено отзывов: ${reviews.length}`;
+        document.querySelectorAll('input, textarea').forEach(el => el.value = '');
+    }
+    function downloadJSON() {
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(reviews, null, 2));
+        const dlAnchor = document.createElement('a');
+        dlAnchor.setAttribute("href", dataStr);
+        dlAnchor.setAttribute("download", "testimonials.json");
+        dlAnchor.click();
+    }
+</script>
+</body>
+</html>
