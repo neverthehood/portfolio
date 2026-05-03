@@ -323,6 +323,24 @@ color:#fff !important;
   pointer-events: none;
   z-index: -1;
   overflow: hidden;
+  background: #fff;
+}
+
+.bg__grid {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(to right, rgba(0,0,0,0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0,0,0,0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.bg__noise {
+  position: absolute;
+  inset: 0;
+  background-image: url('assets/grain.png');
+  opacity: 0.4;
+  pointer-events: none;
 }
 
 
