@@ -622,7 +622,7 @@ a:-webkit-any-link {
     left: 0;
     width: 100%;
     height: 100vh;
-    background: #f4f7fa; /* Светло-голубой фон как на макете */
+    background: #ffffff; /* Белый фон */
     flex-direction: column;
     justify-content: center;
     gap: 40px;
@@ -631,14 +631,19 @@ a:-webkit-any-link {
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 1000;
     margin: 0;
-    display: none;
+    display: flex !important; /* Принудительно flex для корректного transform */
     visibility: hidden;
   }
 
   .site-nav--active {
     transform: translateY(0);
-    display: flex !important;
     visibility: visible !important;
+  }
+
+  body:has(.site-nav--active) .topbar {
+    background: #ffffff; /* Белый фон шапки при открытом меню */
+    top: 0;
+    padding-top: 20px;
   }
 
   .site-nav__link {
