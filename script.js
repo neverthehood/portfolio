@@ -461,6 +461,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             1024: { 
                 spaceBetween: 30,
                 slidesOffsetAfter: 500 
+            },
+            2500: {
+                slidesPerView: 2, // Показываем 2 полных слайда на 4K
+                spaceBetween: 50,
+                slidesOffsetAfter: 100
             }
         }
     });
@@ -608,9 +613,11 @@ async function initPortfolio() {
             },
 
             breakpoints: {
-                320: { slidesOffsetAfter: 50 },
-                1920: { slidesOffsetAfter: 400 },
-                3840: { slidesOffsetAfter: 1200 }
+                320: { slidesPerView: 1.2, slidesOffsetAfter: 50 },
+                1024: { slidesPerView: 3, slidesOffsetAfter: 200 },
+                1920: { slidesPerView: 5, slidesOffsetAfter: 400 },
+                2500: { slidesPerView: 7, slidesOffsetAfter: 600 }, // Показываем 7 слайдов на 4K
+                3840: { slidesPerView: 8, slidesOffsetAfter: 1200 }
             },
 
             on: {

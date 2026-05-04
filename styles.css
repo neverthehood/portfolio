@@ -3643,12 +3643,78 @@ body.mode-form .brand__whatsapp {
     transform: none;
   }
 
-  .contact {
-    margin-top: 30px !important;
-    max-width: 100% !important;
-    padding: 0 20px 60px 20px !important; 
+  /* --- 4K & ULTRA WIDE OPTIMIZATION (min-width: 2500px) --- */
+@media (min-width: 2500px) {
+  :root {
+    --wrap: 2200px;
+    --headerW: 2300px;
+    --t1: 160px; /* Увеличиваем гигантские заголовки */
+    --t3: 120px;
   }
 
+  .container {
+    max-width: var(--wrap) !important;
+  }
+
+  /* Hero adaptation */
+  .hero__visual-main {
+    max-width: 1400px !important;
+  }
+
+  .hero__visual-loose {
+    max-width: 2400px !important;
+  }
+
+  .hero__title {
+    font-size: 140px !important;
+  }
+
+  /* Services & Portfolio */
+  .service-card {
+    min-height: 800px;
+  }
+
+  .service-card__title {
+    font-size: 84px !important;
+  }
+
+  .service-card__intro {
+    font-size: 28px !important;
+    max-width: 800px !important;
+  }
+
+  .skill-item span {
+    font-size: 32px !important;
+  }
+
+  .skill-item__text {
+    font-size: 20px !important;
+  }
+
+  /* Collaboration */
+  .collaboration__main-title {
+    font-size: 72px !important;
+  }
+
+  .collab-card__title {
+    font-size: 36px !important;
+  }
+
+  /* Engagement */
+  .engagement-models__intro {
+    font-size: 42px !important;
+    max-width: 1600px !important;
+  }
+
+  .contacts-final__left h2 {
+    font-size: 120px !important;
+  }
+
+  .contacts-final__lead {
+    font-size: 54px !important;
+    max-width: 700px !important;
+  }
+}
   .contact__grid {
     grid-template-columns: 1fr !important; 
     gap: 25px !important;
