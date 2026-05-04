@@ -592,7 +592,8 @@ async function initPortfolio() {
         `).join('');
 
         new Swiper('.portfolio-slider', {
-            slidesPerView: 5,
+            slidesPerView: 'auto', // Изменяем на auto, так как ширина задана в CSS
+            autoHeight: false,
             loop: true,
             spaceBetween: 30,
             centeredSlides: false,
@@ -616,8 +617,8 @@ async function initPortfolio() {
                 320: { slidesPerView: 1.2, slidesOffsetAfter: 50 },
                 1024: { slidesPerView: 3, slidesOffsetAfter: 200 },
                 1920: { slidesPerView: 5, slidesOffsetAfter: 400 },
-                2500: { slidesPerView: 7, slidesOffsetAfter: 600 }, // Показываем 7 слайдов на 4K
-                3840: { slidesPerView: 8, slidesOffsetAfter: 1200 }
+                2500: { slidesPerView: 5, slidesOffsetAfter: 200 }, // Уменьшили количество и отступ для стабильности на 4K
+                3840: { slidesPerView: 6, slidesOffsetAfter: 400 }
             },
 
             on: {
@@ -817,15 +818,14 @@ async function initTestimonials() {
     }
 
     // Инициализируем слайдер после вставки HTML
-    new Swiper('.reviews-swiper', {
+    const swiperReviews = new Swiper('.reviews-swiper', {
         slidesPerView: 1,
-        slidesPerGroup: 1,
+        spaceBetween: 30,
         loop: true,
         speed: 800,
         autoplay: {
-            delay: 2800,
+            delay: 5000,
             disableOnInteraction: false,
-            pauseOnMouseEnter: true
         },
         navigation: {
             nextEl: '.reviews-next',
