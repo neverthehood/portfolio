@@ -574,6 +574,11 @@ a:-webkit-any-link {
   transition: 0.3s ease;
 }
 
+body.mode-form .menu-toggle span {
+  background: #fff;
+  transition: 0.3s ease;
+}
+
   .menu-toggle.is-active span {
   background: #111;
   width: 28px;
@@ -3567,8 +3572,8 @@ white-space:normal;
   body.mode-form .form {
     width: 100% !important;
     min-width: 100% !important;
-    margin-top: 20px !important;
-    padding: 0 20px !important;
+    margin-top: 120px !important;
+    padding: 0px !important;
     opacity: 1;
     transform: none;
   }
@@ -3576,7 +3581,7 @@ white-space:normal;
   .contact {
     margin-top: 30px !important;
     max-width: 100% !important;
-    padding: 0 0 60px 0 !important; 
+    padding: 0 20px 60px 20px !important; 
   }
 
   .contact__grid {
@@ -3610,7 +3615,7 @@ white-space:normal;
 }
 
   .wrap {
-    width: calc(100% - 56px);
+    width: 100%;
     margin: 0 auto;
 }
 
@@ -4378,9 +4383,9 @@ margin-top:40px;
       width: 100% !important;
       min-width: 0 !important;
       max-width: 100% !important;
-      margin: 0 auto !important;
-      padding-left: 24px !important;
-      padding-right: 24px !important;
+      margin-top: 120px !important;
+      padding-left: 0px !important;
+      padding-right: 0px !important;
     }
 
     .contact {
