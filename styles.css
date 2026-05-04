@@ -166,6 +166,19 @@
   margin-bottom: -118px;
 }
 
+body.mode-form {
+  background: var(--blue);
+  color: #fff;
+}
+
+body.mode-form .bg {
+  display: none;
+}
+
+body.mode-form .topbar__inner {
+  background: transparent;
+}
+
 body.mode-form #services,
 body.mode-form #collaboration,
 body.mode-form #portfolio,
