@@ -177,6 +177,7 @@ body.mode-form .bg {
 
 body.mode-form .topbar__inner {
   background: transparent;
+  width: min(2678px, calc(100% - clamp(30px, 21.4vw, 480px))); /* Возвращаем дефолтную ширину */
 }
 
 body.mode-form #services,
