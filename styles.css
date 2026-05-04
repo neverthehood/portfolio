@@ -2025,7 +2025,9 @@ border-radius: 10px;
 
 
 .portfolio-card {
-    border: none;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none;
     border-radius: 14px;
     display: flex;
     flex-direction: column;
@@ -2048,6 +2050,8 @@ border-radius: 10px;
     height: 100%; /* Заполняем всю фиксированную высоту карточки */
     border-radius: 12px;
     overflow: hidden;
+    border: none !important;
+    outline: none !important;
 }
 
 .portfolio-card__img-box img {
@@ -2110,11 +2114,9 @@ border-radius: 10px;
     line-height: 1.5;
     margin: 0;
     color: var(--text);
-    /* Ограничиваем количество текста в оверлее */
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    /* Убираем ограничение строк, показываем весь текст */
+    display: block;
+    overflow: visible;
     position: relative;
 }
 
@@ -4039,9 +4041,11 @@ body.mode-form .chip--category:hover {
     font-size: 18px !important;
   }
 
-  .p-desc {
+.p-desc {
     font-size: 14px !important;
-    -webkit-line-clamp: 2 !important;
+    display: block !important;
+    -webkit-line-clamp: unset !important;
+    overflow: visible !important;
   }
 }
 

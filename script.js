@@ -575,13 +575,10 @@ async function initPortfolio() {
                         <span class="p-client">Client: ${item.client}</span>
                                             
                         <div class="p-desc-wrap">
-                            <p class="p-desc">
-                                <span class="p-desc-text">${item.desc || ''}</span>
-                                ${item.desc && item.desc.length > 120 ? `
-                                    <button class="p-inline-btn" onclick="event.stopPropagation(); toggleDesc(this)">more</button>
-                                ` : ''}
-                            </p>
-                        </div>
+                        <p class="p-desc">
+                            <span class="p-desc-text">${item.desc || ''}</span>
+                        </p>
+                    </div>
                         
                         <div class="p-tags">
                             ${item.tags ? item.tags.map(t => `<span>${t}</span>`).join('') : ''}
@@ -592,21 +589,22 @@ async function initPortfolio() {
         `).join('');
 
         new Swiper('.portfolio-slider', {
-            slidesPerView: 'auto', // Изменяем на auto, так как ширина задана в CSS
+            slidesPerView: 'auto', 
+            centeredSlides: true, // Центрируем активный слайд для симметрии
             autoHeight: false,
             loop: true,
+            loopedSlides: 5, // Увеличиваем количество дублируемых слайдов для плавности loop
             spaceBetween: 30,
-            centeredSlides: false,
-            slidesOffsetAfter: 100,
-
-            // 1. УВЕЛИЧИВАЕМ СКОРОСТЬ ПЕРЕХОДА (в мс)
-            // 800-1000мс сделают движение очень плавным и "дорогим"
-            speed: 900, 
-
-            // 2. НАСТРОЙКИ ИНЕРЦИИ (опционально, для плавного доката)
-            touchReleaseOnEdges: true,
-            resistance: false,
-            resistanceRatio: 0.05,
+            grabCursor: true,
+            watchSlidesProgress: true,
+            
+            speed: 1200, // Еще более плавное листание
+            
+            mousewheel: {
+                forceToAxis: true,
+                sensitivity: 1,
+                releaseOnEdges: true,
+            },
 
             navigation: {
                 nextEl: '.portfolio-next',
@@ -614,11 +612,9 @@ async function initPortfolio() {
             },
 
             breakpoints: {
-                320: { slidesPerView: 1.2, slidesOffsetAfter: 50 },
-                1024: { slidesPerView: 3, slidesOffsetAfter: 200 },
-                1920: { slidesPerView: 5, slidesOffsetAfter: 400 },
-                2500: { slidesPerView: 5, slidesOffsetAfter: 200 }, // Уменьшили количество и отступ для стабильности на 4K
-                3840: { slidesPerView: 6, slidesOffsetAfter: 400 }
+                320: { slidesOffsetBefore: 0, slidesOffsetAfter: 0 },
+                1024: { slidesOffsetBefore: 0, slidesOffsetAfter: 0 },
+                1920: { slidesOffsetBefore: 0, slidesOffsetAfter: 0 }
             },
 
             on: {
