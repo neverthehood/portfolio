@@ -525,16 +525,26 @@ async function initPortfolio() {
 
         const initialIndex = Math.min(2, Math.max(0, n - 1));
 
-        new Swiper('.portfolio-slider', {
+        const sliderEl = document.querySelector('.portfolio-slider');
+        if (!sliderEl) return;
+
+        if (sliderEl.swiper) {
+            sliderEl.swiper.destroy(true, true);
+        }
+
+        new Swiper(sliderEl, {
             slidesPerView: 'auto', 
             centeredSlides: false,
             roundLengths: true,
             autoHeight: false,
             loop: true,
-            loopAdditionalSlides: Math.max(3, n),
+            watchOverflow: false,
+            loopedSlides: n,
+            loopAdditionalSlides: Math.max(6, n),
+            loopPreventsSliding: false,
             spaceBetween: 30,
             slidesOffsetBefore: 220,
-            slidesOffsetAfter: 0,
+            slidesOffsetAfter: 220,
             grabCursor: true,
             watchSlidesProgress: true,
             slidesPerGroup: 1,
@@ -544,6 +554,9 @@ async function initPortfolio() {
             initialSlide: initialIndex,
             
             speed: 650,
+            preventInteractionOnTransition: true,
+            touchStartPreventDefault: false,
+            threshold: 6,
 
             navigation: {
                 nextEl: '.portfolio-next',
@@ -552,9 +565,16 @@ async function initPortfolio() {
 
             on: {
                 init: function() {
-                    const el = document.querySelector('.portfolio-slider');
-                    if (!el) return;
-                    requestAnimationFrame(() => el.classList.add('is-ready'));
+                    requestAnimationFrame(() => sliderEl.classList.add('is-ready'));
+                    this.update();
+                    this.loopFix();
+                },
+                slideChangeTransitionStart: function() {
+                    this.loopFix();
+                },
+                slideChangeTransitionEnd: function() {
+                    this.update();
+                    this.loopFix();
                 }
             }
         });
