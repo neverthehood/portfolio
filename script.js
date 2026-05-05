@@ -482,72 +482,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 async function initPortfolio() {
     const portfolioUrl = './assets/data/portfolio.json';
     const list = document.getElementById('portfolio-list');
-    const fallbackPortfolio = [
-        {
-            id: 'toymaker',
-            client: 'ToyMak3r',
-            title: 'Play or die',
-            desc: '3D gaming devices created for this project showcase controllers and headsets with a focus on form, materials, and moody lighting. Refined geometry, textures, and reflections make the assets ready for promo visuals and motion.',
-            wideImg: 'Case_1_wide.png',
-            storyImg: 'Case_1_story.png',
-            tags: ['3D Visualization', 'Branding']
-        },
-        {
-            id: 'bike-on-test',
-            client: 'BikeOn',
-            title: 'BikeON - Smart ride',
-            desc: 'We build unique brand identities that resonate with audiences and set businesses apart.',
-            wideImg: 'Case_3_wide.png',
-            storyImg: 'Case_3_story.png',
-            tags: ['Branding', 'Marketing Assets', 'Deck design']
-        },
-        {
-            id: 'skinz',
-            client: 'Top Tier Auth',
-            title: 'SkinZ - Visual system',
-            desc: 'We build unique brand identities that resonate with audiences and set businesses apart.',
-            wideImg: 'Case_2_wide.png',
-            storyImg: 'Case_2_story.png',
-            tags: ['Branding', 'Banners']
-        },
-        {
-            id: 'mg',
-            client: 'Mushroom Genetics',
-            title: 'New wave of superfood',
-            desc: 'Defined scope with clear outcomes. Ideal for launches, redesigns, or focused improvements.',
-            wideImg: 'Case_4_wide.png',
-            storyImg: 'Case_4_story.png',
-            tags: ['UI', 'Branding']
-        },
-        {
-            id: 'mates',
-            client: 'Mates Bar',
-            title: 'Mates Bar Cocktails',
-            desc: 'A small, senior team working closely with you. Aligned with your product and processes.',
-            wideImg: 'Case_5_wide.png',
-            storyImg: 'Case_5_story.png',
-            tags: ['Packaging', 'Branding']
-        },
-        {
-            id: 'bike-on',
-            client: 'BikeOn',
-            title: 'E-commerce Experience for a Smart Bike Brand',
-            desc: 'BikeOn is a smart mobility brand combining performance engineering with connected technology. We designed and developed an image-driven product website focused on clearly explaining the device, bicycles and their ecosystem. The goal was to translate complex technical features into a bold, structured and engaging digital experience. Scope included UX strategy, UI design, custom 3D models of the device and bicycles, and full web development. The result is a scalable digital platform built to communicate innovation, clarity and brand confidence.',
-            wideImg: 'Case_6_wide.png',
-            storyImg: 'Case_6_story.png',
-            tags: ['UX', 'UI', '3D', 'Dev'],
-            gallery: [
-                'Slice 2.png',
-                'Slice 3.png',
-                'Slice 4.png',
-                'Slice 5.png',
-                'Slice 6.png',
-                'Slice 7.png',
-                'Slice 8.png',
-                'Slice 9.png'
-            ]
-        }
-    ];
 
     // Проверка наличия контейнера для карточек[cite: 2]
     if (!list) {
@@ -562,13 +496,14 @@ async function initPortfolio() {
             return;
         }
 
+        const n = pData.length;
+
         list.innerHTML = pData.map(item => `
             <div class="swiper-slide">
                 <div class="portfolio-card" onclick="openCase('${item.id}')" style="cursor: pointer;">
                     <div class="portfolio-card__img-box">
-                        <img src="assets/portfolio/${item.storyImg}" 
-                             data-wide="assets/portfolio/${item.wideImg}" 
-                             alt="${item.title}" class="p-main-img">
+                        <img src="assets/portfolio/${item.storyImg}" alt="" aria-hidden="true" class="p-img p-img--narrow" loading="lazy">
+                        <img src="assets/portfolio/${item.wideImg}" alt="${item.title}" class="p-img p-img--wide" loading="lazy">
                     </div>
                     <div class="portfolio-card__meta">
                         <h3 class="p-title">${item.title}</h3>
@@ -588,49 +523,38 @@ async function initPortfolio() {
             </div>
         `).join('');
 
+        const initialIndex = Math.min(2, Math.max(0, n - 1));
+
         new Swiper('.portfolio-slider', {
             slidesPerView: 'auto', 
-            centeredSlides: true, // Центрируем активный слайд для симметрии
+            centeredSlides: false,
+            roundLengths: true,
             autoHeight: false,
             loop: true,
-            loopedSlides: 5, // Увеличиваем количество дублируемых слайдов для плавности loop
+            loopAdditionalSlides: Math.max(3, n),
             spaceBetween: 30,
+            slidesOffsetBefore: 220,
+            slidesOffsetAfter: 0,
             grabCursor: true,
             watchSlidesProgress: true,
+            slidesPerGroup: 1,
+            slideToClickedSlide: true,
+            observer: true,
+            observeParents: true,
+            initialSlide: initialIndex,
             
-            speed: 1200, // Еще более плавное листание
-            
-            mousewheel: {
-                forceToAxis: true,
-                sensitivity: 1,
-                releaseOnEdges: true,
-            },
+            speed: 650,
 
             navigation: {
                 nextEl: '.portfolio-next',
                 prevEl: '.portfolio-prev',
             },
 
-            breakpoints: {
-                320: { slidesOffsetBefore: 0, slidesOffsetAfter: 0 },
-                1024: { slidesOffsetBefore: 0, slidesOffsetAfter: 0 },
-                1920: { slidesOffsetBefore: 0, slidesOffsetAfter: 0 }
-            },
-
             on: {
                 init: function() {
-                    const firstImg = document.querySelector('.p-main-img');
-                    if (firstImg && firstImg.dataset.wide) {
-                        firstImg.src = firstImg.dataset.wide;
-                    }
-                },
-                slideChangeTransitionStart: function() {
-                    const slides = document.querySelectorAll('.p-main-img');
-                    slides.forEach((img, idx) => {
-                        if (idx === this.activeIndex) {
-                            img.src = img.dataset.wide;
-                        }
-                    });
+                    const el = document.querySelector('.portfolio-slider');
+                    if (!el) return;
+                    requestAnimationFrame(() => el.classList.add('is-ready'));
                 }
             }
         });
@@ -639,11 +563,19 @@ async function initPortfolio() {
     try {
         // Сначала пробуем получить данные из LocalStorage (для работы с админкой)
         const local = localStorage.getItem('portfolio_db');
+        let localData;
         if (local) {
-            pData = JSON.parse(local);
+            try {
+                localData = JSON.parse(local);
+            } catch (e) {
+                localData = null;
+            }
+        }
+
+        if (Array.isArray(localData) && localData.length > 0) {
+            pData = localData;
         } else {
-            // Если в LocalStorage пусто, загружаем из файла
-            const res = await fetch(portfolioUrl);
+            const res = await fetch(portfolioUrl, { cache: 'no-store' });
             if (!res.ok) throw new Error("Не удалось загрузить portfolio.json");
             pData = await res.json();
         }
@@ -651,8 +583,8 @@ async function initPortfolio() {
         renderPortfolioSlider();
 
     } catch (e) {
-        console.warn("Ошибка загрузки portfolio.json, использую fallback:", e.message);
-        pData = fallbackPortfolio;
+        console.warn("Ошибка загрузки portfolio.json:", e.message);
+        pData = [];
         renderPortfolioSlider();
     }
 }
