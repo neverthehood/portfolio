@@ -2040,12 +2040,6 @@ border-radius: 10px;
     transition: none !important;
 }
 
-.portfolio-slider.is-jump .swiper-wrapper,
-.portfolio-slider.is-jump .swiper-slide,
-.portfolio-slider.is-jump .portfolio-card {
-    transition: none !important;
-}
-
 
 .portfolio-card:hover {
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);

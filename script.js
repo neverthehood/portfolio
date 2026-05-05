@@ -533,30 +533,20 @@ async function initPortfolio() {
         }
 
         new Swiper(sliderEl, {
-            slidesPerView: 'auto', 
+            slidesPerView: 'auto',
             centeredSlides: false,
             roundLengths: true,
             autoHeight: false,
             loop: true,
-            watchOverflow: false,
             loopedSlides: n,
-            loopAdditionalSlides: Math.max(6, n),
-            loopPreventsSliding: false,
+            loopAdditionalSlides: Math.max(3, n),
             spaceBetween: 30,
             slidesOffsetBefore: 220,
-            slidesOffsetAfter: 220,
             grabCursor: true,
-            watchSlidesProgress: true,
-            slidesPerGroup: 1,
             slideToClickedSlide: true,
-            observer: true,
-            observeParents: true,
             initialSlide: initialIndex,
-            
+
             speed: 650,
-            preventInteractionOnTransition: true,
-            touchStartPreventDefault: false,
-            threshold: 6,
 
             navigation: {
                 nextEl: '.portfolio-next',
@@ -566,15 +556,6 @@ async function initPortfolio() {
             on: {
                 init: function() {
                     requestAnimationFrame(() => sliderEl.classList.add('is-ready'));
-                    this.update();
-                    this.loopFix();
-                },
-                slideChangeTransitionStart: function() {
-                    this.loopFix();
-                },
-                slideChangeTransitionEnd: function() {
-                    this.update();
-                    this.loopFix();
                 }
             }
         });
