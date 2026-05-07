@@ -605,6 +605,7 @@ body.mode-form .menu-toggle span {
   .topbar {
     top: 20px;
     transition: background 0.3s ease;
+    z-index: 6000;
   }
 
   body:has(.site-nav--active) .topbar {
@@ -626,7 +627,7 @@ body.mode-form .menu-toggle span {
     display: flex;
     order: 2;
     position: relative;
-    z-index: 1100;
+    z-index: 6100;
   }
 
   .site-nav {
@@ -642,7 +643,7 @@ body.mode-form .menu-toggle span {
     padding: 80px 24px;
     transform: translateY(-100%);
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 1000;
+    z-index: 6050;
     margin: 0;
     display: flex !important; /* Принудительно flex для корректного transform */
     visibility: hidden;
@@ -680,7 +681,11 @@ body.mode-form .menu-toggle span {
 
   /* Кнопка внутри мобильного меню */
   .site-nav .cta {
-    display: none; /* Скрываем кнопку в меню, так как её нет на новом макете */
+    display: inline-flex;
+  }
+
+  .cta--header {
+    display: none;
   }
 
   /* HERO MOBILE */
@@ -979,8 +984,10 @@ text-decoration:none;
   gap: 14px;
 }
 
-body.mode-form .site-nav {
-  visibility: hidden !important;
+@media (min-width: 901px) {
+  body.mode-form .site-nav {
+    visibility: hidden;
+  }
 }
 
 body.mode-form .brand__whatsapp {
