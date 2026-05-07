@@ -1981,14 +1981,27 @@ border-radius: 10px;
 
 
 .portfolio-slider .swiper-slide {
-    width: 412px !important;
+    width: 412px;
     flex-shrink: 0;
-    height: 600px !important; /* Фиксированная высота для всех слайдов */
+    height: 600px;
     display: flex;
     flex-direction: column;
-    overflow: visible;
-    transition: width 650ms cubic-bezier(0.25, 1, 0.5, 1) !important;
+    overflow: hidden;
+    transition: width 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: width;
 }
+
+.p-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.9s ease;
+}
+
+.p-img--wide { opacity: 0; }
+.p-img--narrow { opacity: 1; }
 
 .swiper-button-lock {
     display: flex !important;
@@ -1998,24 +2011,20 @@ border-radius: 10px;
 .portfolio-slider {
     width: 100%;
     height: 100%;
-    padding: 0 !important;
     overflow: visible !important;
 }
-
 
 .portfolio-slider .swiper-slide-active,
 .portfolio-slider .swiper-slide-duplicate-active {
     z-index: 3;
-    width: 850px !important;
+    width: 850px;
 }
 
 
 
 /* 1. Настройка высоты Swiper и слайдов */
 .portfolio-slider .swiper-wrapper {
-    display: flex; /* Обеспечивает одинаковую высоту всех слайдов в ряду */
-    align-items: center;
-    overflow: visible;
+    display: flex;
 }
 
 
@@ -2031,7 +2040,7 @@ border-radius: 10px;
     overflow: hidden;
     cursor: pointer;
     width: 100%;
-    transition: box-shadow 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
 }
 
@@ -2042,39 +2051,38 @@ border-radius: 10px;
 
 
 .portfolio-card:hover {
+    transform: translateY(-5px);
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
 .portfolio-card__img-box {
     width: 100%;
-    height: 100%; /* Заполняем всю фиксированную высоту карточки */
+    height: 100%;
     overflow: hidden;
     border: none;
     outline: none !important;
     position: relative;
     background: #E7EEF8;
+    border-radius: 12px;
+    isolation: isolate;
 }
 
-.p-img {
-    position: absolute;
-    inset: 0;
-    display: block;
+.portfolio-card__img-box img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    opacity: 1;
-    transition: opacity 650ms ease;
+    transition: opacity 0.9s ease, transform 0.5s ease, filter 0.5s ease;
 }
 
-.p-img--wide {
-    opacity: 0;
+.portfolio-slider.is-jump .swiper-slide,
+.portfolio-slider.is-jump .p-img,
+.portfolio-slider.is-jump .portfolio-card,
+.portfolio-slider.is-jump .portfolio-card__meta {
+    transition: none !important;
 }
 
 .portfolio-card:hover .portfolio-card__img-box img {
     transform: scale(1.05);
-    filter: brightness(0.75) saturate(1.05);
+    filter: blur(5px) brightness(0.7);
 }
 
 .portfolio-slider .swiper-slide-active .p-img--wide,
@@ -2401,7 +2409,7 @@ border-radius: 10px;
 }
 
 
-.swiper {
+.services-slider-wrap {
     margin-left: 100px !important;
     margin-right: auto;
     position: relative;
@@ -2412,7 +2420,7 @@ border-radius: 10px;
     display: block;
 }
 
-.swiper-slide {
+.services-slider-wrap .swiper-slide {
     flex-shrink: 0;
     width: 57% !important;
     height: 100%;
@@ -2438,7 +2446,7 @@ border-radius: 10px;
     .services-slider-wrap {
         padding-left: 20px; /* Отступ от края на мобилках */
     }
-    .swiper-slide {
+    .services-slider-wrap .swiper-slide {
         width: calc(100vw - 40px); /* Карточка почти на весь экран */
     }
     .service-card {

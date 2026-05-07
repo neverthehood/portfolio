@@ -496,9 +496,12 @@ async function initPortfolio() {
             return;
         }
 
+        const copies = 5;
+        const centerCopyIndex = 2;
         const n = pData.length;
+        const slidesData = Array.from({ length: n * copies }, (_, i) => pData[i % n]);
 
-        list.innerHTML = pData.map(item => `
+        list.innerHTML = slidesData.map(item => `
             <div class="swiper-slide">
                 <div class="portfolio-card" onclick="openCase('${item.id}')" style="cursor: pointer;">
                     <div class="portfolio-card__img-box">
@@ -508,13 +511,11 @@ async function initPortfolio() {
                     <div class="portfolio-card__meta">
                         <h3 class="p-title">${item.title}</h3>
                         <span class="p-client">Client: ${item.client}</span>
-                                            
                         <div class="p-desc-wrap">
-                        <p class="p-desc">
-                            <span class="p-desc-text">${item.desc || ''}</span>
-                        </p>
-                    </div>
-                        
+                            <p class="p-desc">
+                                <span class="p-desc-text">${item.desc || ''}</span>
+                            </p>
+                        </div>
                         <div class="p-tags">
                             ${item.tags ? item.tags.map(t => `<span>${t}</span>`).join('') : ''}
                         </div>
@@ -523,66 +524,72 @@ async function initPortfolio() {
             </div>
         `).join('');
 
-        const initialIndex = Math.min(2, Math.max(0, n - 1));
-
         const sliderEl = document.querySelector('.portfolio-slider');
         if (!sliderEl) return;
 
-        if (sliderEl.swiper) {
-            sliderEl.swiper.destroy(true, true);
-        }
+        if (sliderEl.swiper) sliderEl.swiper.destroy(true, true);
 
-        new Swiper(sliderEl, {
+        const initialRealIndex = n > 1 ? 1 : 0;
+        const initialSlide = n > 0 ? (centerCopyIndex * n) + initialRealIndex : 0;
+
+        const swiper = new Swiper(sliderEl, {
             slidesPerView: 'auto',
             centeredSlides: false,
-            roundLengths: true,
-            autoHeight: false,
-            loop: true,
-            loopedSlides: n,
-            loopAdditionalSlides: Math.max(3, n),
+            loop: false,
+            slidesPerGroup: 1,
             spaceBetween: 30,
-            slidesOffsetBefore: 220,
             grabCursor: true,
+            watchSlidesProgress: true,
             slideToClickedSlide: true,
-            initialSlide: initialIndex,
-
-            speed: 650,
+            initialSlide,
+            speed: 900,
 
             navigation: {
                 nextEl: '.portfolio-next',
                 prevEl: '.portfolio-prev',
             },
 
+            breakpoints: {
+                0: { slidesOffsetBefore: 30, slidesOffsetAfter: 60 },
+                1024: { slidesOffsetBefore: 30, slidesOffsetAfter: 60 }
+            },
+
             on: {
                 init: function() {
                     requestAnimationFrame(() => sliderEl.classList.add('is-ready'));
+                },
+                slideChangeTransitionEnd: function() {
+                    if (n <= 1) return;
+
+                    const activeIndex = this.activeIndex;
+                    const leftThreshold = n;
+                    const rightThreshold = (n * copies) - n;
+
+                    if (activeIndex >= leftThreshold && activeIndex < rightThreshold) return;
+
+                    const realIndex = ((activeIndex % n) + n) % n;
+                    const targetIndex = (centerCopyIndex * n) + realIndex;
+
+                    sliderEl.classList.add('is-jump');
+                    this.setTransition(0);
+                    this.slideTo(targetIndex, 0, false);
+                    this.updateSlidesClasses();
+                    this.updateProgress();
+                    this.setTransition(this.params.speed);
+
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => sliderEl.classList.remove('is-jump'));
+                    });
                 }
             }
         });
     }
 
     try {
-        // Сначала пробуем получить данные из LocalStorage (для работы с админкой)
-        const local = localStorage.getItem('portfolio_db');
-        let localData;
-        if (local) {
-            try {
-                localData = JSON.parse(local);
-            } catch (e) {
-                localData = null;
-            }
-        }
-
-        if (Array.isArray(localData) && localData.length > 0) {
-            pData = localData;
-        } else {
-            const res = await fetch(portfolioUrl, { cache: 'no-store' });
-            if (!res.ok) throw new Error("Не удалось загрузить portfolio.json");
-            pData = await res.json();
-        }
-
+        const res = await fetch(portfolioUrl, { cache: 'no-store' });
+        if (!res.ok) throw new Error("Не удалось загрузить portfolio.json");
+        pData = await res.json();
         renderPortfolioSlider();
-
     } catch (e) {
         console.warn("Ошибка загрузки portfolio.json:", e.message);
         pData = [];
@@ -591,82 +598,6 @@ async function initPortfolio() {
 }
 
 document.addEventListener('DOMContentLoaded', initPortfolio);
-
-
-function toggleDesc(btn) {
-    const desc = btn.closest('.p-desc');
-    
-    if (desc.classList.contains('expanded')) {
-        desc.classList.remove('expanded');
-        btn.textContent = 'more';
-    } else {
-        desc.classList.add('expanded');
-        btn.textContent = 'less';
-    }
-    
-    // Обновляем Swiper, так как высота карточки изменилась
-    const swiperEl = btn.closest('.swiper').swiper;
-    if (swiperEl) {
-        swiperEl.update();
-    }
-}
-
-
-// Функция открытия кейса
-function openCase(projectId) {
-    // Проверка: если pData пуста, пробуем восстановить её из localStorage
-    if (!pData || pData.length === 0) {
-        console.log("pData пуста, пытаемся восстановить из localStorage...");
-        const savedData = localStorage.getItem('portfolio_db');
-        if (savedData) {
-            pData = JSON.parse(savedData);
-        }
-    }
-
-    console.log("Пытаемся открыть проект с ID:", projectId);
-    console.log("Текущее содержимое pData:", pData);
-
-    // Поиск проекта по ID
-    const project = pData.find(p => p.id === projectId);
-    
-    if (!project) {
-        const availableIds = pData.map(p => p.id || 'no-id').join(', ');
-        console.error(`Проект не найден: ${projectId}. Доступные ID: ${availableIds}`);
-        return;
-    }
-
-    // Заполнение элементов модального окна данными
-    document.getElementById('case-title').textContent = project.title;
-    document.getElementById('case-client').textContent = `Client: ${project.client}`;
-    document.getElementById('case-desc').textContent = project.desc;
-    
-    const tagsEl = document.getElementById('case-tags');
-    if (tagsEl) {
-        tagsEl.innerHTML = project.tags.map(t => `<span>${t}</span>`).join('');
-    }
-
-    // Рендеринг "портянки" картинок
-    const stackEl = document.getElementById('case-images-stack');
-    if (stackEl && project.gallery) {
-        stackEl.innerHTML = project.gallery.map(img => `
-            <img src="assets/portfolio/${img}" alt="${project.title}">
-        `).join('');
-    }
-
-    // Показ модального окна
-    const viewer = document.getElementById('case-viewer');
-    if (viewer) {
-        viewer.classList.add('is-active');
-        document.body.style.overflow = 'hidden'; // Блокируем скролл сайта
-    }
-}
-
-function closeCase() {
-    document.getElementById('case-viewer').classList.remove('is-active');
-    document.body.style.overflow = '';
-}
-
-
 
 /**
  * Функция инициализации отзывов.
