@@ -446,7 +446,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         loop: false,
         grabCursor: true,
         slidesOffsetBefore: 0, 
-        slidesOffsetAfter: 500,
+        slidesOffsetAfter: 60,
 
         navigation: {
             nextEl: '.swiper-next',
@@ -455,8 +455,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         breakpoints: {
             320: { 
-                spaceBetween: 20,
-                slidesOffsetAfter: 40 
+                spaceBetween: 16,
+                slidesOffsetBefore: 20,
+                slidesOffsetAfter: 20
             },
             1024: { 
                 spaceBetween: 30,
