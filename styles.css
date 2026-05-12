@@ -2882,7 +2882,7 @@ border-radius: 10px;
 }
 
 .skill-item.active .skill-item__text {
-    max-height: 40px; /* Ограничение под 2 строки */
+    max-height: 55px; /* Ограничение под 2 строки */
 }
 
 /* Футер карточки */
