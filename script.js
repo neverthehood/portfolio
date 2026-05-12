@@ -381,11 +381,27 @@ async function initServices() {
         const mediaContainer = card.querySelector('.render-media-container');
         const titleEl = card.querySelector('[data-project-title]');
         const tagsEl = card.querySelector('[data-project-tags]');
-        const skillItems = card.querySelectorAll('.skill-item');
+        const skillItems = card.querySelectorAll('.skill-item'); // Список пунктов
         const nextBtn = card.querySelector('.next');
         const prevBtn = card.querySelector('.prev');
 
-        if (!mediaContainer) return; // Защита от старого HTML
+        if (!mediaContainer) return;
+
+        // ==========================================
+        // 1. ЛОГИКА АККОРДЕОНА (ДОБАВЛЕНО)
+        // ==========================================
+        skillItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                // Если кликнули по уже активному — ничего не делаем
+                if (item.classList.contains('active')) return;
+
+                // Убираем active у всех соседей в этой карточке
+                skillItems.forEach(si => si.classList.remove('active'));
+                
+                // Добавляем active текущему
+                item.classList.add('active');
+            });
+        });
 
         function updateInnerContent() {
             const categoryData = dataForSlider[cat];
@@ -393,7 +409,6 @@ async function initServices() {
 
             const data = categoryData[currentIndex];
             
-            // Анимация ухода
             const oldMedia = mediaContainer.querySelector('.render-img, .render-video');
             if (oldMedia) oldMedia.classList.add('is-switching');
 
