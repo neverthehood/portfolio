@@ -1,6 +1,2 @@
 {
-  "graphic": [{"img": "Render_3.png", "title": "Skinz Visual System", "tags": ["Branding", "UI"]}],
-  "web": [{"img": "Render_2.png", "title": "Roger United", "tags": ["Deck design", "Marketing Assets"]}],
-  "threeD": [{"img": "Render_1.png", "title": "Dog Paradise", "tags": ["3D Assets"]}],
-  "motion": [{"img": "Render_4.png", "title": "Mushroom Genetics", "tags": ["Branding", "Packaging"]}]
-}
+  "graphic":[{"title":"Mates Bar Cocktails","tags":["Branding","Packaging"],"img":"mates_bar2.png"},{"title":"Calming treats","tags":["Branding","Packaging"],"img":"calming-treats2.png"},{"title":"MVP Protein Coffee","tags":["Branding","Packaging"],"img":"mvp.png"},{"title":"Mr. & Mrs. Bourbon","tags":["Branding","Packaging"],"img":"bourbon2.png"}],"web":[{"title":"X-clusive website","tags":["Corporate websites"],"img":"x-clusive.jpg"},{"title":"One Motion Dashboard","tags":["Dashboards"],"img":"Dashboard.png"}],"threeD":[{"title":"Toymaker","tags":["Product Visualization","Prototyping"],"img":"toym.jpg"},{"title":"Helmet animation","tags":["Prototyping"],"img":"helmet2.mp4"},{"title":"Studio Auction Scan","tags":["Product Visualization"],"img":"helmet.mp4"}],"motion":[{"title":"NFC Bracelet Animation","tags":["Promo"],"img":"bracelet2.mp4"},{"title":"Breakaway Badge","tags":["Promo"],"img":"badge.mp4"},{"title":"Culture Collision Badge Animation","tags":["Promo"],"img":"culture.mp4"}]}
