@@ -355,128 +355,132 @@ const servicesContent = {
     motion: [{ img: 'Render_4.png', title: 'Mushroom Genetics', tags: ['Branding', 'Packaging'] }]
 };
 
-// Используем async, так как нам нужно дождаться загрузки JSON-файла
-document.addEventListener('DOMContentLoaded', async () => {
+async function initServices() {
     const rendersPath = 'assets/renders/';
-    const dataUrl = './assets/data/services.json'; // Путь к твоему новому файлу
+    const dataUrl = './assets/data/services.json';
     let dataForSlider;
 
-    // --- ЗАГРУЗКА ДАННЫХ ---
     try {
-        // Сначала проверяем localStorage (для работы админки в реальном времени)
         const localData = localStorage.getItem('onemotion_db');
-        
         if (localData) {
             dataForSlider = JSON.parse(localData);
         } else {
-            // Если в браузере пусто, идем за файлом на сервер (Cloudflare)
             const response = await fetch(dataUrl);
-            if (!response.ok) throw new Error('Файл не найден');
+            if (!response.ok) throw new Error('File not found');
             dataForSlider = await response.json();
         }
     } catch (err) {
-        console.warn("Данные из файла или локального хранилища не получены, используем стандарт:", err);
+        console.warn("Using fallback services data:", err);
         dataForSlider = servicesContent;
     }
 
-    // --- 1. Инициализация контента внутри карточек ---
     document.querySelectorAll('.service-card').forEach(card => {
         const cat = card.dataset.cat;
         let currentIndex = 0;
-
-        const nextBtn = card.querySelector('.next'); 
-        const prevBtn = card.querySelector('.prev'); 
-        const skillItems = card.querySelectorAll('.skill-item');
-        const imgEl = card.querySelector('.render-img');
+        
+        const mediaContainer = card.querySelector('.render-media-container');
         const titleEl = card.querySelector('[data-project-title]');
         const tagsEl = card.querySelector('[data-project-tags]');
+        const skillItems = card.querySelectorAll('.skill-item');
+        const nextBtn = card.querySelector('.next');
+        const prevBtn = card.querySelector('.prev');
+
+        if (!mediaContainer) return; // Защита от старого HTML
 
         function updateInnerContent() {
             const categoryData = dataForSlider[cat];
             if (!categoryData || categoryData.length === 0) return;
 
             const data = categoryData[currentIndex];
-            imgEl.style.opacity = 0;
             
-            setTimeout(() => {
-                const imgSrc = data.img.includes('assets') ? data.img : rendersPath + data.img;
-                imgEl.src = imgSrc;
+            // Анимация ухода
+            const oldMedia = mediaContainer.querySelector('.render-img, .render-video');
+            if (oldMedia) oldMedia.classList.add('is-switching');
 
-                if (titleEl) {
-                    titleEl.innerText = data.title || 'Untitled Project';
+            setTimeout(() => {
+                mediaContainer.innerHTML = ''; 
+
+                const fileName = data.img;
+                const isVideo = fileName.toLowerCase().endsWith('.mp4');
+                const fullPath = fileName.includes('assets') ? fileName : rendersPath + fileName;
+
+                let newMedia;
+                if (isVideo) {
+                    newMedia = document.createElement('video');
+                    newMedia.src = fullPath;
+                    newMedia.className = 'render-video is-switching';
+                    newMedia.muted = true;
+                    newMedia.loop = true;
+                    newMedia.autoplay = true;
+                    newMedia.setAttribute('playsinline', '');
+                    newMedia.play();
+                } else {
+                    newMedia = document.createElement('img');
+                    newMedia.src = fullPath;
+                    newMedia.className = 'render-img is-switching';
                 }
 
+                mediaContainer.appendChild(newMedia);
+
+                if (titleEl) titleEl.innerText = data.title || 'Untitled';
                 if (tagsEl && data.tags) {
                     tagsEl.innerHTML = data.tags.map(tag => `<span>${tag}</span>`).join('');
                 }
 
-                imgEl.style.opacity = 1;
-            }, 200);
+                setTimeout(() => newMedia.classList.remove('is-switching'), 50);
+            }, 500);
         }
 
+        // Autoplay
+        let autoPlayInterval;
+        const startAutoPlay = () => {
+            stopAutoPlay();
+            autoPlayInterval = setInterval(() => {
+                const len = dataForSlider[cat]?.length || 0;
+                if (len > 1) {
+                    currentIndex = (currentIndex + 1) % len;
+                    updateInnerContent();
+                }
+            }, 5000);
+        };
+        const stopAutoPlay = () => clearInterval(autoPlayInterval);
+
+        startAutoPlay();
+        card.addEventListener('mouseenter', stopAutoPlay);
+        card.addEventListener('mouseleave', startAutoPlay);
+
         nextBtn?.addEventListener('click', (e) => {
-            e.stopPropagation(); 
+            e.stopPropagation();
             currentIndex = (currentIndex + 1) % dataForSlider[cat].length;
             updateInnerContent();
+            startAutoPlay();
         });
 
         prevBtn?.addEventListener('click', (e) => {
-            e.stopPropagation(); 
+            e.stopPropagation();
             currentIndex = (currentIndex - 1 + dataForSlider[cat].length) % dataForSlider[cat].length;
             updateInnerContent();
-        });
-
-        skillItems.forEach(item => {
-            const titleSpan = item.querySelector('span');
-            titleSpan.addEventListener('click', () => {
-                if (item.classList.contains('active')) return;
-                skillItems.forEach(si => si.classList.remove('active'));
-                item.classList.add('active');
-            });
+            startAutoPlay();
         });
 
         updateInnerContent();
     });
 
-    // --- 2. Инициализация Swiper ---
-    const swiperServices = new Swiper('.services-slider-wrap', {
+    // Главный слайдер
+    new Swiper('.services-slider-wrap', {
         slidesPerView: 'auto',
         spaceBetween: 30,
-        centeredSlides: false,
-        loop: false,
-        grabCursor: true,
-        slidesOffsetBefore: 0, 
-        slidesOffsetAfter: 60,
-
-        navigation: {
-            nextEl: '.swiper-next',
-            prevEl: '.swiper-prev',
-        },
-        
+        navigation: { nextEl: '.swiper-next', prevEl: '.swiper-prev' },
         breakpoints: {
-            320: { 
-                spaceBetween: 16,
-                slidesOffsetBefore: 20,
-                slidesOffsetAfter: 20
-            },
-            1024: { 
-                spaceBetween: 30,
-                slidesOffsetAfter: 500 
-            },
-            2500: {
-                slidesPerView: 2, // Показываем 2 полных слайда на 4K
-                spaceBetween: 50,
-                slidesOffsetAfter: 100
-            }
+            320: { spaceBetween: 16, slidesOffsetAfter: 20 },
+            1024: { spaceBetween: 30, slidesOffsetAfter: 500 }
         }
     });
+}
 
-    // --- 3. Кнопки "Let's connect" ---
-    document.querySelectorAll('[data-action="contact"]').forEach(btn => {
-        btn.addEventListener('click', () => {
-            if (typeof setMode === 'function') setMode('form');
-        });
-    });
+// Запускаем всё одним вызовом
+document.addEventListener('DOMContentLoaded', () => {
+    initServices();
 });
 
 

@@ -1,3 +1,7 @@
+
+
+
+
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&family=Poppins:wght@300;400;500&display=swap");
 
 
@@ -2461,7 +2465,7 @@ border-radius: 10px;
 
 .services-slider-wrap .swiper-slide {
     flex-shrink: 0;
-    width: 57% !important;
+    width: fit-content;
     height: 100%;
     position: relative;
     transition-property: transform;
@@ -2471,8 +2475,8 @@ border-radius: 10px;
 
 .service-card {
     flex: 0 0 1100px;
-    height: 520px;
-    background: #F9F9F9;
+    height: 660px !important;
+    background: #deeaff;
     border-radius: 40px;
     display: flex;
     overflow: hidden;
@@ -2728,7 +2732,7 @@ border-radius: 10px;
 .service-card {
     flex: 0 0 1100px; /* Ширина карточки */
     height: 600px;
-    background: #F9F9F9;
+    background: #deeaff;
     border-radius: 40px;
     display: flex;
     overflow: hidden;
@@ -2811,7 +2815,7 @@ border-radius: 10px;
 .service-card {
     flex: 0 0 1100px;
     height: 520px; /* Уменьшенная фиксированная высота как на рефе */
-    background: #F9F9F9;
+    background: #deeaff;
     border-radius: 14px;
     display: flex;
     overflow: hidden;
@@ -2927,7 +2931,47 @@ border-radius: 10px;
     object-fit: cover; /* Растягивается на всю высоту */
 }
 
+.render-img {
+    transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transform: translateX(0);
+    opacity: 1;
+}
 
+.render-img.is-switching {
+    opacity: 0;
+    transform: translateX(20px); /* Картинка плавно уходит вправо */
+}
+
+
+.render-media-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    background: #f0f0f0; 
+}
+
+/* Общий стиль для медиа-контента */
+.render-img, .render-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: 
+        opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
+        transform 0.9s cubic-bezier(0.4, 0, 0.2, 1), 
+        filter 0.6s ease;
+    transform: scale(1);
+    filter: blur(0px);
+    opacity: 1;
+}
+
+/* Эффект при переключении */
+.is-switching {
+    opacity: 0 !important;
+    transform: scale(1.1) !important;
+    filter: blur(15px) !important;
+}
 
 
 
@@ -4797,7 +4841,7 @@ margin-top:40px;
 
   .service-card__right .render-img {
     width: 100%;
-    height: 320px;
+    height: 436px;
     object-fit: cover;
     display: block;
   }
