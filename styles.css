@@ -938,13 +938,24 @@ stroke-width: 1;
 opacity:.6;
 }
 
-.topbar{
-position:absolute;
-top: var(--barTop);
-left:0;
-right:0;
-z-index:10;
+.topbar {
+  position: fixed !important; /* Хедер зафиксирован на экране при скролле */
+  left: 0;
+  right: 0;
+  z-index: 1000 !important;   /* Жестко поднимаем выше наших 3D-букв (у них z-index: 30) */
+  
+  /* Добавляем плавность для свойства transform */
+  transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), background 0.3s ease, top 0.3s ease !important;
+  will-change: transform;
 }
+
+
+/* Класс, который JS будет вешать при скролле ВНИЗ */
+.topbar--hidden {
+  /* calc(-100% - 40px) гарантирует, что хедер полностью уйдет за экран, даже с учетом отступа top: 20px */
+  transform: translateY(calc(-100% - 40px)) !important; 
+}
+
 
 @media (max-width: 900px) {
   .topbar { z-index: 6100; }
@@ -974,7 +985,7 @@ z-index:10;
 .topbar__inner {
     width: min(2678px, calc(100% - clamp(30px, 21.4vw, 480px)));
     max-width: 2678px;
-    height: 80px;
+    height: 130px;
     margin: 0px auto 0;
     display: flex;
     align-items: center;
@@ -1221,7 +1232,7 @@ body.mode-form .brand__emailValue:hover {
 .site-nav__link {
   color: rgba(17, 17, 17, .78);
   font-family: var(--fontBody);
-  font-size: 14px;
+  font-size: 20px !important;
   font-weight: 400;
   line-height: 1;
   text-decoration: none;
@@ -2499,7 +2510,7 @@ border-radius: 10px;
 }
 
 .swiper {
-    margin-left: auto;
+    margin-left: 27%;
     margin-right: auto;
     position: relative;
     overflow: visible !important;
@@ -5002,4 +5013,22 @@ margin-top:40px;
   .letter-tile {
     height: min(42px, 8.5vw) !important;
   }
+}
+
+
+/* Эффект полупрозрачного стекла при скролле (Glassmorphism) */
+.topbar--scrolled {
+  /* Если у тебя светлый сайт — оставляй белый rgba(255, 255, 255, 0.88). 
+     Если сайт темный — поменяй на rgba(17, 17, 17, 0.88) */
+  background: rgba(255, 255, 255, 0.88) !important; 
+  
+  /* Эффект матового размытия заднего плана (работает в Safari и Chrome) */
+  -webkit-backdrop-filter: blur(12px) !important;
+  backdrop-filter: blur(12px) !important; 
+  
+  /* Аккуратная тонкая разделительная линия снизу вместо грязных теней */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important; 
+  
+  /* Мягкая вуалевая тень для отделения хедера от контента */
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02) !important;
 }

@@ -606,6 +606,42 @@
   </div>
 
   <script src="./script.js"></script>
+
+  <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        let lastScrollY = window.scrollY;
+        const topbar = document.querySelector('.topbar');
+        const scrollThreshold = 120; // Порог скролла для скрытия хедера
+
+        // Первая проверка при загрузке страницы (на случай если страницу обновили в середине)
+        if (window.scrollY > 10) {
+          topbar.classList.add('topbar--scrolled');
+        }
+
+        window.addEventListener('scroll', () => {
+          const currentScrollY = window.scrollY;
+
+          // 1. КОНТРОЛЬ ФОНА: Если ушли с самого верха (> 10px) — включаем стекло, если вернулись — выключаем
+          if (currentScrollY > 10) {
+            topbar.classList.add('topbar--scrolled');
+          } else {
+            topbar.classList.remove('topbar--scrolled');
+          }
+
+          // 2. КОНТРОЛЬ СКРЫТИЯ: Если листаем вниз и прошли порог — прячем хедер
+          if (currentScrollY > lastScrollY && currentScrollY > scrollThreshold) {
+            topbar.classList.add('topbar--hidden');
+          } 
+          // Если листаем вверх — показываем хедер
+          else if (currentScrollY < lastScrollY) {
+            topbar.classList.remove('topbar--hidden');
+          }
+
+          // Обновляем координату для следующего шага
+          lastScrollY = currentScrollY;
+        }, { passive: true });
+      });
+    </script>
 </body>
 </html>
 
