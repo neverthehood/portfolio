@@ -926,7 +926,7 @@ z-index:10;
     width: min(2678px, calc(100% - clamp(30px, 21.4vw, 480px)));
     max-width: 2678px;
     height: 80px;
-    margin: 22px auto 0;
+    margin: 0px auto 0;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -947,7 +947,7 @@ body.mode-form .topbar__inner {
   width: min(2678px, calc(100% - clamp(30px, 21.4vw, 480px))); /* Фиксируем ширину как на главной */
   max-width: 2678px;
   height: 80px;
-  margin: 22px auto 0;
+  margin: 0px auto 0;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -2299,7 +2299,6 @@ border-radius: 10px;
 .services {
     position: relative;
     padding: 80px 0 100px;
-    overflow: hidden;
 }
 
 .services-lines {
@@ -2386,11 +2385,10 @@ border-radius: 10px;
 /* Основной контейнер-строка */
 .services-header-grid {
     display: flex;
-    justify-content: space-between; /* Раздвигает блоки в разные концы строки */
-    align-items: flex-start;
-    width: 100%;
-    position: relative;
-    padding-top: 40px; /* Отступ сверху для компенсации scale */
+      justify-content: space-between;
+      align-items: center;           
+      margin-bottom: 18px;        
+      width: 100%;
 }
 
 /* Общие стили для блоков с картинками */
@@ -2404,6 +2402,7 @@ border-radius: 10px;
     display: block;
     transform: scale(0.5); /* Уменьшаем масштаб до 0.5 */
     height: auto;
+    margin-bottom: -45px;
 }
 
 /* Прижимаем левую картинку к левому краю после уменьшения */
@@ -2447,8 +2446,18 @@ border-radius: 10px;
 }
 
 .services {
-    overflow: hidden;
     position: relative;
+}
+
+.swiper {
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    overflow: visible !important;
+    list-style: none;
+    padding: 0;
+    z-index: 1;
+    display: block;
 }
 
 
@@ -2456,7 +2465,6 @@ border-radius: 10px;
     margin-left: 100px !important;
     margin-right: auto;
     position: relative;
-    overflow: hidden;
     list-style: none;
     padding: 0;
     z-index: 1;
@@ -2512,11 +2520,12 @@ border-radius: 10px;
   z-index: 10;
 }
 
-/* Обертка для кнопок и линии */
 .main-nav__wrapper {
-  display: flex;
-  align-items: center; /* Выравнивание по центру высоты кнопок */
-  gap: 12px;
+    display: flex;
+    gap: 12px;
+    padding-left: 0;
+    float: inline-end;
+    padding-right: 16px;
 }
 
 /* Стили кнопок как на макете */
@@ -2548,8 +2557,8 @@ border-radius: 10px;
 }
 
 .container {
-    width: 92vw;
-    margin-left: 80px;
+    width: 90vw;
+    margin-left: 90px;
 }
 
 
@@ -4088,7 +4097,7 @@ body.mode-form .chip--category:hover {
   }
 
   .site-nav__link {
-    font-size: clamp(18px, 0.9vw, 40px);
+    font-size: clamp(15px, 0.4vw, 40px);
   }
 }
 
@@ -4804,8 +4813,13 @@ margin-top:40px;
   }
 
   .services-header-grid {
-    padding-top: 0;
-    margin-bottom: 18px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .services-nav {
+    display: none;
   }
 
   .services-bg-img {
