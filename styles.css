@@ -1666,7 +1666,7 @@ height: 22px;
 
 
 .form {
-padding-top: 40px;
+padding-top: 4px;
 opacity:0;
 transform: translateY(18px);
 pointer-events:none;
@@ -4780,11 +4780,7 @@ margin-top:40px;
   }
 
   body.mode-form .topbar__inner {
-    background: linear-gradient(
-      135deg,
-      rgba(255,255,255,.35),
-      rgba(255,255,255,.15)
-    ) !important;
+    background: transparent !important;
 
     backdrop-filter: blur(20px) saturate(120%) !important;
     -webkit-backdrop-filter: blur(20px) saturate(120%) !important;
@@ -5032,4 +5028,21 @@ margin-top:40px;
   
   /* Мягкая вуалевая тень для отделения хедера от контента */
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02) !important;
+}
+
+
+body.mode-form .topbar {
+  /* Отменяем фиксированное положение при скролле */
+  position: absolute !important; 
+  
+  /* Сбрасываем трансформацию скрытия, чтобы хедер всегда оставался 
+     просто в самом верху страницы формы и не улетал */
+  transform: none !important; 
+  
+  /* Отменяем размытие и фон скролла, если форма длинная и ее скроллят */
+  background: transparent !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
 }

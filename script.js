@@ -459,13 +459,17 @@ async function initServices() {
                             newMedia.autoplay = true;
                             newMedia.setAttribute('playsinline', '');
                             
-                            // ВАЖНО: Убираем loop, чтобы сработало событие окончания видео
+                            // ВАЖНО: Убираем нативный loop, чтобы сработало событие onended
                             newMedia.loop = false; 
                             
-                            // Как только видео доиграло до конца — листаем дальше
+                            // Как только видео доиграло до конца — листаем дальше или пускаем на повтор
                             newMedia.onended = () => {
                                 if (!isHovered) {
-                                    goNext(); 
+                                    goNext(); // Листаем на следующий навык, если мышка ушла
+                                } else {
+                                    // Если пользователь держит курсор на карточке — крутим видео заново
+                                    newMedia.currentTime = 0;
+                                    newMedia.play().catch(e => console.log('Video loop retry error:', e));
                                 }
                             };
 
