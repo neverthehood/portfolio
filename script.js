@@ -403,80 +403,131 @@ async function initServices() {
             });
         });
 
-        function updateInnerContent() {
-            const categoryData = dataForSlider[cat];
-            if (!categoryData || categoryData.length === 0) return;
+        let isHovered = false;
+                let autoPlayTimeout;
 
-            const data = categoryData[currentIndex];
-            
-            const oldMedia = mediaContainer.querySelector('.render-img, .render-video');
-            if (oldMedia) oldMedia.classList.add('is-switching');
+                const stopAutoPlay = () => clearTimeout(autoPlayTimeout);
 
-            setTimeout(() => {
-                mediaContainer.innerHTML = ''; 
+                // Функция запуска таймера (только для картинок)
+                const scheduleNext = () => {
+                    stopAutoPlay();
+                    if (isHovered) return;
 
-                const fileName = data.img;
-                const isVideo = fileName.toLowerCase().endsWith('.mp4');
-                const fullPath = fileName.includes('assets') ? fileName : rendersPath + fileName;
+                    const len = dataForSlider[cat]?.length || 0;
+                    if (len <= 1) return;
 
-                let newMedia;
-                if (isVideo) {
-                    newMedia = document.createElement('video');
-                    newMedia.src = fullPath;
-                    newMedia.className = 'render-video is-switching';
-                    newMedia.muted = true;
-                    newMedia.loop = true;
-                    newMedia.autoplay = true;
-                    newMedia.setAttribute('playsinline', '');
-                    newMedia.play();
-                } else {
-                    newMedia = document.createElement('img');
-                    newMedia.src = fullPath;
-                    newMedia.className = 'render-img is-switching';
+                    autoPlayTimeout = setTimeout(() => {
+                        currentIndex = (currentIndex + 1) % len;
+                        updateInnerContent();
+                    }, 5000);
+                };
+
+                // Функция перелистывания на следующий слайд
+                const goNext = () => {
+                    const len = dataForSlider[cat]?.length || 0;
+                    if (len > 1) {
+                        currentIndex = (currentIndex + 1) % len;
+                        updateInnerContent();
+                    }
+                };
+
+                function updateInnerContent() {
+                    const categoryData = dataForSlider[cat];
+                    if (!categoryData || categoryData.length === 0) return;
+
+                    const data = categoryData[currentIndex];
+                    
+                    const oldMedia = mediaContainer.querySelector('.render-img, .render-video');
+                    if (oldMedia) oldMedia.classList.add('is-switching');
+
+                    // Останавливаем таймер перед сменой контента
+                    stopAutoPlay();
+
+                    setTimeout(() => {
+                        mediaContainer.innerHTML = ''; 
+
+                        const fileName = data.img;
+                        const isVideo = fileName.toLowerCase().endsWith('.mp4');
+                        const fullPath = fileName.includes('assets') ? fileName : rendersPath + fileName;
+
+                        let newMedia;
+                        if (isVideo) {
+                            newMedia = document.createElement('video');
+                            newMedia.src = fullPath;
+                            newMedia.className = 'render-video is-switching';
+                            newMedia.muted = true;
+                            newMedia.autoplay = true;
+                            newMedia.setAttribute('playsinline', '');
+                            
+                            // ВАЖНО: Убираем loop, чтобы сработало событие окончания видео
+                            newMedia.loop = false; 
+                            
+                            // Как только видео доиграло до конца — листаем дальше
+                            newMedia.onended = () => {
+                                if (!isHovered) {
+                                    goNext(); 
+                                }
+                            };
+
+                            newMedia.play().catch(e => {
+                                console.log('Video play error:', e);
+                                scheduleNext(); // Если видео заблокировалось браузером, включаем обычный таймер
+                            });
+                        } else {
+                            newMedia = document.createElement('img');
+                            newMedia.src = fullPath;
+                            newMedia.className = 'render-img is-switching';
+                            
+                            // Если это картинка — запускаем стандартные 5 секунд отсчета
+                            scheduleNext();
+                        }
+
+                        mediaContainer.appendChild(newMedia);
+
+                        if (titleEl) titleEl.innerText = data.title || 'Untitled';
+                        if (tagsEl && data.tags) {
+                            tagsEl.innerHTML = data.tags.map(tag => `<span>${tag}</span>`).join('');
+                        }
+
+                        setTimeout(() => newMedia.classList.remove('is-switching'), 50);
+                    }, 500);
                 }
 
-                mediaContainer.appendChild(newMedia);
+                // Обработка наведения мышки (пауза)
+                card.addEventListener('mouseenter', () => {
+                    isHovered = true;
+                    stopAutoPlay();
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    isHovered = false;
+                    const currentVideo = mediaContainer.querySelector('video');
+                    if (currentVideo) {
+                        // Если пока мы держали мышку, видео уже успело закончиться — листаем сейчас
+                        if (currentVideo.ended) {
+                            goNext();
+                        }
+                        // Иначе просто ждем — оно само перелистнется по событию onended
+                    } else {
+                        scheduleNext(); // Для картинок запускаем таймер заново
+                    }
+                });
 
-                if (titleEl) titleEl.innerText = data.title || 'Untitled';
-                if (tagsEl && data.tags) {
-                    tagsEl.innerHTML = data.tags.map(tag => `<span>${tag}</span>`).join('');
-                }
+                // Кнопки вперед/назад
+                nextBtn?.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    goNext();
+                });
 
-                setTimeout(() => newMedia.classList.remove('is-switching'), 50);
-            }, 500);
-        }
-
-        // Autoplay
-        let autoPlayInterval;
-        const startAutoPlay = () => {
-            stopAutoPlay();
-            autoPlayInterval = setInterval(() => {
-                const len = dataForSlider[cat]?.length || 0;
-                if (len > 1) {
-                    currentIndex = (currentIndex + 1) % len;
+                prevBtn?.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const len = dataForSlider[cat]?.length || 1;
+                    currentIndex = (currentIndex - 1 + len) % len;
                     updateInnerContent();
-                }
-            }, 5000);
-        };
-        const stopAutoPlay = () => clearInterval(autoPlayInterval);
+                });
 
-        startAutoPlay();
-        card.addEventListener('mouseenter', stopAutoPlay);
-        card.addEventListener('mouseleave', startAutoPlay);
-
-        nextBtn?.addEventListener('click', (e) => {
-            e.stopPropagation();
-            currentIndex = (currentIndex + 1) % dataForSlider[cat].length;
-            updateInnerContent();
-            startAutoPlay();
-        });
-
-        prevBtn?.addEventListener('click', (e) => {
-            e.stopPropagation();
-            currentIndex = (currentIndex - 1 + dataForSlider[cat].length) % dataForSlider[cat].length;
-            updateInnerContent();
-            startAutoPlay();
-        });
+                // Первичный запуск при загрузке
+                updateInnerContent();
 
         updateInnerContent();
     });
