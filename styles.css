@@ -2510,7 +2510,7 @@ border-radius: 10px;
 }
 
 .swiper {
-    margin-left: 27%;
+    margin-left: 27% !important;
     margin-right: auto;
     position: relative;
     overflow: visible !important;
