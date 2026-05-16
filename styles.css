@@ -985,7 +985,7 @@ opacity:.6;
 .topbar__inner {
     width: min(2678px, calc(100% - clamp(30px, 21.4vw, 480px)));
     max-width: 2678px;
-    height: 130px;
+    height: 110px;
     margin: 0px auto 0;
     display: flex;
     align-items: center;
@@ -1006,7 +1006,7 @@ opacity:.6;
 body.mode-form .topbar__inner {
   width: min(2678px, calc(100% - clamp(30px, 21.4vw, 480px))); /* Фиксируем ширину как на главной */
   max-width: 2678px;
-  height: 80px;
+  height: 110px;
   margin: 0px auto 0;
   display: flex;
   align-items: center;
