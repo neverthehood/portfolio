@@ -2586,6 +2586,16 @@ border-radius: 10px;
     padding-left: 0;
     float: inline-end;
     padding-right: 16px;
+    align-items: center;
+}
+
+.main-nav__counter {
+    font-family: var(--fontHeading);
+    font-size: 18px;
+    font-weight: 500;
+    color: #111;
+    margin-right: 12px;
+    letter-spacing: -0.02em;
 }
 
 /* Стили кнопок как на макете */

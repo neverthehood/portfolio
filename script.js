@@ -537,15 +537,32 @@ async function initServices() {
     });
 
     // Главный слайдер
-    new Swiper('.services-slider-wrap', {
+    const servicesSwiper = new Swiper('.services-slider-wrap', {
         slidesPerView: 'auto',
         spaceBetween: 30,
         navigation: { nextEl: '.swiper-next', prevEl: '.swiper-prev' },
         breakpoints: {
             320: { spaceBetween: 16, slidesOffsetAfter: 20 },
             1024: { spaceBetween: 30, slidesOffsetAfter: 500 }
+        },
+        on: {
+            init: function () {
+                updateCounter(this);
+            },
+            slideChange: function () {
+                updateCounter(this);
+            }
         }
     });
+
+    function updateCounter(swiper) {
+        const counterEl = document.getElementById('services-counter');
+        if (counterEl) {
+            const current = swiper.realIndex + 1;
+            const total = swiper.slides.length;
+            counterEl.innerText = `${current}/${total}`;
+        }
+    }
 }
 
 // Запускаем всё одним вызовом
