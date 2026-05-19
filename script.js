@@ -621,13 +621,15 @@ async function initPortfolio() {
             slidesPerView: 'auto',
             centeredSlides: true,
             loop: true,
-            speed: 900,
+            speed: 600,
             spaceBetween: 30,
             grabCursor: true,
             watchSlidesProgress: true,
             slideToClickedSlide: true,
-            loopAdditionalSlides: 3,
-            resizeObserver: true,
+            loopedSlides: 8, // Увеличиваем количество клонов для стабильности
+            observer: true,
+            observeParents: true,
+            roundLengths: true,
             
             navigation: {
                 nextEl: '.portfolio-next',
@@ -637,6 +639,10 @@ async function initPortfolio() {
             on: {
                 init: function() {
                     requestAnimationFrame(() => sliderEl.classList.add('is-ready'));
+                },
+                slideChangeTransitionStart: function() {
+                    // Обновляем в начале анимации, чтобы Swiper знал о новых размерах
+                    this.update();
                 }
             }
         });
