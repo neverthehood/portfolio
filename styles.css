@@ -2118,6 +2118,7 @@ border-radius: 10px;
     margin-left: calc(-50vw + 50%);
     height: 100%;
     overflow: visible !important;
+    max-width: none !important;
 }
 
 .portfolio-slider .swiper-slide-active,
