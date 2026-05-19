@@ -12,7 +12,7 @@ const restartBtn = document.querySelector('[data-action="restart"]');
 const navLinks = Array.from(document.querySelectorAll('.site-nav__link'));
 
 // Mobile menu toggle
-document.addEventListener('DOMContentLoaded', () => {
+function initMobileMenu() {
   const menuToggle = document.querySelector('[data-action="toggle-menu"]');
   const siteNav = document.querySelector('.site-nav');
 
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
   }
-});
+}
 
 let activeInterest = [];
 let pData = [];
@@ -567,7 +567,10 @@ async function initServices() {
 
 // Запускаем всё одним вызовом
 document.addEventListener('DOMContentLoaded', () => {
+    initMobileMenu();
     initServices();
+    initPortfolio();
+    initTestimonials();
 });
 
 
@@ -639,10 +642,6 @@ async function initPortfolio() {
             on: {
                 init: function() {
                     requestAnimationFrame(() => sliderEl.classList.add('is-ready'));
-                },
-                slideChange: function() {
-                    // Принудительное обновление для корректного центрирования
-                    this.update();
                 }
             }
         });
@@ -660,12 +659,6 @@ async function initPortfolio() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', initPortfolio);
-
-/**
- * Функция инициализации отзывов.
- * Документирована для понимания процесса загрузки данных.
- */
 async function initTestimonials() {
     // Относительный путь к файлу [source: 2]
     const reviewsUrl = './assets/data/testimonials.json';
@@ -757,5 +750,5 @@ async function initTestimonials() {
     });
 }
 
+
 // Запуск при загрузке страницы [source: 2]
-document.addEventListener('DOMContentLoaded', initTestimonials);
