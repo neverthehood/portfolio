@@ -2091,7 +2091,9 @@ border-radius: 10px;
     flex-direction: column;
     overflow: hidden;
     transition: width 0.9s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: width;
+    will-change: width, transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
 }
 
 .p-img {
@@ -2128,6 +2130,7 @@ border-radius: 10px;
 /* 1. Настройка высоты Swiper и слайдов */
 .portfolio-slider .swiper-wrapper {
     display: flex;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 

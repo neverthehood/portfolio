@@ -588,12 +588,8 @@ async function initPortfolio() {
             return;
         }
 
-        const copies = 5;
-        const centerCopyIndex = 2;
-        const n = pData.length;
-        const slidesData = Array.from({ length: n * copies }, (_, i) => pData[i % n]);
-
-        list.innerHTML = slidesData.map(item => `
+        // Рендерим слайды один раз, Swiper сам их склонирует для loop:true
+        list.innerHTML = pData.map(item => `
             <div class="swiper-slide">
                 <div class="portfolio-card" onclick="openCase('${item.id}')" style="cursor: pointer;">
                     <div class="portfolio-card__img-box">
@@ -621,58 +617,26 @@ async function initPortfolio() {
 
         if (sliderEl.swiper) sliderEl.swiper.destroy(true, true);
 
-        const initialRealIndex = 0;
-        const initialSlide = n > 0 ? (centerCopyIndex * n) + initialRealIndex : 0;
-
         const swiper = new Swiper(sliderEl, {
             slidesPerView: 'auto',
             centeredSlides: true,
-            loop: false,
-            slidesPerGroup: 1,
+            loop: true,
+            speed: 900,
             spaceBetween: 30,
             grabCursor: true,
             watchSlidesProgress: true,
             slideToClickedSlide: true,
-            initialSlide,
-            speed: 900,
-            roundLengths: true,
-
+            loopAdditionalSlides: 3,
+            resizeObserver: true,
+            
             navigation: {
                 nextEl: '.portfolio-next',
                 prevEl: '.portfolio-prev',
             },
 
-            breakpoints: {
-                0: { slidesOffsetBefore: 0, slidesOffsetAfter: 0 },
-                1024: { slidesOffsetBefore: 0, slidesOffsetAfter: 0 }
-            },
-
             on: {
                 init: function() {
                     requestAnimationFrame(() => sliderEl.classList.add('is-ready'));
-                },
-                slideChangeTransitionEnd: function() {
-                    if (n <= 1) return;
-
-                    const activeIndex = this.activeIndex;
-                    const leftThreshold = n;
-                    const rightThreshold = (n * copies) - n;
-
-                    if (activeIndex >= leftThreshold && activeIndex < rightThreshold) return;
-
-                    const realIndex = ((activeIndex % n) + n) % n;
-                    const targetIndex = (centerCopyIndex * n) + realIndex;
-
-                    sliderEl.classList.add('is-jump');
-                    this.setTransition(0);
-                    this.slideTo(targetIndex, 0, false);
-                    this.updateSlidesClasses();
-                    this.updateProgress();
-                    this.setTransition(this.params.speed);
-
-                    requestAnimationFrame(() => {
-                        requestAnimationFrame(() => sliderEl.classList.remove('is-jump'));
-                    });
                 }
             }
         });
