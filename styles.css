@@ -2084,16 +2084,20 @@ border-radius: 10px;
 
 
 .portfolio-slider .swiper-slide {
-    width: 412px;
+    width: 386px; /* Рассчитано: (1240 - 60) / 3 = ~393. Но используем 386 для запаса. */
     flex-shrink: 0;
     height: 600px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: width 0.6s ease;
     will-change: width, transform;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
+}
+
+.portfolio-slider .swiper-slide-active {
+    width: 408px; /* Активный слайд чуть шире */
 }
 
 .p-img {
@@ -2114,17 +2118,15 @@ border-radius: 10px;
 
 /* Слайдер: Узкий 732px -> Широкий 1626px */
 .portfolio-slider {
-    width: 100vw;
-    margin-left: calc(-50vw + 50%);
+    width: 1240px; /* Фиксируем ширину контейнера под 3 слайда (412+412+412 + 30*2) */
+    margin: 0 auto;
     height: 100%;
-    overflow: visible !important;
-    max-width: none !important;
+    overflow: hidden !important;
 }
 
-.portfolio-slider .swiper-slide-active,
-.portfolio-slider .swiper-slide-duplicate-active {
+.portfolio-slider .swiper-slide-active {
     z-index: 3;
-    width: 850px;
+    width: 408px;
 }
 
 
@@ -2132,7 +2134,7 @@ border-radius: 10px;
 /* 1. Настройка высоты Swiper и слайдов */
 .portfolio-slider .swiper-wrapper {
     display: flex;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-timing-function: ease !important;
 }
 
 
