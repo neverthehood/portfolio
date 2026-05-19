@@ -622,8 +622,9 @@ async function initPortfolio() {
 
         const swiper = new Swiper(sliderEl, {
             slidesPerView: 'auto',
-            centeredSlides: false, // Отключаем центрирование, чтобы первый слайд был слева
-            initialSlide: 0, // Первый кейс активный по умолчанию
+            centeredSlides: true,
+            centeredSlidesBounds: true, // Убирает дыры слева у первого и справа у последнего слайда
+            initialSlide: 0,
             loop: false,
             speed: 600,
             spaceBetween: 30,
