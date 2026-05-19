@@ -2114,7 +2114,8 @@ border-radius: 10px;
 
 /* Слайдер: Узкий 732px -> Широкий 1626px */
 .portfolio-slider {
-    width: 100%;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
     height: 100%;
     overflow: visible !important;
 }
@@ -2513,8 +2514,6 @@ border-radius: 10px;
 }
 
 .swiper {
-    margin-left: 27% !important;
-    margin-right: auto;
     position: relative;
     overflow: visible !important;
     list-style: none;

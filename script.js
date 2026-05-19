@@ -629,7 +629,7 @@ async function initPortfolio() {
             grabCursor: true,
             watchSlidesProgress: true,
             slideToClickedSlide: true,
-            loopedSlides: 12, // Увеличиваем для стабильности при auto-width
+            loopedSlides: 10, // Большое количество клонов для бесшовности
             observer: true,
             observeParents: true,
             roundLengths: true,
@@ -641,7 +641,10 @@ async function initPortfolio() {
 
             on: {
                 init: function() {
-                    requestAnimationFrame(() => sliderEl.classList.add('is-ready'));
+                    requestAnimationFrame(() => {
+                        sliderEl.classList.add('is-ready');
+                        this.update(); // Принудительно обновляем после инициализации
+                    });
                 }
             }
         });
