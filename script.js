@@ -621,12 +621,12 @@ async function initPortfolio() {
 
         if (sliderEl.swiper) sliderEl.swiper.destroy(true, true);
 
-        const initialRealIndex = n > 1 ? 1 : 0;
+        const initialRealIndex = 0;
         const initialSlide = n > 0 ? (centerCopyIndex * n) + initialRealIndex : 0;
 
         const swiper = new Swiper(sliderEl, {
             slidesPerView: 'auto',
-            centeredSlides: false,
+            centeredSlides: true,
             loop: false,
             slidesPerGroup: 1,
             spaceBetween: 30,
@@ -635,6 +635,7 @@ async function initPortfolio() {
             slideToClickedSlide: true,
             initialSlide,
             speed: 900,
+            roundLengths: true,
 
             navigation: {
                 nextEl: '.portfolio-next',
@@ -642,8 +643,8 @@ async function initPortfolio() {
             },
 
             breakpoints: {
-                0: { slidesOffsetBefore: 30, slidesOffsetAfter: 60 },
-                1024: { slidesOffsetBefore: 30, slidesOffsetAfter: 60 }
+                0: { slidesOffsetBefore: 0, slidesOffsetAfter: 0 },
+                1024: { slidesOffsetBefore: 0, slidesOffsetAfter: 0 }
             },
 
             on: {
