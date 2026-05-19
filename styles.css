@@ -2083,277 +2083,149 @@ border-radius: 10px;
 }
 
 
-.portfolio-slider .swiper-slide {
-    width: 412px;
-    flex-shrink: 0;
-    height: 600px;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    transition: width 0.6s ease;
-    will-change: width, transform;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-}
+/* ==========================================================================
+   GSAP PORTFOLIO SLIDER
+   ========================================================================== */
 
-.portfolio-slider .swiper-slide-active {
-    width: 850px;
-}
-
-.p-img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: opacity 0.9s ease;
-}
-
-.p-img--wide { opacity: 0; }
-.p-img--narrow { opacity: 1; }
-
-.swiper-button-lock {
-    display: flex !important;
-}
-
-/* Слайдер: Узкий 412px -> Широкий 850px */
 .portfolio-slider {
     width: 100%;
-    height: 100%;
-    overflow: visible !important;
-}
-
-.portfolio-slider .swiper-slide-active {
-    z-index: 3;
-    width: 850px;
-}
-
-
-
-/* 1. Настройка высоты Swiper и слайдов */
-.portfolio-slider .swiper-wrapper {
-    display: flex;
-    transition-timing-function: ease !important;
-}
-
-
-.portfolio-card {
-    border: none !important;
-    outline: none !important;
-    box-shadow: none;
-    border-radius: 14px;
-    display: flex;
-    flex-direction: column;
-    height: 600px; 
-    background: #E7EEF8;
+    height: 650px;
+    position: relative;
     overflow: hidden;
-    cursor: pointer;
-    width: 100%;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: grab;
+}
+
+.portfolio-slider:active {
+    cursor: grabbing;
+}
+
+#portfolio-list {
+    display: flex;
+    height: 100%;
+    align-items: flex-start;
     position: relative;
 }
 
-.portfolio-slider:not(.is-ready) .portfolio-card,
-.portfolio-slider:not(.is-ready) .swiper-slide {
-    transition: none !important;
+.portfolio-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    flex-shrink: 0;
+    width: 340px;
+    height: 600px;
+    will-change: width, transform;
 }
 
-
-.portfolio-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+.portfolio-card {
+    width: 100%;
+    height: 100%;
+    background: #E7EEF8;
+    border-radius: 24px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    position: relative;
 }
 
 .portfolio-card__img-box {
     width: 100%;
-    height: 100%;
-    overflow: hidden;
-    border: none;
-    outline: none !important;
+    height: 100%; /* Теперь картинка на весь контейнер */
     position: relative;
-    background: #E7EEF8;
-    border-radius: 12px;
-    isolation: isolate;
+    overflow: hidden;
 }
 
-.portfolio-card__img-box img {
+.portfolio-card__img {
     width: 100%;
     height: 100%;
-    transition: opacity 0.9s ease, transform 0.5s ease, filter 0.5s ease;
+    object-fit: cover;
+    display: block;
+    transition: filter 0.6s ease, transform 0.6s ease;
 }
 
-.portfolio-slider.is-jump .swiper-slide,
-.portfolio-slider.is-jump .p-img,
-.portfolio-slider.is-jump .portfolio-card,
-.portfolio-slider.is-jump .portfolio-card__meta {
-    transition: none !important;
+/* Эффекты для неактивных слайдов */
+.portfolio-slide:not(.is-active) .portfolio-card__img {
+    filter: brightness(0.6) grayscale(0.4);
+    transform: scale(1.1);
 }
 
-.portfolio-card:hover .portfolio-card__img-box img {
-    transform: scale(1.05);
-    filter: blur(5px) brightness(0.7);
-}
-
-.portfolio-slider .swiper-slide-active .p-img--wide,
-.portfolio-slider .swiper-slide-duplicate-active .p-img--wide {
-    opacity: 1;
-}
-
-.portfolio-slider .swiper-slide-active .p-img--narrow,
-.portfolio-slider .swiper-slide-duplicate-active .p-img--narrow {
-    opacity: 0;
-}
-
-.portfolio-slider .swiper-slide-prev .portfolio-card {
-    transform: none;
-}
-
-.portfolio-slider .swiper-slide-next .portfolio-card {
-    transform: none;
-}
-
-.portfolio-card__meta { 
+/* Текстовый контент поверх картинки */
+.portfolio-card__meta {
     position: absolute;
     inset: 0;
-    padding: 30px; 
-    display: flex; 
+    display: flex;
     flex-direction: column;
-    justify-content: center; /* Центрируем контент */
+    justify-content: center;
     align-items: center;
-    text-align: center;
-    background: #E7EEF8;
+    padding: 40px;
+    background: rgba(231, 238, 248, 0.9); /* Цвет фона как на макете */
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.4s ease, visibility 0.4s ease, transform 0.4s ease;
-    transform: translateZ(0) translateY(20px);
+    transform: translateY(20px);
+    text-align: center;
     z-index: 2;
-    outline: none;
-    box-shadow: 0 0 0 2px #E7EEF8 inset;
 }
 
-.portfolio-card:hover .portfolio-card__meta {
+/* Показываем текст при наведении на ЛЮБОЙ слайд */
+.portfolio-slide .portfolio-card:hover .portfolio-card__meta {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
 }
 
-
-.p-client { font-size: 14px; opacity: 0.6; text-transform: uppercase; margin-bottom: 8px; display: block; font-weight: 700; }
-.p-title { font-size: 28px; font-weight: 800; margin: 0 0 16px; text-transform: uppercase; line-height: 1.1; }
-
-
-.p-desc-container {
-    margin: 12px 0 20px;
+/* Эффект для картинки при наведении на любой слайд */
+.portfolio-slide .portfolio-card:hover .portfolio-card__img {
+    filter: blur(5px) brightness(0.8);
+    transform: scale(1.05);
 }
 
-.p-desc-wrap {
-    margin: 0 0 20px;
-    position: relative;
-    cursor: default;
-    max-width: 90%;
+.p-client {
+    font-size: 14px;
+    opacity: 0.6;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: block;
+    font-weight: 700;
+    letter-spacing: 0.05em;
 }
 
+.p-title { 
+    font-size: 32px; 
+    font-weight: 800; 
+    margin: 0 0 12px; 
+    text-transform: uppercase; 
+    line-height: 1.1; 
+    color: #111;
+}
 
 .p-desc {
     font-size: 16px;
-    line-height: 1.5;
-    margin: 0;
-    color: var(--text);
-    /* Убираем ограничение строк, показываем весь текст */
-    display: block;
-    overflow: visible;
-    position: relative;
-}
-
-.p-desc.expanded {
-    display: block;
-    overflow: visible;
-    -webkit-line-clamp: unset;
-}
-
-/* Кнопка "more" внутри строки */
-.p-more-inline {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    /* Градиент маскирует текст под кнопкой */
-    background: linear-gradient(to right, transparent, #fff 15%, #fff); 
-    padding: 0 0 0 25px;
-    border: none;
-    color: var(--blue);
-    font-weight: 700;
-    cursor: pointer;
-    font-family: var(--fontBody);
-    font-size: 16px;
-}
-
-.p-inline-btn {
-    display: inline;
-    background: linear-gradient(to right, transparent, #C9CED9 15%, #C9CED9)  !important;
-    border: none;
-    padding: 0;
-    font-family: var(--fontBody);
-    font-size: 16px;
-    font-weight: 500;
-    color: inherit;
-    cursor: pointer;
-    text-decoration: none;
-    margin-left: 4px;
-}
-
-
-/* Когда текст свернут, кнопка "всплывает" в конец второй строки */
-.p-desc:not(.expanded) .p-inline-btn {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    background: none; /* Фон должен совпадать с фоном карточки */
-    padding-left: 10px;
-}
-
-/* Добавляем многоточие только в свернутом виде */
-.p-desc:not(.expanded) .p-inline-btn::before {
-    content: "... ";
-    font-weight: 400;
-}
-
-/* Скрываем кнопку, когда текст развернут */
-.p-desc.expanded + .p-more-inline {
-    display: none;
-}
-
-/* Контейнер для текста */
-.p-desc-content {
-    line-height: 1.5;
-    max-height: 3em; /* 1.5 (line-height) * 2 (строки) */
+    line-height: 1.4;
+    color: #333;
+    margin: 0 0 16px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Ограничиваем до 3 строк */
+    -webkit-box-orient: vertical;
     overflow: hidden;
-    position: relative;
-    font-size: 16px;
-    margin: 12px 0;
-    text-align: justify; /* Помогает кнопке лучше "вписаться" в край */
+    text-overflow: ellipsis;
 }
 
-/* Раскрытое состояние */
-.p-desc-content.expanded {
-    max-height: none;
-    display: block;
+.p-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 10px;
 }
 
-
-
-/* Скрываем многоточие и сдвигаем кнопку, когда текст развернут */
-.p-desc-content.expanded .p-more-btn::before {
-    display: none;
+.p-tags span {
+    font-size: 12px;
+    padding: 6px 16px;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 20px;
+    background: white;
 }
-.p-desc-content.expanded .p-more-btn {
-    float: none;
-    display: inline-block;
-    margin: 5px 0 0;
-}
-
-
-.p-tags { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-start; }
-.p-tags span { padding: 4px 12px; border: 1px solid rgba(0,0,0,0.1); border-radius: 100px; font-size: 11px; font-weight: 500; background: rgba(255,255,255,0.3); }
 
 /* Футер */
 .portfolio-footer { margin-top: 40px; }
@@ -4262,28 +4134,16 @@ body.mode-form .chip--category:hover {
     line-height: 1.15;
   }
 
-  .portfolio-slider .swiper-slide {
-    width: 280px !important;
-    height: 450px !important;
-  }
+  .portfolio-slider { height: 500px; }
+  .portfolio-slide { width: 280px !important; height: 450px !important; }
+  .portfolio-slide.is-active { width: 320px !important; }
 
   .portfolio-card {
     height: 450px !important;
   }
 
-  .portfolio-card__img-box {
-    min-height: auto !important;
-  }
-
   .p-title {
-    font-size: 18px !important;
-  }
-
-.p-desc {
-    font-size: 14px !important;
-    display: block !important;
-    -webkit-line-clamp: unset !important;
-    overflow: visible !important;
+    font-size: 24px !important;
   }
 }
 

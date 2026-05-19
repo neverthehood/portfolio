@@ -198,6 +198,150 @@ function toggleInterest(btn){
   }
 }
 
+// ===============================
+// CASE VIEWER (LIGHTBOX)
+// ===============================
+
+function openCase(id) {
+    const project = pData.find(p => p.id === id);
+    if (!project) return;
+
+    const viewer = document.getElementById('case-viewer');
+    const title = document.getElementById('case-title');
+    const client = document.getElementById('case-client');
+    const desc = document.getElementById('case-desc');
+    const tags = document.getElementById('case-tags');
+    const stack = document.getElementById('case-images-stack');
+
+    if (!viewer) return;
+
+    title.innerText = project.title;
+    client.innerText = `Client: ${project.client}`;
+    desc.innerText = project.desc || "";
+    tags.innerHTML = project.tags ? project.tags.map(t => `<span>${t}</span>`).join('') : "";
+
+    stack.innerHTML = "";
+    if (project.gallery && project.gallery.length > 0) {
+        project.gallery.forEach(imgName => {
+            const img = document.createElement('img');
+            img.src = `assets/portfolio/${imgName}`;
+            img.loading = "lazy";
+            stack.appendChild(img);
+        });
+    } else {
+        const img = document.createElement('img');
+        img.src = `assets/portfolio/${project.wideImg || project.storyImg}`;
+        stack.appendChild(img);
+    }
+
+    viewer.classList.add('is-active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeCase() {
+    const viewer = document.getElementById('case-viewer');
+    if (viewer) {
+        viewer.classList.remove('is-active');
+        document.body.style.overflow = '';
+    }
+}
+
+// ===============================
+// CASE VIEWER (LIGHTBOX)
+// ===============================
+
+function openCase(id) {
+    const project = pData.find(p => p.id === id);
+    if (!project) return;
+
+    const viewer = document.getElementById('case-viewer');
+    const title = document.getElementById('case-title');
+    const client = document.getElementById('case-client');
+    const desc = document.getElementById('case-desc');
+    const tags = document.getElementById('case-tags');
+    const stack = document.getElementById('case-images-stack');
+
+    if (!viewer) return;
+
+    title.innerText = project.title;
+    client.innerText = `Client: ${project.client}`;
+    desc.innerText = project.desc || "";
+    tags.innerHTML = project.tags ? project.tags.map(t => `<span>${t}</span>`).join('') : "";
+
+    stack.innerHTML = "";
+    if (project.gallery && project.gallery.length > 0) {
+        project.gallery.forEach(imgName => {
+            const img = document.createElement('img');
+            img.src = `assets/portfolio/${imgName}`;
+            img.loading = "lazy";
+            stack.appendChild(img);
+        });
+    } else {
+        const img = document.createElement('img');
+        img.src = `assets/portfolio/${project.wideImg || project.storyImg}`;
+        stack.appendChild(img);
+    }
+
+    viewer.classList.add('is-active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeCase() {
+    const viewer = document.getElementById('case-viewer');
+    if (viewer) {
+        viewer.classList.remove('is-active');
+        document.body.style.overflow = '';
+    }
+}
+
+// ===============================
+// CASE VIEWER (LIGHTBOX)
+// ===============================
+
+function openCase(id) {
+    const project = pData.find(p => p.id === id);
+    if (!project) return;
+
+    const viewer = document.getElementById('case-viewer');
+    const title = document.getElementById('case-title');
+    const client = document.getElementById('case-client');
+    const desc = document.getElementById('case-desc');
+    const tags = document.getElementById('case-tags');
+    const stack = document.getElementById('case-images-stack');
+
+    if (!viewer) return;
+
+    title.innerText = project.title;
+    client.innerText = `Client: ${project.client}`;
+    desc.innerText = project.desc || "";
+    tags.innerHTML = project.tags ? project.tags.map(t => `<span>${t}</span>`).join('') : "";
+
+    stack.innerHTML = "";
+    if (project.gallery && project.gallery.length > 0) {
+        project.gallery.forEach(imgName => {
+            const img = document.createElement('img');
+            img.src = `assets/portfolio/${imgName}`;
+            img.loading = "lazy";
+            stack.appendChild(img);
+        });
+    } else {
+        const img = document.createElement('img');
+        img.src = `assets/portfolio/${project.wideImg || project.storyImg}`;
+        stack.appendChild(img);
+    }
+
+    viewer.classList.add('is-active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeCase() {
+    const viewer = document.getElementById('case-viewer');
+    if (viewer) {
+        viewer.classList.remove('is-active');
+        document.body.style.overflow = '';
+    }
+}
+
 
 // ===============================
 // FORM SUBMIT
@@ -571,6 +715,15 @@ document.addEventListener('DOMContentLoaded', () => {
     initServices();
     initPortfolio();
     initTestimonials();
+
+    // Lightbox management: Close events
+    document.getElementById('case-close')?.addEventListener('click', closeCase);
+    document.getElementById('case-viewer')?.addEventListener('click', (e) => {
+        if (e.target.id === 'case-viewer') closeCase();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeCase();
+    });
 });
 
 
@@ -584,6 +737,8 @@ async function initPortfolio() {
         return;
     }
 
+    let portfolioLoop;
+
     function renderPortfolioSlider() {
         if (!pData || pData.length === 0) {
             console.warn("Данные портфолио пусты");
@@ -591,64 +746,111 @@ async function initPortfolio() {
             return;
         }
 
-        // Рендерим слайды один раз, Swiper сам их склонирует для loop:true
-        list.innerHTML = pData.map(item => `
-            <div class="swiper-slide">
-                <div class="portfolio-card" onclick="openCase('${item.id}')" style="cursor: pointer;">
+        // Рендерим слайды. Текст теперь внутри portfolio-card__meta, который будет наложен поверх.
+        const renderSlide = (item) => `
+            <div class="portfolio-slide">
+                <div class="portfolio-card" data-id="${item.id}">
                     <div class="portfolio-card__img-box">
-                        <img src="assets/portfolio/${item.storyImg}" alt="" aria-hidden="true" class="p-img p-img--narrow" loading="lazy">
-                        <img src="assets/portfolio/${item.wideImg}" alt="${item.title}" class="p-img p-img--wide" loading="lazy">
+                        <img src="assets/portfolio/${item.wideImg || item.storyImg}" alt="${item.title}" class="portfolio-card__img" loading="lazy">
                     </div>
                     <div class="portfolio-card__meta">
+                        <span class="p-client">${item.client}</span>
                         <h3 class="p-title">${item.title}</h3>
-                        <span class="p-client">Client: ${item.client}</span>
-                        <div class="p-desc-wrap">
-                            <p class="p-desc">
-                                <span class="p-desc-text">${item.desc || ''}</span>
-                            </p>
-                        </div>
+                        <p class="p-desc">${item.desc || ''}</p>
                         <div class="p-tags">
                             ${item.tags ? item.tags.map(t => `<span>${t}</span>`).join('') : ''}
                         </div>
                     </div>
                 </div>
             </div>
-        `).join('');
+        `;
 
-        const sliderEl = document.querySelector('.portfolio-slider');
-        if (!sliderEl) return;
+        const gap = 30;
+        const narrowWidth = 340;
+        const wideWidth = 720;
+        const slider = document.querySelector('.portfolio-slider');
+        const container = document.getElementById('portfolio-list');
+        const originalSlidesCount = pData.length;
 
-        if (sliderEl.swiper) sliderEl.swiper.destroy(true, true);
+        if (!slider || !container || originalSlidesCount === 0) return;
 
-        const swiper = new Swiper(sliderEl, {
-            slidesPerView: 'auto',
-            centeredSlides: true,
-            centeredSlidesBounds: true, // Убирает дыры слева у первого и справа у последнего слайда
-            initialSlide: 0,
-            loop: false,
-            speed: 600,
-            spaceBetween: 30,
-            grabCursor: true,
-            watchSlidesProgress: true,
-            slideToClickedSlide: true,
-            observer: true,
-            observeParents: true,
-            roundLengths: true,
-            
-            navigation: {
-                nextEl: '.portfolio-next',
-                prevEl: '.portfolio-prev',
-            },
+        // Клонируем для бесконечности (3 набора: [клоны][оригиналы][клоны])
+        container.innerHTML = [...pData, ...pData, ...pData].map(renderSlide).join('');
+        
+        const allSlides = gsap.utils.toArray(".portfolio-slide");
+        let activeIndex = originalSlidesCount; // Начинаем с первого слайда среднего набора
 
-            on: {
-                init: function() {
-                    requestAnimationFrame(() => {
-                        sliderEl.classList.add('is-ready');
-                        this.update();
-                    });
+        function updateSlider(animate = true) {
+            const containerWidth = slider.offsetWidth;
+            const centerOffset = containerWidth / 2;
+
+            let activeX = 0;
+            allSlides.forEach((slide, i) => {
+                const targetWidth = (i === activeIndex) ? wideWidth : narrowWidth;
+                if (i < activeIndex) activeX += targetWidth + gap;
+                if (i === activeIndex) activeX += targetWidth / 2;
+            });
+
+            const startX = centerOffset - activeX;
+            let runningX = startX;
+
+            allSlides.forEach((slide, i) => {
+                const isActive = (i === activeIndex);
+                const targetWidth = isActive ? wideWidth : narrowWidth;
+                
+                gsap.to(slide, {
+                    x: runningX,
+                    width: targetWidth,
+                    duration: animate ? 0.7 : 0,
+                    ease: "power3.out",
+                    overwrite: true,
+                    onComplete: () => {
+                        // Бесшовный переброс для бесконечности
+                        if (animate) {
+                            if (activeIndex >= originalSlidesCount * 2) {
+                                activeIndex -= originalSlidesCount;
+                                updateSlider(false);
+                            } else if (activeIndex < originalSlidesCount) {
+                                activeIndex += originalSlidesCount;
+                                updateSlider(false);
+                            }
+                        }
+                    }
+                });
+                slide.classList.toggle('is-active', isActive);
+                runningX += targetWidth + gap;
+            });
+        }
+
+        // Логика кликов
+        allSlides.forEach((slide, i) => {
+            slide.addEventListener('click', (e) => {
+                if (activeIndex !== i) {
+                    // Если слайд не активен - центрируем и делаем активным
+                    activeIndex = i;
+                    updateSlider();
+                } else {
+                    // Если уже активен - открываем кейс
+                    const id = slide.querySelector('.portfolio-card').getAttribute('data-id');
+                    openCase(id);
                 }
-            }
+            });
         });
+
+        // Навигация кнопками
+        document.querySelector('.portfolio-next')?.addEventListener('click', () => {
+            activeIndex++;
+            updateSlider();
+        });
+
+        document.querySelector('.portfolio-prev')?.addEventListener('click', () => {
+            activeIndex--;
+            updateSlider();
+        });
+
+        window.addEventListener('resize', () => updateSlider(false));
+        updateSlider(false);
+        setTimeout(() => slider.classList.add('is-ready'), 100);
     }
 
     try {
