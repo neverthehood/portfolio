@@ -623,6 +623,7 @@ async function initPortfolio() {
         const swiper = new Swiper(sliderEl, {
             slidesPerView: 'auto',
             centeredSlides: true,
+            initialSlide: 1, // Устанавливаем второй слайд (индекс 1) активным по умолчанию
             loop: false,
             speed: 600,
             spaceBetween: 30,
