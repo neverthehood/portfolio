@@ -626,7 +626,7 @@ async function initPortfolio() {
             grabCursor: true,
             watchSlidesProgress: true,
             slideToClickedSlide: true,
-            loopedSlides: 8, // Увеличиваем количество клонов для стабильности
+            loopedSlides: 12, // Увеличиваем для стабильности при auto-width
             observer: true,
             observeParents: true,
             roundLengths: true,
@@ -640,8 +640,8 @@ async function initPortfolio() {
                 init: function() {
                     requestAnimationFrame(() => sliderEl.classList.add('is-ready'));
                 },
-                slideChangeTransitionStart: function() {
-                    // Обновляем в начале анимации, чтобы Swiper знал о новых размерах
+                slideChange: function() {
+                    // Принудительное обновление для корректного центрирования
                     this.update();
                 }
             }
