@@ -760,7 +760,7 @@ body.mode-form .menu-toggle span {
   align-items: center !important;    
   justify-content: center !important;
   pointer-events: auto !important;   
-  z-index: 10 !important;           
+  z-index: 10 !important;       
 }
 
   .hero__visual-main img {
@@ -1232,7 +1232,7 @@ body.mode-form .brand__emailValue:hover {
 .site-nav__link {
   color: rgba(17, 17, 17, .78);
   font-family: var(--fontBody);
-  font-size: 20px !important;
+  font-size: 16px !important;
   font-weight: 400;
   line-height: 1;
   text-decoration: none;
@@ -2841,7 +2841,7 @@ border-radius: 10px;
     font-size: 11px; padding: 4px 12px; border: 1px solid #ddd; border-radius: 100px; margin-right: 5px; 
 }
 
-.meta-nav { display: flex; gap: 10px; }
+.meta-nav { display: none; gap: 10px; }
 .nav-btn { width: 40px; height: 40px; border-radius: 50%; border: 1px solid #ddd; background: none; cursor: pointer; padding-bottom: 0px; }
 .nav-btn:hover { background: #000; color: #fff; }
 
@@ -3441,8 +3441,8 @@ body.mode-form .bg__grid{
   position: relative;
   overflow: hidden;
   min-height: 100svh;
-  padding-top: clamp(150px, 12vw, 460px);
-  margin-bottom: -130px;
+  padding-top: clamp(280px, 12vw, 460px);
+  margin-bottom: -80px;
 }
 
 .hero__visual-loose,
@@ -3463,7 +3463,7 @@ body.mode-form .bg__grid{
 .hero__visual-main {
     width: clamp(620px, 40vw, 1720px);
     right: clamp(80px, 12vw, 360px);
-    top: clamp(170px, 12vw, 480px);
+    top: clamp(236px, 12vw, 480px);
     z-index: 0;
     text-align: center;
 }
@@ -3717,7 +3717,7 @@ white-space:normal;
      display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding-top: 148px !important;
+    padding-top: 188px !important;
     margin: 0 auto;
   }
 
@@ -4208,7 +4208,7 @@ body.mode-form .chip--category:hover {
     transform: none !important;
     width: 100% !important;
     max-width: 520px !important;
-    margin: 0 auto 28px;
+    margin: 0px auto 28px;
     order: 1;
     display: flex;
     justify-content: center;
@@ -4964,6 +4964,13 @@ margin-top:40px;
   margin: 0 !important;
   pointer-events: auto !important;
   
+  /* ФИКС РАЗМЫТИЯ: Задаем начальную точку в 3D, чтобы GPU сразу готовил четкую текстуру */
+  transform: translateZ(0) scale(1) rotateX(0) rotateY(0);
+  
+  /* ФИКС РАЗМЫТИЯ: Включаем аппаратное сглаживание краев */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  
   /* Плавный физичный возврат на место с покачиванием */
   transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s ease;
   will-change: transform, filter;
@@ -4971,10 +4978,10 @@ margin-top:40px;
 
 /* 3. АНИМАЦИЯ НАЖАТИЯ МЕХАНИЧЕСКОЙ КЛАВИШИ + ДЕЛИКАТНАЯ ПОДСВЕТКА */
 .letter-tile:hover {
-  /* Кубик взлетает вверх, увеличивается и эффектно заваливается по диагонали */
-  transform: translateY(-15px) translateZ(20px) rotateX(15deg) rotateY(-15deg) scale(1.1) !important;
+  /* Кубик взлетает вверх и просто увеличивается, сохраняя резкость */
+  transform: translateY(-5px) translateZ(30px) scale(1.1) !important;
   
-  /* Тень становится очень мягкой, прозрачной и улетает дальше вниз, создавая ощущение сильного отрыва */
+  /* Тени и z-index остаются */
   filter: drop-shadow(0 25px 20px rgba(0, 0, 0, 0.18)) !important;
   z-index: 30 !important;
 }
@@ -4984,6 +4991,8 @@ margin-top:40px;
   display: inline-block;
   width: clamp(16px, 2.5vw, 36px);
 }
+
+
 
 /* ==========================================================================
    АДАПТИВ ПОД МОБИЛКИ (Автоматически центрует и адаптирует блок на смартфонах)
