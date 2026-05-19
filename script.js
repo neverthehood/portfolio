@@ -623,14 +623,12 @@ async function initPortfolio() {
         const swiper = new Swiper(sliderEl, {
             slidesPerView: 'auto',
             centeredSlides: true,
-            loop: true,
+            loop: false,
             speed: 600,
             spaceBetween: 30,
             grabCursor: true,
             watchSlidesProgress: true,
             slideToClickedSlide: true,
-            loopedSlides: 12, // Увеличиваем количество клонов
-            loopAdditionalSlides: 12, // Дополнительные клоны для заполнения пустоты справа
             observer: true,
             observeParents: true,
             roundLengths: true,
