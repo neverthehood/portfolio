@@ -2598,6 +2598,12 @@ border-radius: 10px;
     letter-spacing: -0.02em;
 }
 
+div#services-counter {
+    align-content: center;
+    margin-right: 16px;
+    font-size: 20px;
+}
+
 /* Стили кнопок как на макете */
 .main-nav-btn {
   width: 44px;
