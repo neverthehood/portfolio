@@ -2162,8 +2162,7 @@ border-radius: 10px;
     background: rgba(231, 238, 248, 0.9); /* Цвет фона как на макете */
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.4s ease, visibility 0.4s ease, transform 0.4s ease;
-    transform: translateY(20px);
+    transition: opacity 0.4s ease, visibility 0.4s ease;
     text-align: center;
     z-index: 2;
 }
@@ -2172,7 +2171,6 @@ border-radius: 10px;
 .portfolio-slide .portfolio-card:hover .portfolio-card__meta {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0);
 }
 
 /* Эффект для картинки при наведении на любой слайд */
