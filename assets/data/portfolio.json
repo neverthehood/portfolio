@@ -1,77 +1,53 @@
 [
   {
-    "id": "toymaker",
-    "client": "ToyMak3r",
-    "title": "Play or die",
-    "desc": "3D gaming devices created for this project showcase controllers and headsets with a focus on form, materials, and moody lighting. Refined geometry, textures, and reflections make the assets ready for promo visuals and motion.",
-    "wideImg": "Case_1_wide.png",
-    "storyImg": "Case_1_story.png",
-    "tags": [
-      "3D Visualization",
-      "Branding"
-    ]
-  },
-  {
-    "id": "bike-on-test",
-    "client": "BikeOn",
-    "title": "BikeON - Smart ride",
-    "desc": "We build unique brand identities that resonate with audiences and set businesses apart.",
-    "wideImg": "Case_3_wide.png",
-    "storyImg": "Case_3_story.png",
-    "tags": [
-      "Branding",
-      "Marketing Assets",
-      "Deck design"
-    ]
-  },
-  {
-    "id": "skinz",
+    "id": "sports-memorabilia",
     "client": "Top Tier Auth",
-    "title": "SkinZ - Visual system",
-    "desc": "We build unique brand identities that resonate with audiences and set businesses apart.",
-    "wideImg": "Case_2_wide.png",
-    "storyImg": "Case_2_story.png",
-    "tags": [
-      "Branding",
-      "Banners"
-    ]
-  },
-  {
-    "id": "mg",
-    "client": "Mushroom Genetics",
-    "title": "New wave of superfood",
-    "desc": "Defined scope with clear outcomes. Ideal for launches, redesigns, or focused improvements.",
-    "wideImg": "Case_4_wide.png",
-    "storyImg": "Case_4_story.png",
-    "tags": [
-      "UI",
-      "Branding"
-    ]
-  },
-  {
-    "id": "mates",
-    "client": "Mates Bar",
-    "title": "Mates Bar Cocktails",
-    "desc": "A small, senior team working closely with you. Aligned with your product and processes.",
+    "title": "3D Product Showcase - Sports Memorabilia",
+    "desc": "3D product showcase for a sports memorabilia commerce concept. An exploration of how collectible sports items can be presented through immersive visuals and product-focused storytelling. The project focuses on digital presentation, composition, and material design - creating a premium experience around rare and valuable objects. Designed to evoke a sense of exclusivity and timeless value in a digital environment.",
     "wideImg": "Case_5_wide.png",
     "storyImg": "Case_5_story.png",
     "tags": [
-      "Packaging",
-      "Branding"
+      "3D Modeling",
+      "Animation",
+      "Product Design"
+    ],
+    "gallery": [
+      "1-1.png",
+      "2-1.png",
+      "3-1.png",
+      "4-1.png",
+      "4-1.gif",
+      "5-1.png",
+      "5-2.png",
+      "7-1.png",
+      "8-1.gif",
+      "9-1.png",
+      "10-1.png",
+      "11-1.png",
+      "12-1.png",
+      "13-1.png",
+      "14-1.png",
+      "15-1.png",
+      "16-1.png",
+      "17-1.png",
+      "18-1.png",
+      "19-1.png",
+      "20-1.png",
+      "21-1.png",
+      "22-1.png"
     ]
   },
   {
     "id": "bike-on",
     "client": "BikeOn",
     "title": "E-commerce Experience for a Smart Bike Brand",
-    "desc": "BikeOn is a smart mobility brand combining performance engineering with connected technology. We designed and developed an image-driven product website focused on clearly explaining the device, bicycles and their ecosystem.",
+    "desc": "BikeOn is a smart mobility brand combining performance engineering with connected technology. We designed and developed an image-driven product website focused on clearly explaining the device, bicycles and their ecosystem. The goal was to translate complex technical features into a bold, structured and engaging digital experience. Scope included UX strategy, UI design, custom 3D models of the device and bicycles, and full web development. The result is a scalable digital platform built to communicate innovation, clarity and brand confidence.",
     "wideImg": "Case_6_wide.png",
     "storyImg": "Case_6_story.png",
     "tags": [
-      "UX",
-      "UI",
-      "3D",
-      "Dev"
+      "Graphic Design",
+      "UI/UX",
+      "Web Design"
     ],
     "gallery": [
       "Slice 2.png",
@@ -82,6 +58,57 @@
       "Slice 7.png",
       "Slice 8.png",
       "Slice 9.png"
+    ]
+  },
+  {
+    "id": "mushroom-genetics",
+    "client": "Mushroom Genetics",
+    "title": "Product Visualization & Amazon Listing Design",
+    "desc": "This project was created for Mushroom Genetics, a supplement brand focused on functional mushroom products. Our team developed a complete set of visual assets to support the product launch, including 3D product modeling, high-quality product visualizations, Amazon listing graphics, and advertising creatives. The goal was to create a clear, modern, and trustworthy product presentation suitable for e-commerce platforms and digital marketing campaigns. The visual system helped the brand establish a professional presence across Amazon, advertising platforms, and their official website.",
+    "wideImg": "Case_4_wide.png",
+    "storyImg": "Case_4_story.png",
+    "tags": [
+      "3D Modeling",
+      "Advertising",
+      "Graphic Design"
+    ],
+    "gallery": [
+      "Slice 13.png",
+      "Slice 14.png",
+      "Slice 15.png",
+      "Slice 16.png",
+      "Slice 17.png",
+      "Slice 18.png",
+      "Slice 19.png",
+      "Slice 20.png",
+      "Slice 21.png",
+      "Slice 22.png"
+    ]
+  },
+  {
+    "id": "skinz-system",
+    "client": "Skinz",
+    "title": "Skinz — Visual System for an In-App Marketplace",
+    "desc": "We developed the visual identity and product experience for a digital marketplace integrated within a messaging platform. The project included creating a cohesive brand system, designing the store interface for a fast and intuitive browsing experience inside the app and developing a stylized animated lootbox to add excitement and reward-driven interaction. The final result combines branding, store UI, and motion design into a unified marketplace experience that feels dynamic, engaging, and native to the messenger environment.",
+    "wideImg": "Case_2_wide.png",
+    "storyImg": "Case_2_story.png",
+    "tags": [
+      "3D Motion",
+      "Logo Design",
+      "Ui/UX"
+    ],
+    "gallery": [
+      "A_1-1.png",
+      "A_2-1.gif",
+      "A_3-1.png",
+      "A_4-1.png",
+      "A_5-1.gif",
+      "A_6-1.gif",
+      "A_7-1.png",
+      "A_8-1.png",
+      "A_9-1.png",
+      "A_10-1.gif",
+      "A_10-1.png"
     ]
   }
 ]
