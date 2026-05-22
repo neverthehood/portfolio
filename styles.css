@@ -1,44 +1,281 @@
+/* =========================================
+   1. ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ (Design Tokens)
+   ========================================= */
+:root {
+  /* Ширина центральной колонки контента */
+  --container-max-width: 1240px;
+  
+  /* Безопасные поля по бокам: 
+     на мобилках 16px (1rem), плавно растут до 48px (3rem) на десктопе */
+  --container-padding: clamp(1rem, 4vw, 3rem); 
+  
+  /* Универсальные отступы (gaps) для Grid и Flexbox, чтобы они тоже были резиновыми */
+  --gap-sm: clamp(12px, 2vw, 20px);
+  --gap-md: clamp(20px, 4vw, 40px);
+  --gap-lg: clamp(40px, 6vw, 80px);
+}
 
+/* Обязательный сброс, чтобы padding не увеличивал ширину блоков */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
 
+/* =========================================
+   2. ГЛОБАЛЬНЫЕ КОНТЕЙНЕРЫ
+   ========================================= */
+.oms-container {
+  width: 90vw !important;
+  max-width: 1600px !important;
+  margin-inline: auto; 
+  padding-inline: 0 !important;
+}
 
+/* Вариация для широких секций (например, для ленты портфолио) */
+.oms-container--wide {
+  max-width: 1440px;
+}
 
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&family=Poppins:wght@300;400;500&display=swap");
 
 
+/* =========================================
+   ИСПРАВЛЕНИЯ ХЕДЕРА И НАВИГАЦИИ
+   ========================================= */
+
+/* Гарантируем, что хедер всегда поверх всего контента сайта */
+.topbar {
+  z-index: 1000 !important;
+  position: fixed !important;
+  width: 100% !important;
+  left: 0 !important;
+  top: 0 !important;
+  overflow: visible;
+}
+
+.topbar__inner, body.mode-form .topbar__inner {
+    width: 90vw;
+}
+
+/* Фикс эффекта скролла: убираем скругления углов, если они где-то вылезали */
+.topbar--scrolled {
+  border-radius: 0 !important; 
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02) !important;
+}
+
+/* УПРАВЛЕНИЕ КНОПКОЙ И МЕНЮ НА ПЛАНШЕТАХ / МОБИЛКАХ */
+@media (max-width: 900px) {
+  
+  
+  /* Поднимаем уровень выпадающего мобильного меню, чтобы его ничего не заслоняло */
+  .site-nav {
+    z-index: 999 !important;
+  }
+}
+
+
+/* =========================================
+   АДАПТИВНАЯ HERO-СЕКЦИЯ
+   ========================================= */
+
+.hero {
+  position: relative !important;
+  width: 100% !important;
+  /* Заменяем жесткую высоту 100vh на минимальную, чтобы блок мог расти вниз, когда это нужно */
+  min-height: 100vh !important; 
+  display: flex !important;
+  align-items: center !important;
+  padding-top: 80px !important; /* Безопасный отступ под фиксированную шапку */
+  overflow: hidden !important;
+}
+
+.hero-grid-wrapper {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 90vw !important;
+  max-width: 1600px !important;
+  margin-inline: auto !important;
+}
+
+.hero__content {
+  flex: 0 1 50% !important; /* Забирает левую половину */
+  text-align: left !important;
+  z-index: 5 !important;
+}
+
+/* Переводим композицию букв из absolute в flex-поток */
+.hero-3d-composition {
+  position: relative !important; /* Убираем absolute, встаем в поток */
+  top: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  flex: 0 1 45% !important; /* Забирает правую половину */
+  flex-direction: column !important;
+  z-index: 4 !important;
+}
+
+.hero__title {
+    font-family: var(--fontHeading);
+    /* Используем твои переменные, но форсируем тонкий вес */
+    font-size: clamp(32px, 4vw, 72px) !important;
+    line-height: 1.1 !important;
+    font-weight: 300; /* Очень тонкий Outfit */
+    color: var(--text);
+    text-transform: none; /* Убираем капс, оставляем Sentence case */
+    margin: 0 0 20px 0;
+    letter-spacing: -0.02em;
+}
+
+
+.hero__visual {
+  flex: 0 1 45% !important;
+  display: block !important;
+  position: relative !important;
+}
+
+.hero__visual img {
+  width: 100% !important;
+  height: auto !important;
+  object-fit: contain !important;
+}
+
+
+/* ПЛАНШЕТНЫЙ И МОБИЛЬНЫЙ ПЕРЕЛОМ (Здесь всё разваливалось) */
+@media (max-width: 1024px) {
+  .hero {
+    /* Меняем направление: Картинка идет НАД текстом */
+    flex-direction: column-reverse !important; 
+    justify-content: center !important;
+    gap: var(--gap-md) !important;
+    margin-top: 90px !important;
+    text-align: center !important; /* Центрируем текст для аккуратного мобильного вида */
+  }
+
+  .hero__content,
+  .hero__visual {
+    flex: 0 1 100% !important;
+    width: 100% !important;
+    max-width: 600px !important; /* Ограничиваем ширину на планшете, чтобы текст не размазывался */
+    margin-inline: auto !important;
+  }
+
+  /* Настраиваем размер 3D-графики, когда она сверху */
+  .hero__visual {
+    max-width: 400px !important; /* Делаем картинку аккуратной, соразмерной */
+    margin-bottom: var(--gap-sm) !important;
+  }
+  
+  /* Если у заголовка были огромные шрифты, плавно уменьшаем их */
+  .hero__content h1 {
+    font-size: clamp(32px, 5vw, 28px) !important;
+    line-height: 1.2 !important;
+    text-align: center;
+  }
+}
+
+
+
+/* =========================================
+   ЗАГОЛОВКИ РАЗДЕЛОВ (services-header-grid) - ОПТИМАЛЬНЫЕ
+   ========================================= */
+
+.services-header-grid {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center;
+  justify-content: space-between;
+  
+  /* Возвращаем твою широкую сетку для этого блока */
+  max-width: 90vw !important; /* Ограничитель для ультрашироких мониторов */
+  margin-inline: auto !important;
+  
+  margin-bottom: var(--gap-lg);
+}
+
+.services-asset-block {
+  display: block !important;
+  /* Убираем жесткий flex: 0 0 %, даем блокам подстраиваться под контент */
+  flex: 0 1 auto !important; 
+}
+
+/* ЛЕВАЯ КАРТИНКА (Название раздела) */
+.assets-left {
+  /* На маленьких экранах сжимается, но на десктопе не вырастает больше своего реального размера */
+  max-width: 70%;
+}
+
+/* ПРАВАЯ КАРТИНКА (Порядковый номер) */
+.assets-right {
+  /* Ограничиваем максимальный размер номера, чтобы он не был гигантским */
+  max-width: 25% !important;
+  text-align: right;
+}
+
+/* КАРТИНКИ */
+.services-bg-img {
+  width: 100% !important;
+  height: auto !important;
+  max-height: 70px;
+  object-fit: contain;
+  display: block;
+}
+
+/* =========================================
+   СЕКЦИЯ: ENGAGEMENT MODELS
+   ========================================= */
+
 .engagement-models {
-  padding: 40px 0 90px;
+  /* Заменяем старый padding на резиновый padding-block (внутренние отступы сверху и снизу).
+     На мобильных будет 40px, а на больших экранах плавно дорастет до 90px */
+  padding-block: clamp(40px, 6vw, 90px); 
 }
 
 .engagement-models__intro {
-  max-width: 1370px;
-  margin: 20px auto 52px;
-  padding: 0 24px;
+  /* Убрали старые padding и странные margin. Контейнер уже обеспечивает боковые поля! */
+  margin-inline: auto; /* Центрируем сам блок */
+  margin-bottom: var(--gap-lg); /* Резиновый отступ до карточек */
+  
+  /* Ограничиваем ширину только для текста, чтобы строка не была слишком длинной (правило хорошей типографики) */
+  max-width: 900px; 
   text-align: center;
-  font-size: clamp(20px, 1.2vw, 28px);
+  font-size: clamp(20px, 2vw, 28px);
   line-height: 1.4;
   color: #111;
-  text-wrap: balance;
+  text-wrap: balance; /* Предотвращает висячие слова на новых строках */
 }
 
 .engagement-models__cards {
-  width: min(1240px, calc(100% - 48px));
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px;
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important; /* Жестко 2 колонки */
+  gap: var(--gap-md) !important;
+  
+  /* Зажимаем всю сетку до эстетичных, компактных размеров */
+  width: 100% !important;
+  max-width: 1100px !important; 
+  margin-inline: auto !important; /* Центрируем всю сетку в oms-container */
 }
 
 .engagement-card {
-  display: block;
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
   border-radius: 24px;
   overflow: hidden;
-  transition: transform 0.28s ease, box-shadow 0.28s ease, filter 0.28s ease;
 }
 
 .engagement-card img {
+  width: 100% !important;
+  height: auto !important;
   display: block;
-  width: 100%;
-  height: auto;
+}
+
+/* На мобилках перестраиваем в 1 колонку */
+@media (max-width: 768px) {
+  .engagement-models__cards {
+    grid-template-columns: 1fr !important;
+  }
 }
 
 .engagement-card:hover {
@@ -47,32 +284,65 @@
   box-shadow: 0 14px 34px rgba(25, 39, 75, 0.14);
 }
 
+/* =========================================
+   ОПТИМИЗИРОВАННЫЙ ФУТЕР (Текст + Мишень по центру)
+   ========================================= */
+
 .engagement-models__footer {
-  width: min(1240px, calc(100% - 48px));
-  margin: 52px auto 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important; /* Строго держим в одну строку на десктопе */
+  align-items: center !important;
+  
+  /* МАГИЯ ТУТ: Собираем контент в кучу по центру, вместо расталкивания */
+  justify-content: center !important; 
+  gap: 24px !important; /* Фиксированный красивый зазор между текстом и мишенью */
+  
+  width: 100% !important;
+  max-width: 1100px !important;
+  margin: var(--gap-lg) auto 0 !important;
+  padding: 20px !important;
+}
+
+.engagement-models__footer-text {
+  /* Убираем flex: 1, чтобы блок не растягивался на всю ширину. 
+     Он должен занимать ровно столько, сколько нужно тексту */
+  flex: 0 1 auto !important; 
+  text-align: right !important; /* Текст выровнен по правому краю, к мишени */
 }
 
 .engagement-models__footer-text p {
-  margin: 0;
-  color: #111;
-  line-height: 1.45;
-  font-size: 18px;
-  text-align: right;
+  margin: 0 !important;
+  font-size: clamp(15px, 1vw, 18px) !important; /* Чуть аккуратнее шрифт */
+  line-height: 1.4 !important;
+  color: #111 !important;
 }
 
 .engagement-models__footer-text p + p {
-  margin-top: 6px;
+  margin-top: 4px !important;
 }
 
+/* Настраиваем мишень соразмерно текстовому блоку */
 .engagement-models__target {
-  display: block;
-  height: 56px;
-  width: auto;
-  flex-shrink: 0;
+  flex: 0 0 auto !important;
+  
+  /* Идеальный соразмерный масштаб: на десктопе около 64px, на мобильных аккуратно сжимается */
+  width: clamp(50px, 4vw, 64px) !important; 
+  height: auto !important;
+  object-fit: contain !important;
+  display: block !important;
+}
+
+/* МЯГКИЙ АДАПТИВ ДЛЯ МОБИЛОК (Когда тексту совсем мало места) */
+@media (max-width: 640px) {
+  .engagement-models__footer {
+    flex-direction: column !important; /* На смартфонах перестроим в стек */
+    gap: 16px !important;
+  }
+  
+  .engagement-models__footer-text {
+    text-align: center !important; /* На мобилке по центру логичнее */
+  }
 }
 
 .contacts-final {
@@ -225,7 +495,6 @@ body.mode-form .bg {
 
 body.mode-form .topbar__inner {
   background: transparent;
-  width: min(2678px, calc(100% - clamp(30px, 21.4vw, 480px))); /* Возвращаем дефолтную ширину */
 }
 
 body.mode-form #services,
@@ -672,7 +941,6 @@ body.mode-form .menu-toggle span {
   }
 
   .topbar__inner {
-    width: calc(100% - 40px);
     height: 64px;
     margin: 0 auto;
     justify-content: space-between;
@@ -781,16 +1049,7 @@ body.mode-form .menu-toggle span {
 
   .hero__text-wrap {
     width: 100% !important;
-    margin-top: 0 !important;
     pointer-events: auto !important;
-  }
-
-  .hero__title {
-    font-size: 38px !important;
-    line-height: 1.05;
-    margin: 0 auto 14px !important;
-    text-align: center !important;
-    max-width: 360px;
   }
 
   .hero__asterisk {
@@ -985,13 +1244,13 @@ opacity:.6;
 }
 
 .topbar__inner {
-    width: min(2678px, calc(100% - clamp(30px, 21.4vw, 480px)));
+    width: 90vw;
     max-width: 2678px;
     height: 110px;
     margin: 0px auto 0;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
     border-radius: 120px;
     position: relative;
     overflow: hidden;
@@ -1006,7 +1265,7 @@ opacity:.6;
 
 
 body.mode-form .topbar__inner {
-  width: min(2678px, calc(100% - clamp(30px, 21.4vw, 480px))); /* Фиксируем ширину как на главной */
+  width: 90vw; 
   max-width: 2678px;
   height: 110px;
   margin: 0px auto 0;
@@ -1349,28 +1608,6 @@ width:min(var(--headerW), calc(100% - (var(--padX) * 2)));
 
 .page {
   min-height: 100vh;
-}
-
-
-.hero {
-  height: 100vh;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  padding-top: 200px;
-}
-
-.hero__title {
-    margin-top: 0px;
-    margin-bottom: 0px;
-    font-family: var(--fontHeading);
-    font-weight: 300;
-    font-size: var(--t1);
-    line-height: var(--t1lh);
-    letter-spacing: 0px;
-    text-align: left;
-    max-width: 700px; /* Ограничиваем ширину для переноса в 4 строки */
 }
 
 
@@ -2317,39 +2554,6 @@ border-radius: 10px;
     opacity: 0.5;
 }
 
-
-/* Основной контейнер-строка */
-.services-header-grid {
-    display: flex;
-      justify-content: space-between;
-      align-items: center;           
-      margin-bottom: 18px;        
-      width: 100%;
-}
-
-/* Общие стили для блоков с картинками */
-.services-asset-block {
-    position: relative;
-    flex: 0 1 auto; /* Блоки занимают только необходимое место */
-}
-
-/* Стили для картинок: уменьшение в 2 раза */
-.services-bg-img {
-    display: block;
-    transform: scale(0.5); /* Уменьшаем масштаб до 0.5 */
-    height: auto;
-    margin-bottom: -45px;
-}
-
-/* Прижимаем левую картинку к левому краю после уменьшения */
-.assets-left .services-bg-img {
-    transform-origin: left top; 
-}
-
-/* Прижимаем правую картинку к правому краю после уменьшения */
-.assets-right .services-bg-img {
-    transform-origin: right top;
-}
 
 /* Позиционирование текста относительно левой картинки */
 .services-text-content {
@@ -3331,16 +3535,8 @@ body.mode-form .bg__grid{
   position: relative;
   overflow: hidden;
   min-height: 100svh;
-  padding-top: clamp(280px, 12vw, 460px);
-  margin-bottom: -80px;
 }
 
-.hero__visual-loose,
-.hero__visual-main {
-  position: absolute;
-  pointer-events: none;
-  user-select: none;
-}
 
 .hero__visual-loose {
     display: none;
@@ -3358,24 +3554,19 @@ body.mode-form .bg__grid{
     text-align: center;
 }
 
-.hero__visual-loose img,
-.hero__visual-main img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
 
 .hero__content {
     position: relative;
     z-index: 1;
     width: min(2678px, calc(100% - clamp(30px, 26.4vw, 480px)));
-    min-height: calc(100svh - clamp(150px, 12vw, 460px));
     align-items: flex-start;
+    flex: 1 1 50% !important;
+    padding-bottom: 0 !important;
 }
 
 .hero__text-wrap {
     width: clamp(420px, 29vw, 1120px);
-    margin-top: clamp(170px, 5vw, 20px);
+    margin: auto;
 }
 
 .text-ghost {
@@ -3555,7 +3746,7 @@ white-space:normal;
 
   .topbar__inner, 
   body.mode-form .topbar__inner {
-    width: calc(100% - 30px) !important;
+    width: 90vw;
     max-width: none !important;
     height: 64px !important;
     margin: 0 auto !important;
@@ -3615,14 +3806,6 @@ white-space:normal;
   min-height: 100svh;
 }
 
-  .hero__title {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  margin-top: 0;
-}
-
 .hero__subtitle {
   text-align: center !important;
   margin: 22px auto 0 !important;
@@ -3650,16 +3833,7 @@ body.mode-form .brand__whatsapp {
 }
 
 @media (max-width: 768px) {
-  .hero__title {
-    font-size: clamp(32px, 8vw, 42px) !important;
-    line-height: 1.2 !important;
-    max-width: 90%;
-    margin: 0 auto;
-    display: flex !important;
-    flex-direction: column;
-    align-items: center;
-  }
-
+  
   .hero__title .mobile-br {
     display: none !important;
   }
@@ -3791,13 +3965,6 @@ body.mode-form .brand__whatsapp {
 
   .hero__visual-loose {
     max-width: 1800px !important; /* Уменьшил с 2400 */
-  }
-
-  .hero__title {
-    font-size: 140px !important;
-    max-width: 1000px !important; /* Ограничиваем для 4 строк */
-    margin-left: auto !important;
-    margin-right: auto !important;
   }
 
   /* Services & Portfolio */
@@ -4074,15 +4241,6 @@ body.mode-form .chip--category:hover {
   .hero__text-wrap {
     width: 100%;
     max-width: 520px;
-    margin: 0 auto;
-  }
-
-  .hero__title {
-    font-size: clamp(28px, 8vw, 32px) !important;
-    line-height: 1.05;
-    margin: 0 auto 10px;
-    display: block !important;
-    letter-spacing: -0.01em;
   }
 
   .hero__titleLine {
@@ -4104,11 +4262,6 @@ body.mode-form .chip--category:hover {
     justify-content: center;
   }
 
-  .hero__visual-main img {
-    width: min(520px, 92vw);
-    height: auto;
-    display: block;
-  }
 
   .hero__visual-loose {
     display: none !important;
@@ -4329,7 +4482,7 @@ margin-top:40px;
 
   .topbar__inner, 
   body.mode-form .topbar__inner {
-    width: 100% !important;
+    width: 90vw;
     max-width: none !important;
     height: 70px !important;
     margin: 0 auto !important;
@@ -4338,7 +4491,6 @@ margin-top:40px;
     justify-content: space-between !important;
     left: 0;
     right: 0;
-    box-shadow: 0 6px 9px rgb(0 0 0 / 7%), inset 0 2px 6px rgba(255, 255, 255, .05), inset 0 0px 1px rgba(0, 0, 0, .10);
     }
 
   .header {
@@ -4540,18 +4692,6 @@ margin-top:40px;
       top: 200px;
     }
 
-    .hero__title {
-    font-family: var(--fontHeading);
-    /* Используем твои переменные, но форсируем тонкий вес */
-    font-size: var(--t1); /* 80px */
-    line-height: 1.05;
-    font-weight: 300; /* Очень тонкий Outfit */
-    color: var(--text);
-    text-transform: none; /* Убираем капс, оставляем Sentence case */
-    margin: 0 0 40px 0;
-    letter-spacing: -0.02em;
-}
-
     .hero__subtitle {
       font-size: 16px !important;
     }
@@ -4620,21 +4760,10 @@ margin-top:40px;
 
   .topbar__inner,
   body.mode-form .topbar__inner {
-    width: calc(100% - 40px) !important;
+    width: 90vw;
     max-width: 1100px !important;
     margin: 20px auto 0 !important;
-    border: 0px solid rgba(255, 255, 255, .4) !important;
   }
-
-  .hero__title {
-    margin-top: 60px;
-    margin-bottom: 0px;
-    font-family: var(--fontHeading);
-    font-weight: 700;
-    font-size: var(--t3);
-    line-height: var(--t1lh);
-    letter-spacing: 0px;
-    text-align: center;
 }
 
   .brand {
@@ -4667,7 +4796,7 @@ margin-top:40px;
 
   .topbar__inner,
   body.mode-form .topbar__inner {
-    width: calc(100% - 40px) !important;
+    width: 90vw;
   }
 
   .chip--glass{
@@ -4750,18 +4879,9 @@ margin-top:40px;
     padding: 44px 0 70px;
   }
 
-  .services-header-grid {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
-  }
-
+ 
   .services-nav {
     display: none;
-  }
-
-  .services-bg-img {
-    transform: scale(0.5);
   }
 
   .services-slider-wrap {
@@ -4812,11 +4932,6 @@ margin-top:40px;
 /* ==========================================================================
    Финал: Исправление наложений ховера и центровка 3D-композиции
    ========================================================================== */
-
-/* Контейнер композиции (находится на том же теге, что и .hero__visual-main) */
-.hero-3d-composition {
-  gap: clamp(-30px, -2.1vw, -12px) !important;
-}
 
 .word-container {
   display: inline-flex !important;
@@ -4932,4 +5047,185 @@ body.mode-form .topbar {
   backdrop-filter: none !important;
   border-bottom: none !important;
   box-shadow: none !important;
+}
+
+@media (max-width: 1024px) {
+  .hero {
+    min-height: auto !important;
+    padding-block: 40px 40px !important; /* Даем контенту дышать */
+  }
+
+  .hero-grid-wrapper {
+    /* 1. Меняем направление на вертикальное */
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 40px !important; /* Расстояние между картинкой и текстом */
+    text-align: center !important;
+  }
+
+  .hero-3d-composition {
+    order: 1 !important;
+    width: 100% !important;
+    max-width: 450px !important; /* Ограничитель размера для мобильных */
+    margin: 0 auto !important;
+    display: flex !important;
+    justify-content: center !important;
+  }
+
+  .hero__content {
+    order: 2 !important;
+    width: 100% !important;
+    max-width: 600px !important;
+    margin: 0 auto !important;
+    padding-right: 0 !important; /* Убираем лишний отступ для центрирования */
+    flex: 1 1 50% !important;
+    padding-bottom: 0 !important;
+  }
+  
+  .hero__title {
+    font-size: clamp(28px, 6vw, 42px) !important; /* Шрифт плавно уменьшается */
+  }
+}
+
+
+/* Исправляем хедер: кнопка должна исчезать строго тогда, когда появляется бургер */
+@media (max-width: 900px) { 
+  .cta--header {
+    display: none !important; /* Прячем кнопку раньше, чтобы она не мешала меню */;
+}
+
+
+/* Жестко фиксируем нормальный вес шрифта, чтобы он не прыгал */
+.hero__titleLine {
+  font-weight: 400 !important; /* Установи нужный тебе вес, например 400 или 500 */
+}
+
+/* Убираем "разъезжание" композиции на широких экранах (1200px+) */
+@media (min-width: 1201px) {
+  .hero-grid-wrapper {
+    gap: 80px !important; /* Ограничиваем отступ между текстом и буквами */
+  }
+  
+  .hero__title {
+    font-size: 64px !important; /* Фиксируем размер, чтобы не был "слишком крупным" */
+  }
+
+  .topbar {
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+    }
+
+    .topbar .cta-btn {
+      display: none !important; /* Прячем кнопку на планшетах/мобилках */
+    }
+}
+
+
+@media (min-width: 769px) and (max-width: 1200px) {
+
+  .hero__title {
+    font-size: 42px !important; /* Уменьшаем шрифт для планшетов */
+
+  }
+  
+  .hero-3d-composition {
+    max-width: 40% !important; /* Немного уменьшаем блок с буквами */
+  }
+}
+
+
+.topbar .cta-btn {
+  padding: 0 32px !important; /* Фиксируем отступы, чтобы они не росли бесконечно */
+  margin-left: auto !important; /* Прижимаем кнопку к меню */
+}
+
+
+/* Базовая настройка Hero: вертикальный стек (как ты и просил до 1024px) */
+@media (max-width: 1024px) {
+  .hero-grid-wrapper {
+    flex-direction: column !important;
+    gap: 32px !important;
+  }
+  
+  .hero-3d-composition {
+    /* Чтобы буквы увеличивались на планшетах */
+    width: 100% !important;
+    max-width: min(85vw, 500px) !important; 
+    margin: 0 auto !important;
+  }
+}
+
+
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .hero__content {
+    max-width: 45% !important; /* Даем больше места тексту */
+  }
+  
+  .hero-3d-composition {
+    max-width: 45% !important; /* И картинке */
+    overflow: visible !important; /* Убираем обрезку */
+  }
+}
+
+
+.hero__content {
+  flex: 1 1 50% !important; /* Ровно половина */
+}
+
+/* Пропорциональное увеличение всегда */
+.hero__titleLine {
+  font-size: clamp(32px, 3.5vw, 64px) !important;
+}
+
+.hero-3d-composition {
+  /* Буквы будут расти вместе с шириной экрана всегда */
+  width: clamp(300px, 30vw, 600px) !important;
+  flex: 1 1 50% !important; /* Ровно половина */
+  display: flex !important;
+  justify-content: center !important;
+}
+
+@media (min-width: 2560px) {
+  .hero-grid-wrapper {
+    max-width: 2200px !important; /* Немного расширяем рабочую зону для гигантских мониторов */
+  }
+  .hero__title {
+    font-size: 96px !important; /* Даем заголовку стать еще масштабнее */
+  }
+}
+
+
+@media (min-width: 901px) and (max-width: 1024px) {
+  .hero {
+    /* Принудительно ограничиваем высоту, чтобы не было "пустого места" */
+    min-height: auto !important; 
+    padding-top: 100px !important;
+    padding-bottom: 40px !important;
+  }
+
+  .hero-grid-wrapper {
+    /* Заставляем элементы плотно прижиматься к центру по вертикали */
+    align-items: center !important;
+    gap: 20px !important;
+  }
+
+  .hero__content {
+    /* Ограничиваем контент, чтобы он не "распирал" высоту */
+    flex: 1 1 50% !important;
+    padding-bottom: 0 !important;
+  }
+
+  .hero__title {
+    /* Уменьшаем шрифт, так как на 901px он может быть слишком большим */
+    font-size: clamp(32px, 4vw, 42px) !important;
+    margin: 0;
+  }
+
+  .hero__asterisk {
+    white-space: nowrap;
+    text-align: center;
+}
+
 }

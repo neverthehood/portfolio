@@ -119,8 +119,16 @@
 
     <main id="main" class="page">
       <section class="hero" id="about" aria-label="Hero">
-        <div class="hero__visual-loose">
-          <img src="./assets/hero-letters-loose.png" alt="Decorative 3D letters floating">
+        <div class="oms-container hero-grid-wrapper">
+        <div class="hero__content">
+          <div class="hero__text-wrap">
+            <h1 class="hero__title font-heading">
+              <span class="hero__titleLine">White-label production</span><br><span class="hero__titleLine">for <span class="text-accent">ambitious</span> agencies</span>
+            </h1>
+            <p class="hero__asterisk">
+              <span class="blue-star">*</span> senior-level output with zero oversight
+            </p>
+          </div>
         </div>
         <div class="hero__visual-main hero-3d-composition">
           
@@ -199,15 +207,6 @@
           </div>
 
         </div>
-        <div class="hero__content">
-          <div class="hero__text-wrap">
-            <h1 class="hero__title font-heading">
-              <span class="hero__titleLine">White-label production</span><br><span class="hero__titleLine">for <span class="text-accent">ambitious</span> agencies</span>
-            </h1>
-            <p class="hero__asterisk">
-              <span class="blue-star">*</span> senior-level output with zero oversight
-            </p>
-          </div>
         </div>
       </section>
 
@@ -282,7 +281,7 @@
       </section>
 
       <section id="services" class="services">
-        <div class="container services-header-grid">
+        <div class="oms-container services-header-grid">
           <div class="services-asset-block assets-left">
             <img src="./assets/Num_1_left.png" alt="Decorative geometric shape" class="services-bg-img" loading="lazy">
           </div>
@@ -537,30 +536,38 @@
       </section>
 
       <section class="engagement-models" id="engagement">
-        <div class="container services-header-grid">
-          <div class="services-asset-block assets-left">
-            <img src="assets/Num_6_left.png" alt="Engagement shape" class="services-bg-img" loading="lazy">
+        <div class="oms-container">
+          
+          <div class="services-header-grid">
+            <div class="services-asset-block assets-left">
+              <img src="assets/Num_6_left.png" alt="Engagement shape" class="services-bg-img" loading="lazy">
+            </div>
+            <div class="services-asset-block assets-right">
+              <img src="assets/Num_6_right.png" alt="Engagement section" class="services-bg-img" loading="lazy">
+            </div>
           </div>
-          <div class="services-asset-block assets-right">
-            <img src="assets/Num_6_right.png" alt="Engagement section" class="services-bg-img" loading="lazy">
+          
+          <div class="engagement-models__intro">
+            Pick <strong>how we integrate</strong> with your team - from quick, one-off support to fully embedded weekly production.
           </div>
-        </div>
-        <div class="engagement-models__intro">Pick <strong>how we integrate</strong> with your team - from quick, one-off support to fully embedded weekly production.</div>
-        <div class="engagement-models__cards">
-                  <a class="engagement-card" href="mailto:hello@onemotion.studio?subject=Inquiry:%20Daily%20Engagement%20Model&body=Hi%20One%20Motion%20Studio%20team,%0A%0AI%27m%20interested%20in%20your%20Daily%20working%20format.%20Let%27s%20discuss%20how%20we%20can%20partner%20up.%0A%0ABest%20regards,">
-                    <img src="assets/workday.png" alt="Workday" loading="lazy">
-                  </a>
-                  
-                  <a class="engagement-card" href="mailto:hello@onemotion.studio?subject=Inquiry:%20Weekly%20Engagement%20Model&body=Hi%20One%20Motion%20Studio%20team,%0A%0AI%27m%20interested%20in%20your%20Weekly%20working%20format.%20Let%27s%20discuss%20how%20we%20can%20partner%20up.%0A%0ABest%20regards,">
-                    <img src="assets/week.png" alt="Weekly" loading="lazy">
-                  </a>
-                </div>
-        <div class="engagement-models__footer">
-          <div class="engagement-models__footer-text">
-            <p>Both models are flexible and can be adjusted based on scope.</p>
-            <p><strong>Need something custom? Let's talk.</strong></p>
+          
+          <div class="engagement-models__cards">
+            <a class="engagement-card" href="mailto:hello@onemotion.studio?subject=Inquiry:%20Daily%20Engagement%20Model">
+              <img src="assets/workday.png" alt="Workday" loading="lazy">
+            </a>
+            <a class="engagement-card" href="mailto:hello@onemotion.studio?subject=Inquiry:%20Weekly%20Engagement%20Model">
+              <img src="assets/week.png" alt="Weekly" loading="lazy">
+            </a>
           </div>
-          <img src="assets/target.png" alt="Target" class="engagement-models__target" loading="lazy">
+          
+          <div class="engagement-models__footer">
+            <div class="engagement-models__footer-text">
+              <p>Both models are flexible and can be adjusted based on scope.</p>
+              <p><strong>Need something custom? Let's talk.</strong></p>
+            </div>
+            <img src="assets/target.png" alt="Target" class="engagement-models__target" loading="lazy">
+          </div>
+
         </div>
       </section>
 
