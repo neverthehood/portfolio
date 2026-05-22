@@ -98,19 +98,13 @@
   margin-inline: auto !important;
 }
 
-.hero__content {
-  flex: 0 1 50% !important; /* Забирает левую половину */
-  text-align: left !important;
-  z-index: 5 !important;
-}
-
 /* Переводим композицию букв из absolute в flex-поток */
 .hero-3d-composition {
   position: relative !important; /* Убираем absolute, встаем в поток */
   top: auto !important;
   right: auto !important;
   bottom: auto !important;
-  flex: 0 1 45% !important; /* Забирает правую половину */
+  flex: 1 1 50% !important; /* Забирает правую половину */
   flex-direction: column !important;
   z-index: 4 !important;
 }
@@ -118,7 +112,7 @@
 .hero__title {
     font-family: var(--fontHeading);
     /* Используем твои переменные, но форсируем тонкий вес */
-    font-size: clamp(32px, 4vw, 72px) !important;
+    font-size: clamp(32px, 4vw, 82px) !important;
     line-height: 1.1 !important;
     font-weight: 300; /* Очень тонкий Outfit */
     color: var(--text);
@@ -141,6 +135,45 @@
 }
 
 
+/* Стили для каждой индивидуальной заглавной буквы */
+.letter-tile {
+  display: block !important;
+  height: clamp(24px, 8.5vw, 54px) !important;
+  width: auto !important; /* Гарантируем, что пропорции 3D-плиток не исказятся */
+  object-fit: contain;
+  cursor: pointer !important;
+  margin: 1px !important;
+  pointer-events: auto !important;
+  
+  /* ФИКС РАЗМЫТИЯ: Задаем начальную точку в 3D, чтобы GPU сразу готовил четкую текстуру */
+  transform: translateZ(0) scale(1) rotateX(0) rotateY(0);
+  
+  /* ФИКС РАЗМЫТИЯ: Включаем аппаратное сглаживание краев */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  
+  /* Плавный физичный возврат на место с покачиванием */
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s ease;
+  will-change: transform, filter;
+}
+
+/* 3. АНИМАЦИЯ НАЖАТИЯ МЕХАНИЧЕСКОЙ КЛАВИШИ + ДЕЛИКАТНАЯ ПОДСВЕТКА */
+.letter-tile:hover {
+  /* Кубик взлетает вверх и просто увеличивается, сохраняя резкость */
+  transform: translateY(-5px) translateZ(30px) scale(1.1) !important;
+  
+  /* Тени и z-index остаются */
+  filter: drop-shadow(0 25px 20px rgba(0, 0, 0, 0.18)) !important;
+  z-index: 30 !important;
+}
+
+/* Отступ-пробел для строки UX ONE UI */
+.letter-space {
+  display: inline-block;
+  width: clamp(16px, 2.5vw, 36px);
+}
+
+
 /* ПЛАНШЕТНЫЙ И МОБИЛЬНЫЙ ПЕРЕЛОМ (Здесь всё разваливалось) */
 @media (max-width: 1024px) {
   .hero {
@@ -152,13 +185,7 @@
     text-align: center !important; /* Центрируем текст для аккуратного мобильного вида */
   }
 
-  .hero__content,
-  .hero__visual {
-    flex: 0 1 100% !important;
-    width: 100% !important;
-    max-width: 600px !important; /* Ограничиваем ширину на планшете, чтобы текст не размазывался */
-    margin-inline: auto !important;
-  }
+
 
   /* Настраиваем размер 3D-графики, когда она сверху */
   .hero__visual {
@@ -1033,11 +1060,6 @@ body.mode-form .menu-toggle span {
   z-index: 10 !important;       
 }
 
-  .hero__visual-main img {
-    width: min(520px, 92vw);
-    height: auto;
-    display: block;
-  }
 
   .hero__content {
     order: 2;
@@ -3547,7 +3569,6 @@ body.mode-form .bg__grid{
 }
 
 .hero__visual-main {
-    width: clamp(620px, 40vw, 1720px);
     right: clamp(80px, 12vw, 360px);
     top: clamp(236px, 12vw, 480px);
     z-index: 0;
@@ -3611,23 +3632,6 @@ body.mode-form .bg__grid{
   display: none;
 }
 
-
-.hero__3d {
-  position: absolute; 
-  top: 300px;
-  left: 210px;
-  width: 300px;
-  height: 300px;
-  pointer-events: none; 
-  overflow: hidden;
-  z-index: 0;        
-}
-
-.hero__3d video {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;   
-}
 
 .section {
   position: relative;
@@ -3958,11 +3962,6 @@ body.mode-form .brand__whatsapp {
     max-width: var(--wrap) !important;
   }
 
-  /* Hero adaptation */
-  .hero__visual-main {
-    max-width: 1000px !important; /* Уменьшил с 1400 */
-  }
-
   .hero__visual-loose {
     max-width: 1800px !important; /* Уменьшил с 2400 */
   }
@@ -4254,8 +4253,6 @@ body.mode-form .chip--category:hover {
     left: 0 !important;
     right: 0 !important;
     transform: none !important;
-    width: 100% !important;
-    max-width: 520px !important;
     margin: 0px auto 28px;
     order: 1;
     display: flex;
@@ -4947,45 +4944,6 @@ margin-top:40px;
   perspective: 800px; 
 }
 
-/* Стили для каждой индивидуальной заглавной буквы */
-.letter-tile {
-  display: block !important;
-  width: auto !important;
-  height: clamp(48px, 3.5vw, 95px) !important;
-  object-fit: contain;
-  cursor: pointer !important;
-  margin: 0 !important;
-  pointer-events: auto !important;
-  
-  /* ФИКС РАЗМЫТИЯ: Задаем начальную точку в 3D, чтобы GPU сразу готовил четкую текстуру */
-  transform: translateZ(0) scale(1) rotateX(0) rotateY(0);
-  
-  /* ФИКС РАЗМЫТИЯ: Включаем аппаратное сглаживание краев */
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  
-  /* Плавный физичный возврат на место с покачиванием */
-  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s ease;
-  will-change: transform, filter;
-}
-
-/* 3. АНИМАЦИЯ НАЖАТИЯ МЕХАНИЧЕСКОЙ КЛАВИШИ + ДЕЛИКАТНАЯ ПОДСВЕТКА */
-.letter-tile:hover {
-  /* Кубик взлетает вверх и просто увеличивается, сохраняя резкость */
-  transform: translateY(-5px) translateZ(30px) scale(1.1) !important;
-  
-  /* Тени и z-index остаются */
-  filter: drop-shadow(0 25px 20px rgba(0, 0, 0, 0.18)) !important;
-  z-index: 30 !important;
-}
-
-/* Отступ-пробел для строки UX ONE UI */
-.letter-space {
-  display: inline-block;
-  width: clamp(16px, 2.5vw, 36px);
-}
-
-
 
 /* ==========================================================================
    АДАПТИВ ПОД МОБИЛКИ (Автоматически центрует и адаптирует блок на смартфонах)
@@ -4997,8 +4955,6 @@ margin-top:40px;
     left: 0 !important;
     right: 0 !important;
     margin: 0 auto 32px !important;
-    max-width: 520px !important;
-    width: 100% !important;
   }
 
   .hero-3d-composition {
@@ -5007,10 +4963,6 @@ margin-top:40px;
   
   .word-container {
     gap: 4px !important;
-  }
-  
-  .letter-tile {
-    height: min(42px, 8.5vw) !important;
   }
 }
 
@@ -5066,8 +5018,6 @@ body.mode-form .topbar {
 
   .hero-3d-composition {
     order: 1 !important;
-    width: 100% !important;
-    max-width: 450px !important; /* Ограничитель размера для мобильных */
     margin: 0 auto !important;
     display: flex !important;
     justify-content: center !important;
@@ -5082,10 +5032,6 @@ body.mode-form .topbar {
     flex: 1 1 50% !important;
     padding-bottom: 0 !important;
   }
-  
-  .hero__title {
-    font-size: clamp(28px, 6vw, 42px) !important; /* Шрифт плавно уменьшается */
-  }
 }
 
 
@@ -5098,7 +5044,7 @@ body.mode-form .topbar {
 
 /* Жестко фиксируем нормальный вес шрифта, чтобы он не прыгал */
 .hero__titleLine {
-  font-weight: 400 !important; /* Установи нужный тебе вес, например 400 или 500 */
+  font-weight: 300 !important; /* Установи нужный тебе вес, например 400 или 500 */
 }
 
 /* Убираем "разъезжание" композиции на широких экранах (1200px+) */
@@ -5107,10 +5053,6 @@ body.mode-form .topbar {
     gap: 80px !important; /* Ограничиваем отступ между текстом и буквами */
   }
   
-  .hero__title {
-    font-size: 64px !important; /* Фиксируем размер, чтобы не был "слишком крупным" */
-  }
-
   .topbar {
       display: flex !important;
       justify-content: space-between !important;
@@ -5123,17 +5065,6 @@ body.mode-form .topbar {
 }
 
 
-@media (min-width: 769px) and (max-width: 1200px) {
-
-  .hero__title {
-    font-size: 42px !important; /* Уменьшаем шрифт для планшетов */
-
-  }
-  
-  .hero-3d-composition {
-    max-width: 40% !important; /* Немного уменьшаем блок с буквами */
-  }
-}
 
 
 .topbar .cta-btn {
@@ -5148,13 +5079,6 @@ body.mode-form .topbar {
     flex-direction: column !important;
     gap: 32px !important;
   }
-  
-  .hero-3d-composition {
-    /* Чтобы буквы увеличивались на планшетах */
-    width: 100% !important;
-    max-width: min(85vw, 500px) !important; 
-    margin: 0 auto !important;
-  }
 }
 
 
@@ -5162,39 +5086,8 @@ body.mode-form .topbar {
   .hero__content {
     max-width: 45% !important; /* Даем больше места тексту */
   }
-  
-  .hero-3d-composition {
-    max-width: 45% !important; /* И картинке */
-    overflow: visible !important; /* Убираем обрезку */
-  }
 }
 
-
-.hero__content {
-  flex: 1 1 50% !important; /* Ровно половина */
-}
-
-/* Пропорциональное увеличение всегда */
-.hero__titleLine {
-  font-size: clamp(32px, 3.5vw, 64px) !important;
-}
-
-.hero-3d-composition {
-  /* Буквы будут расти вместе с шириной экрана всегда */
-  width: clamp(300px, 30vw, 600px) !important;
-  flex: 1 1 50% !important; /* Ровно половина */
-  display: flex !important;
-  justify-content: center !important;
-}
-
-@media (min-width: 2560px) {
-  .hero-grid-wrapper {
-    max-width: 2200px !important; /* Немного расширяем рабочую зону для гигантских мониторов */
-  }
-  .hero__title {
-    font-size: 96px !important; /* Даем заголовку стать еще масштабнее */
-  }
-}
 
 
 @media (min-width: 901px) and (max-width: 1024px) {
@@ -5217,11 +5110,6 @@ body.mode-form .topbar {
     padding-bottom: 0 !important;
   }
 
-  .hero__title {
-    /* Уменьшаем шрифт, так как на 901px он может быть слишком большим */
-    font-size: clamp(32px, 4vw, 42px) !important;
-    margin: 0;
-  }
 
   .hero__asterisk {
     white-space: nowrap;
