@@ -115,10 +115,7 @@
   }
 
   .main-nav__wrapper {
-      display: flex;
-      gap: 12px;
-      padding-left: 0;
-      padding-top: 20px;
+      display: none !important;
   }
 }
 
