@@ -37,6 +37,189 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&family=Poppins:wght@300;400;500&display=swap");
 
+/* ==========================================================================
+   ИДЕАЛЬНЫЙ МОБИЛЬНЫЙ РЕЖИМ (ДО 767px)
+   ========================================================================== */
+@media (max-width: 767px) {
+  
+  /* Контейнер слайдера */
+  .services-slider-wrap {
+    margin-left: 0 !important; /* Сбрасываем десктопные маржины */
+    width: 100% !important;
+    
+    /* Задаем одинаковые безопасные отступы от краев экрана слева и справа */
+    padding-inline: 20px !important; 
+    overflow: visible !important; /* Позволяет видеть красивый вылет соседних слайдов при прокрутке */
+  }
+
+  .services-slider-wrap .swiper-wrapper {
+    display: flex !important;
+    flex-direction: row !important; /* Лента Swiper строго горизонтальная */
+  }
+
+  /* Физическая оболочка слайда на мобилке */
+  .services-slider-wrap .swiper-slide {
+    width: 100% !important;
+    height: auto !important; /* Высота подстроится под сумму внутренних блоков */
+    display: flex !important;
+    padding: 0 !important;
+  }
+
+  /* Сама карточка */
+  .services-slider-wrap .service-card {
+    display: flex !important;
+    /* Разворачиваем ось: левая часть (текст) уходит НАВЕРХ, правая (картинка) падает ВНИЗ */
+    flex-direction: column !important; 
+    width: 100% !important;
+    height: auto !important;
+    background: #f9f9f9;
+    border-radius: 24px;
+    overflow: hidden;
+  }
+
+  /* ВЕРХНИЙ БЛОК: Контент (Название услуги, описание, стрелочка) */
+  .services-slider-wrap .service-card__left {
+  width: 100% !important;
+  /* МЕНЯЕМ height на auto, чтобы капсулы тегов больше никогда не обрезались */
+  height: auto !important; 
+  
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  
+  /* Делаем мобильные паддинги чуть компактнее, чтобы освободить место */
+  padding: 20px 16px !important; 
+}
+
+  /* НИЖНИЙ БЛОК: Контейнер с картинкой-рендером */
+  .services-slider-wrap .service-card__right {
+    width: 100% !important;
+    /* УВЕЛИЧИВАЕМ ВЫСОТУ: чтобы картинка показывалась полностью и масштабно */
+    height: 380px !important; 
+    position: relative !important;
+  }
+
+  /* Сама картинка внутри контейнера */
+  .services-slider-wrap .service-card__right .render-img {
+    width: 100% !important;
+    height: 100% !important;
+    /* cover гарантирует, что картинка заполнит весь увеличенный контейнер (380px) 
+       без сплющивания и искажения пропорций, сохраняя 3D-объем */
+    object-fit: cover !important; 
+    display: block !important;
+  }
+
+  .assets-left {
+      max-width: 70%;
+      padding-top: 12px;
+  }
+
+  .main-nav__wrapper {
+      display: flex;
+      gap: 12px;
+      padding-left: 0;
+      padding-top: 20px;
+  }
+}
+
+
+@media (min-width: 1361px) {
+.services-slider-wrap {
+    margin-left: 100px !important;
+    /* Обязательно компенсируем ширину, чтобы правый край не улетал за экран */
+    width: calc(100% - 100px) !important; 
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1360px) {
+
+  .services-slider-wrap {
+    /* Сдвигаем родительский контейнер на 20px, как ты и хотел */
+    margin-left: 20px !important;
+    
+    /* Компенсируем ширину: 100% экрана минус наш левый маржин 20px 
+       и минус еще 20px справа для симметрии, чтобы карточка красиво дышала */
+    width: calc(100% - 40px) !important;
+    
+    overflow: hidden !important;
+  }
+
+
+  /* Базовый слайд Swiper должен четко диктовать высоту */
+  .services-slider-wrap .swiper-slide {
+    width: 100vw !important; 
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+    
+    /* Задаем фиксированную базовую высоту для всего слайдера на планшетах,
+       чтобы ни один перенос текста не мог деформировать карточку */
+    height: clamp(660px, 45vh, 660px) !important; 
+  }
+
+  /* ВНУТРЕННЯЯ КАРТОЧКА */
+  .services-slider-wrap .service-card {
+    display: flex !important;
+    flex-direction: row !important;
+    
+    /* Карточка железно занимает 100% высоты, заданной для .swiper-slide */
+    height: 100% !important; 
+    width: 96vw !important;
+  }
+
+  /* ЛЕВАЯ СТОРОНА (Контент) */
+  .services-slider-wrap .service-card__left {
+    width: 50% !important;
+    flex: 0 0 50% !important;
+    height: 100% !important; /* На всю высоту карточки */
+    
+    display: flex !important;
+    flex-direction: column !important;
+    /* justify-content растолкает заголовок наверх, а теги/кнопки вниз, 
+       оставив красивый воздух по центру, независимо от переноса строк */
+    justify-content: space-between !important; 
+    
+    padding: clamp(20px, 3vw, 36px) !important; /* Уменьшаем паддинги, чтобы тексту было просторнее */
+    overflow: hidden !important;
+  }
+
+  /* ПРАВАЯ СТОРОНА (Рендер) */
+  .services-slider-wrap .service-card__right {
+    width: 50% !important;
+    flex: 0 0 50% !important;
+    height: 100% !important; /* На всю высоту карточки */
+  }
+
+  .services-slider-wrap .service-card__right .render-img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important; /* Картинка заполнит свои 100% высоты без деформаций */
+  }
+
+
+  .services-header-grid {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: flex-start;
+  justify-content: space-between;
+  
+  /* Возвращаем твою широкую сетку для этого блока */
+  max-width: 90vw !important; /* Ограничитель для ультрашироких мониторов */
+  margin-inline: auto !important;
+  
+  margin-bottom: var(--gap-lg);
+}
+
+  .main-nav__wrapper {
+    display: flex;
+    gap: 12px;
+    padding-left: 0;
+    padding-top: 20px;
+}
+}
+
+
 
 /* =========================================
    ИСПРАВЛЕНИЯ ХЕДЕРА И НАВИГАЦИИ
@@ -211,7 +394,6 @@
   display: flex !important;
   flex-direction: row !important;
   flex-wrap: nowrap !important;
-  align-items: center;
   justify-content: space-between;
   
   /* Возвращаем твою широкую сетку для этого блока */
@@ -2622,7 +2804,6 @@ border-radius: 10px;
 
 
 .services-slider-wrap {
-    margin-left: 100px !important;
     margin-right: auto;
     position: relative;
     list-style: none;
@@ -2642,14 +2823,12 @@ border-radius: 10px;
 
 
 .service-card {
-    flex: 0 0 1100px;
     height: 660px !important;
     background: #deeaff;
     border-radius: 40px;
     display: flex;
     overflow: hidden;
     scroll-snap-align: center;
-    width: 1080px;
 }
 
 /* Адаптивность для мобильных */
@@ -2686,6 +2865,7 @@ border-radius: 10px;
     padding-left: 0;
     float: inline-end;
     padding-right: 16px;
+    padding-top: 20px;
     align-items: center;
 }
 
@@ -2915,8 +3095,6 @@ div#services-counter {
 .services-slider-main::-webkit-scrollbar { display: none; }
 
 .service-card {
-    flex: 0 0 1100px; /* Ширина карточки */
-    height: 600px;
     background: #deeaff;
     border-radius: 40px;
     display: flex;
@@ -2998,8 +3176,6 @@ div#services-counter {
 }
 
 .service-card {
-    flex: 0 0 1100px;
-    height: 520px; /* Уменьшенная фиксированная высота как на рефе */
     background: #deeaff;
     border-radius: 14px;
     display: flex;

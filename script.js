@@ -686,8 +686,8 @@ async function initServices() {
         spaceBetween: 30,
         navigation: { nextEl: '.swiper-next', prevEl: '.swiper-prev' },
         breakpoints: {
-            320: { spaceBetween: 16, slidesOffsetAfter: 20 },
-            1024: { spaceBetween: 30, slidesOffsetAfter: 500 }
+            768: { spaceBetween: 16, slidesOffsetAfter: 20 },
+            1320: { spaceBetween: 30, slidesOffsetAfter: 500 }
         },
         on: {
             init: function () {
