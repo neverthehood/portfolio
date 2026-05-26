@@ -682,19 +682,23 @@ async function initServices() {
 
     // Главный слайдер
     const servicesSwiper = new Swiper('.services-slider-wrap', {
-        slidesPerView: 1.4,
-        spaceBetween: 30,
-        navigation: { nextEl: '.swiper-next', prevEl: '.swiper-prev' },
+        // Базовые настройки (применяются для мобильных устройств)
+        slidesPerView: 'auto', 
+        spaceBetween: 20,      // На мобилках поменьше, чтобы лучше смотрелось
+        centeredSlides: true,  // Чтобы слайд был ровно по центру
+        
         breakpoints: {
-            768: { spaceBetween: 16, slidesOffsetAfter: 20 },
-            1320: { spaceBetween: 30, slidesOffsetAfter: 500 }
-        },
-        on: {
-            init: function () {
-                updateCounter(this);
+            // Когда ширина экрана >= 768px
+            768: {
+                slidesPerView: 1.4,
+                spaceBetween: 30,
+                centeredSlides: false // На десктопе обычно удобнее прижать к краю
             },
-            slideChange: function () {
-                updateCounter(this);
+            // Когда ширина экрана >= 1320px
+            1320: {
+                slidesPerView: 1.2, 
+                spaceBetween: 60,
+                centeredSlides: false
             }
         }
     });
