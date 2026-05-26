@@ -37,6 +37,7 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&family=Poppins:wght@300;400;500&display=swap");
 
+
 /* ==========================================================================
    ИДЕАЛЬНЫЙ МОБИЛЬНЫЙ РЕЖИМ (ДО 767px)
    ========================================================================== */
@@ -215,6 +216,7 @@
     padding-top: 20px;
 }
 }
+
 
 
 
@@ -2400,7 +2402,6 @@ border-radius: 10px;
 
 
 .collaboration {
-    padding: 0px;
     position: relative;
     z-index: 1;
     /* Фон берется из общей настройки body или .bg__noise */
@@ -2411,7 +2412,7 @@ border-radius: 10px;
     font-family: var(--fontBody);
     font-size: 24px;
     font-weight: 400;
-    margin: 0px auto 140px;
+    margin: 0px auto 40px;
     color: #111;
     max-width: 800px;
     line-height: 1.4;
@@ -2430,23 +2431,25 @@ border-radius: 10px;
 }
 
 .collaboration__grid {
-    display: flex;
-    gap: 24px;
-    justify-content: center;
-    /* Гарантируем, что сетка не "подползает" под заголовок */
+    display: grid;
+    /* Автоматическое количество колонок: 
+       минимум 280px, если места нет — перенос на новую строку */
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 32px; 
     margin-top: 20px; 
+    padding: 0 clamp(20px, 5vw, 150px); /* Резиновый отступ, который "тает" */
     position: relative;
     z-index: 1;
-    padding: 0px 150px;
 }
 
 .collab-card {
-    flex: 1;
     background: none;
     padding: 48px 32px;
     text-align: center;
     border: none;
     transition: transform 0.3s ease;
+    display: flex; /* Чтобы управлять контентом внутри */
+    flex-direction: column;
 }
 
 .collab-card:hover {
@@ -2454,7 +2457,8 @@ border-radius: 10px;
 }
 
 .collab-card__visual {
-    height: 160px;
+    /* Меняем фиксированную высоту на пропорцию */
+    aspect-ratio: 16 / 9; 
     margin-bottom: 32px;
     display: flex;
     align-items: center;
@@ -2462,8 +2466,11 @@ border-radius: 10px;
 }
 
 .collab-card__visual img {
-    max-width: 95%;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
     height: auto;
+    object-fit: contain; /* Логотип всегда виден целиком */
 }
 
 .collab-card__title {
@@ -2504,11 +2511,11 @@ border-radius: 10px;
 /* Мобильная версия */
 @media (max-width: 768px) {
     .collaboration__grid {
-        flex-direction: column;
-        align-items: center;
+        grid-template-columns: 1fr; /* На мобилке всегда 1 колонка */
+        padding: 0 20px;
     }
     .collab-card {
-        width: 100%;
+        padding: 24px 16px; /* Чуть компактнее на мобилках */
     }
 }
 
@@ -2518,7 +2525,7 @@ border-radius: 10px;
 .portfolio-nav {
     display: flex;
     gap: 12px;
-    margin-top: -50px;
+    margin-top: 16px;
     justify-content: end;
 }
 
@@ -2911,7 +2918,7 @@ div#services-counter {
 
 .container {
     width: 90vw;
-    margin-left: 90px;
+    margin: 0 auto;
 }
 
 
@@ -5288,5 +5295,48 @@ body.mode-form .topbar {
     white-space: nowrap;
     text-align: center;
 }
+}
 
+
+
+/* =========================================
+   СЕКЦИЯ COLLABORATION: ИДЕАЛЬНАЯ СЕТКА
+   ========================================= */
+.collaboration {
+  width: 100%;
+  /* Резиновые отступы по краям экрана */
+  padding-inline: clamp(20px, 5vw, 120px); 
+  margin-block: clamp(40px, 8vw, 100px);
+}
+
+.collaboration-grid {
+  display: grid;
+  /* Автоматическая сетка: минимум 200px ширина карточки, 
+     остальное пространство делится поровну (1fr) */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: clamp(16px, 3vw, 40px); /* Адаптивный отступ между карточками */
+  align-items: center; /* Центрируем всё по вертикали */
+  justify-items: center; /* Центрируем всё по горизонтали */
+  width: 100%;
+}
+
+.collaboration-item {
+  width: 100%;
+  aspect-ratio: 16 / 9; /* Сохраняет пропорцию карточки */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f9f9f9;
+  border-radius: 20px;
+  padding: 20px;
+  transition: transform 0.2s ease;
+}
+
+.collaboration-item img {
+  /* Картинка никогда не вылезет за пределы своей ячейки */
+  max-width: 80%; 
+  max-height: 80%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
 }

@@ -682,7 +682,7 @@ async function initServices() {
 
     // Главный слайдер
     const servicesSwiper = new Swiper('.services-slider-wrap', {
-        slidesPerView: 'auto',
+        slidesPerView: 1.4,
         spaceBetween: 30,
         navigation: { nextEl: '.swiper-next', prevEl: '.swiper-prev' },
         breakpoints: {
