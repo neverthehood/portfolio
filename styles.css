@@ -2550,11 +2550,12 @@ border-radius: 10px;
     justify-content: center; /* Центрируем содержимое */
     align-items: center;
     width: 100%;
-    max-width: 100vw !important;
-    overflow: hidden !important;
+    overflow: visible;
     position: relative;
     padding-inline: 20px !important; /* Безопасные отступы */
     height: 500px !important;
+    touch-action: pan-y; 
+    overflow: visible !important;
 }
 
 .portfolio-slider:active {
