@@ -3012,7 +3012,7 @@ div#services-counter {
   opacity: 0.6;
 }
 
-.logos-img {
+.logo-desktop {
   max-width: 90%;
   height: auto;
 }
@@ -5411,7 +5411,7 @@ body.mode-form .topbar {
 
 
 /* По умолчанию показываем десктопный вариант */
-.logo-mobile { display: none; }
+.logo-mobile { display: none !important; }
 
 @media (max-width: 767px) {
     .logo-desktop { display: none; }
