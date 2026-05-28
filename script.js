@@ -693,24 +693,17 @@ async function initPortfolio() {
     const allSlides = gsap.utils.toArray(".portfolio-slide");
     let activeIndex = originalSlidesCount;
 
-    function updateSlider(animate = true) {
+    // 1. САМАЯ ФУНКЦИЯ АНИМАЦИИ (только логика движения)
+        function updateSlider(animate = true) {
             const sliderWidth = slider.offsetWidth;
             const centerOffset = sliderWidth / 2;
-
-            // 1. Позиционируем активный слайд по центру
             const activeX = centerOffset - (wide / 2);
 
-            // 2. Ставим активный слайд
-            gsap.to(allSlides[activeIndex], { 
-                x: activeX, 
-                width: wide, 
-                duration: animate ? 0.7 : 0, 
-                ease: "power3.out", 
-                overwrite: true 
-            });
+            // Ставим активный
+            gsap.to(allSlides[activeIndex], { x: activeX, width: wide, duration: animate ? 0.7 : 0, ease: "power3.out", overwrite: true });
             allSlides[activeIndex].classList.add('is-active');
 
-            // 3. Расставляем слайды ВЛЕВО от активного
+            // Влево
             let leftX = activeX - gap - narrow;
             for (let i = activeIndex - 1; i >= 0; i--) {
                 gsap.to(allSlides[i], { x: leftX, width: narrow, duration: animate ? 0.7 : 0, ease: "power3.out" });
@@ -718,7 +711,7 @@ async function initPortfolio() {
                 leftX -= (narrow + gap);
             }
 
-            // 4. Расставляем слайды ВПРАВО от активного
+            // Вправо
             let rightX = activeX + wide + gap;
             for (let i = activeIndex + 1; i < allSlides.length; i++) {
                 gsap.to(allSlides[i], { x: rightX, width: narrow, duration: animate ? 0.7 : 0, ease: "power3.out" });
@@ -726,58 +719,47 @@ async function initPortfolio() {
                 rightX += (narrow + gap);
             }
 
-            // 5. Логика циклического сброса
-                    if (animate) {
-                        if (activeIndex >= originalSlidesCount * 2) {
-                            setTimeout(() => {
-                                activeIndex -= originalSlidesCount;
-                                updateSlider(false);
-                            }, 700);
-                        } else if (activeIndex < originalSlidesCount) {
-                            setTimeout(() => {
-                                activeIndex += originalSlidesCount;
-                                updateSlider(false);
-                            }, 700);
-                        }
-                    }
-                } // Конец функции updateSlider
-
-                // Кнопки навигации (ИНИЦИАЛИЗИРУЕМ ОДИН РАЗ ЗДЕСЬ)
-                const portfolioNext = document.querySelector('.portfolio-next');
-                const portfolioPrev = document.querySelector('.portfolio-prev');
-
-                portfolioNext?.addEventListener('click', () => {
-                    activeIndex = (activeIndex + 1) % allSlides.length;
-                    updateSlider();
-                });
-
-                portfolioPrev?.addEventListener('click', () => {
-                    activeIndex = (activeIndex - 1 + allSlides.length) % allSlides.length;
-                    updateSlider();
-                });
-
-                window.addEventListener('resize', () => {
-                    const newSizes = getSizes();
-                    narrow = newSizes.narrow;
-                    wide = newSizes.wide;
-                    gap = newSizes.gap;
-                    updateSlider(false);
-                });
-
-                allSlides.forEach((slide, i) => {
-                    slide.addEventListener('click', () => {
-                        if (activeIndex !== i) {
-                            activeIndex = i;
-                            updateSlider();
-                        } else {
-                            const id = slide.querySelector('.portfolio-card').getAttribute('data-id');
-                            openCase(id);
-                        }
-                    });
-                });
-
-                updateSlider(false);
+            // Логика зацикливания
+            if (animate) {
+                if (activeIndex >= originalSlidesCount * 2) {
+                    setTimeout(() => { activeIndex -= originalSlidesCount; updateSlider(false); }, 700);
+                } else if (activeIndex < originalSlidesCount) {
+                    setTimeout(() => { activeIndex += originalSlidesCount; updateSlider(false); }, 700);
+                }
             }
+        }
+
+        // 2. ВСЕ СОБЫТИЯ ВЕШАЕМ ОДИН РАЗ ЗДЕСЬ (вне updateSlider!)
+        
+        // Свайпы
+        let startX = 0;
+        slider.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; });
+        slider.addEventListener('touchend', (e) => {
+            let diff = startX - e.changedTouches[0].clientX;
+            if (Math.abs(diff) > 50) {
+                activeIndex = diff > 0 ? Math.min(activeIndex + 1, allSlides.length - 1) : Math.max(activeIndex - 1, 0);
+                updateSlider();
+            }
+        });
+
+        // Кнопки
+        document.querySelector('.portfolio-next')?.addEventListener('click', () => { activeIndex++; updateSlider(); });
+        document.querySelector('.portfolio-prev')?.addEventListener('click', () => { activeIndex--; updateSlider(); });
+
+        // Ресайз и клики
+        window.addEventListener('resize', () => { 
+            let s = getSizes(); narrow=s.narrow; wide=s.wide; gap=s.gap; updateSlider(false); 
+        });
+
+        allSlides.forEach((slide, i) => {
+            slide.addEventListener('click', () => {
+                if (activeIndex !== i) { activeIndex = i; updateSlider(); }
+                else { openCase(slide.querySelector('.portfolio-card').dataset.id); }
+            });
+        });
+
+        updateSlider(false); // Первый запуск
+    } // Конец initPortfolio
 
 async function initTestimonials() {
     // Относительный путь к файлу [source: 2]

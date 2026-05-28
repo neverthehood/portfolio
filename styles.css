@@ -2546,7 +2546,10 @@ border-radius: 10px;
    ========================================================================== */
 
 .portfolio-slider {
-    width: 100% !important;
+    display: flex;
+    justify-content: center; /* Центрируем содержимое */
+    align-items: center;
+    width: 100%;
     max-width: 100vw !important;
     overflow: hidden !important;
     position: relative;
@@ -2571,7 +2574,7 @@ border-radius: 10px;
     flex-shrink: 0;
     width: 340px;
     height: 100% !important;
-    will-change: width, transform;
+    will-change: transform, width;
     padding: 0 10px;
     box-sizing: border-box;
 }
@@ -4940,7 +4943,7 @@ margin-top:40px;
     }
 
     .portfolio-nav {
-      display: none;
+      display: none !important;
     }
 
 }
