@@ -119,6 +119,7 @@ nav a:hover { color: #fff; }
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
+  width: 100%;
 }
 
 /* CARD */
@@ -131,6 +132,7 @@ nav a:hover { color: #fff; }
   border-radius: 4px;
   background: #1a1a1a;
   margin-bottom: 1rem;
+  width: 100%;
 }
 
 .work-card-slides {
