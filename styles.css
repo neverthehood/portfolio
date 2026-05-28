@@ -5407,3 +5407,12 @@ body.mode-form .topbar {
     pointer-events: auto !important;
     cursor: pointer !important;
 }
+
+
+/* По умолчанию показываем десктопный вариант */
+.logo-mobile { display: none; }
+
+@media (max-width: 767px) {
+    .logo-desktop { display: none; }
+    .logo-mobile { display: block; }
+}
