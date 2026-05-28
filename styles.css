@@ -386,6 +386,64 @@
 
 
 /* =========================================
+   ПОРТФОЛИО: ФИКС УЕЗЖАНИЯ ВЛЕВО
+   ========================================= */
+.portfolio-slider-wrap {
+  width: 100% !important;
+  overflow: hidden !important;
+  /* Отступы задаем только для родителя, не для обертки слайдера */
+  padding-inline: 20px !important; 
+  margin-left: 0 !important;
+}
+
+.portfolio-slider-wrap .swiper-wrapper {
+  display: flex !important;
+  /* Важно: никакого margin-left на обертке! */
+  margin-left: 0 !important; 
+}
+
+.portfolio-slider-wrap .swiper-slide {
+  /* Слайд должен физически занимать 100% ширины, 
+     а визуально сжиматься для красоты */
+  width: 90% !important; 
+  display: flex !important;
+  justify-content: center !important;
+}
+
+
+/* Делаем кнопки навигации всегда доступными для клика */
+.reviews-next, .reviews-prev, 
+.portfolio-nav button, 
+.service-card .next, .service-card .prev {
+    position: relative;
+    z-index: 1000 !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+}
+
+
+/* По умолчанию показываем десктопный вариант */
+img.logo-mobile {
+    display: none;
+}
+
+img.logo-desktop {
+    width: 90vw !important;
+}
+
+@media (max-width: 767px) {
+    .logo-desktop { display: none; }
+    .logo-mobile { display: block; }
+}
+
+
+.portfolio-card, .portfolio-slide {
+    box-sizing: border-box; /* Это критически важно! */
+}
+
+
+
+/* =========================================
    ЗАГОЛОВКИ РАЗДЕЛОВ (services-header-grid) - ОПТИМАЛЬНЫЕ
    ========================================= */
 
@@ -3012,10 +3070,6 @@ div#services-counter {
   opacity: 0.6;
 }
 
-.logo-desktop {
-  max-width: 90%;
-  height: auto;
-}
 
 /* Позиционирование кнопок навигации */
 .reviews-nav {
@@ -5373,54 +5427,3 @@ body.mode-form .topbar {
 }
 
 
-/* =========================================
-   ПОРТФОЛИО: ФИКС УЕЗЖАНИЯ ВЛЕВО
-   ========================================= */
-.portfolio-slider-wrap {
-  width: 100% !important;
-  overflow: hidden !important;
-  /* Отступы задаем только для родителя, не для обертки слайдера */
-  padding-inline: 20px !important; 
-  margin-left: 0 !important;
-}
-
-.portfolio-slider-wrap .swiper-wrapper {
-  display: flex !important;
-  /* Важно: никакого margin-left на обертке! */
-  margin-left: 0 !important; 
-}
-
-.portfolio-slider-wrap .swiper-slide {
-  /* Слайд должен физически занимать 100% ширины, 
-     а визуально сжиматься для красоты */
-  width: 90% !important; 
-  display: flex !important;
-  justify-content: center !important;
-}
-
-
-/* Делаем кнопки навигации всегда доступными для клика */
-.reviews-next, .reviews-prev, 
-.portfolio-nav button, 
-.service-card .next, .service-card .prev {
-    position: relative;
-    z-index: 1000 !important;
-    pointer-events: auto !important;
-    cursor: pointer !important;
-}
-
-
-/* По умолчанию показываем десктопный вариант */
-img.logo-mobile {
-    display: none;
-}
-
-@media (max-width: 767px) {
-    .logo-desktop { display: none; }
-    .logo-mobile { display: block; }
-}
-
-
-.portfolio-card, .portfolio-slide {
-    box-sizing: border-box; /* Это критически важно! */
-}
