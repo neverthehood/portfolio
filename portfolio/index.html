@@ -1,17 +1,95 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <title>Vlad Hohlov - Portfolio</title>
-  <link rel="stylesheet" href="./portfolio_style.css" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.5rem;
+      height: 64px;
+      background: rgba(30, 30, 30, 0.6);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 0.5px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .logo img {
+      height: 28px;
+      width: auto;
+      display: block;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+    }
+
+    nav a {
+      font-family: sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      color: rgba(255, 255, 255, 0.55);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: #fff; }
+
+    .cv-link {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border: 0.5px solid rgba(255, 255, 255, 0.2);
+      padding: 6px 14px;
+      border-radius: 20px;
+      transition: border-color 0.2s, color 0.2s !important;
+    }
+
+    .cv-link:hover {
+      color: #fff !important;
+      border-color: rgba(255, 255, 255, 0.5) !important;
+    }
+
+    .cv-link svg {
+      width: 12px;
+      height: 12px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: 0.6;
+    }
+  </style>
 </head>
-<body style="margin:0; background:#1e1e1e; display:flex; align-items:center; justify-content:center; height:100vh;">
-  <button style="background:none; border:1px solid rgba(255,255,255,0.3); color:#fff; padding:12px 32px; font-size:14px; border-radius:20px; cursor:pointer; letter-spacing:0.06em;">
-    View on Behance
-  </button>
+<body style="background: #111; height: 200vh;">
+
+  <header>
+    <a href="#" class="logo">
+      <img src="icon.svg" alt="Logo">
+    </a>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#work">Work</a>
+      <a href="your-cv.pdf" download class="cv-link">
+        CV
+        <svg viewBox="0 0 24 24">
+          <path d="M12 5v14M5 12l7 7 7-7"/>
+        </svg>
+      </a>
+    </nav>
+  </header>
+
 </body>
 </html>
-
-
