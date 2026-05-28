@@ -10,71 +10,77 @@
 <body>
 
   <header>
-    <a href="" class="logo">
-      <img src="../assets/logo_icon.svg" alt="Logo">
-    </a>
-    <nav>
-      <a href="#about">About</a>
-      <a href="#work">Work</a>
-      <a href="../assets/cv.pdf" download class="cv-link">
-        CV
-        <svg viewBox="0 0 24 24">
-          <path d="M12 5v14M5 12l7 7 7-7"/>
-        </svg>
+    <div class="container">
+      <a href="" class="logo">
+        <img src="../assets/logo_icon.svg" alt="Logo">
       </a>
-    </nav>
+      <nav>
+        <a href="#about">About</a>
+        <a href="#work">Work</a>
+        <a href="../assets/cv.pdf" download class="cv-link">
+          CV
+          <svg viewBox="0 0 24 24">
+            <path d="M12 5v14M5 12l7 7 7-7"/>
+          </svg>
+        </a>
+      </nav>
+    </div>
   </header>
 
   <section class="hero">
-    <h1>Creative Lead<br>& Design Strategist</h1>
-    <p class="hero-sub">Strong hands-on background in 3D, motion, and visual identity —<br>from conceptualization to full-cycle delivery</p>
+    <div class="container">
+      <h1>Creative Lead<br>& Design Strategist</h1>
+      <p class="hero-sub">Strong hands-on background in 3D, motion, and visual identity —<br>from conceptualization to full-cycle delivery</p>
+    </div>
   </section>
 
   <section class="work" id="work">
-    <p class="section-label">Work</p>
-    <div class="work-grid">
+    <div class="container">
+      <p class="section-label">Work</p>
+      <div class="work-grid">
 
-      <div class="work-card" data-behance="https://behance.net/your-project-1">
-        <div class="work-card-media">
-          <div class="work-card-slides">
-            <div class="slide placeholder"></div>
-            <div class="slide placeholder"></div>
-            <div class="slide placeholder"></div>
-            <div class="slide behance-slide">
-              <a href="https://behance.net/your-project-1" target="_blank" class="behance-btn">View on Behance</a>
+        <div class="work-card">
+          <div class="work-card-media">
+            <div class="work-card-slides">
+              <div class="slide placeholder"></div>
+              <div class="slide placeholder"></div>
+              <div class="slide placeholder"></div>
+              <div class="slide behance-slide">
+                <a href="https://behance.net/your-project-1" target="_blank" class="behance-btn">View on Behance</a>
+              </div>
             </div>
+            <div class="slide-dots"></div>
           </div>
-          <div class="slide-dots"></div>
-        </div>
-        <div class="work-card-info">
-          <div>
-            <p class="work-title">Project Name</p>
-            <p class="work-tags">Client · 3D · Motion</p>
-          </div>
-          <p class="work-year">2024</p>
-        </div>
-      </div>
-
-      <div class="work-card" data-behance="https://behance.net/your-project-2">
-        <div class="work-card-media">
-          <div class="work-card-slides">
-            <div class="slide placeholder"></div>
-            <div class="slide placeholder"></div>
-            <div class="slide behance-slide">
-              <a href="https://behance.net/your-project-2" target="_blank" class="behance-btn">View on Behance</a>
+          <div class="work-card-info">
+            <div>
+              <p class="work-title">Project Name</p>
+              <p class="work-tags">Client · 3D · Motion</p>
             </div>
+            <p class="work-year">2024</p>
           </div>
-          <div class="slide-dots"></div>
         </div>
-        <div class="work-card-info">
-          <div>
-            <p class="work-title">Project Name</p>
-            <p class="work-tags">Client · 3D · Motion</p>
-          </div>
-          <p class="work-year">2025</p>
-        </div>
-      </div>
 
+        <div class="work-card">
+          <div class="work-card-media">
+            <div class="work-card-slides">
+              <div class="slide placeholder"></div>
+              <div class="slide placeholder"></div>
+              <div class="slide behance-slide">
+                <a href="https://behance.net/your-project-2" target="_blank" class="behance-btn">View on Behance</a>
+              </div>
+            </div>
+            <div class="slide-dots"></div>
+          </div>
+          <div class="work-card-info">
+            <div>
+              <p class="work-title">Project Name</p>
+              <p class="work-tags">Client · 3D · Motion</p>
+            </div>
+            <p class="work-year">2025</p>
+          </div>
+        </div>
+
+      </div>
     </div>
   </section>
 
