@@ -2554,6 +2554,7 @@ border-radius: 10px;
     overflow: hidden !important;
     position: relative;
     padding-inline: 20px !important; /* Безопасные отступы */
+    height: 500px !important;
 }
 
 .portfolio-slider:active {
@@ -4058,6 +4059,15 @@ body.mode-form .brand__whatsapp {
     text-align: left;
     padding-left: 20px;
   }
+
+
+  .reviews-nav {
+    display: none;
+  }
+
+  .portfolio-nav {
+    display: none !important;
+  }  
 }
 
 
@@ -4471,7 +4481,7 @@ body.mode-form .chip--category:hover {
     line-height: 1.15;
   }
 
-  .portfolio-slider { height: 500px; }
+  .portfolio-slider { height: 500px !important; }
   .portfolio-slide { width: 280px !important; height: 450px !important; }
   .portfolio-slide.is-active { width: 320px !important; }
 
@@ -4934,16 +4944,6 @@ margin-top:40px;
         radial-gradient(at 100% 30%, rgba(255, 235, 240, 1) 0%, transparent 40%),
         
         radial-gradient(at 50% 100%, rgba(225, 235, 250, 0.4) 0%, transparent 50%);
-    }
-
-}
-
-    .reviews-nav {
-      display: none;
-    }
-
-    .portfolio-nav {
-      display: none !important;
     }
 
 }

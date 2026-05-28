@@ -664,7 +664,7 @@ async function initPortfolio() {
         return {
             narrow: isMobile ? 260 : 340,
             wide: isMobile ? 280 : 720,
-            gap: isMobile ? 15 : 30
+            gap: isMobile ? 15 : 80
         };
     }
 
