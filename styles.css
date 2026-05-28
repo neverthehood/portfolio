@@ -111,7 +111,7 @@
   }
 
   .assets-left {
-      max-width: 70%;
+      max-width: 80%;
       padding-top: 12px;
   }
 
@@ -2572,6 +2572,8 @@ border-radius: 10px;
     width: 340px;
     height: 100% !important;
     will-change: width, transform;
+    padding: 0 10px;
+    box-sizing: border-box;
 }
 
 .portfolio-card {
@@ -2584,6 +2586,7 @@ border-radius: 10px;
     flex-direction: column;
     cursor: pointer;
     position: relative;
+    transition: box-shadow 0.3s ease;
 }
 
 .portfolio-card__img-box {
@@ -2591,6 +2594,10 @@ border-radius: 10px;
     height: 100%; /* Теперь картинка на весь контейнер */
     position: relative;
     overflow: hidden;
+}
+
+.portfolio-slide.is-active .portfolio-card {
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15); /* Активный слайд чуть выделяется */
 }
 
 .portfolio-card__img {
@@ -5376,4 +5383,15 @@ body.mode-form .topbar {
   width: 90% !important; 
   display: flex !important;
   justify-content: center !important;
+}
+
+
+/* Делаем кнопки навигации всегда доступными для клика */
+.reviews-next, .reviews-prev, 
+.portfolio-nav button, 
+.service-card .next, .service-card .prev {
+    position: relative;
+    z-index: 1000 !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
 }

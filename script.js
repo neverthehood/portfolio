@@ -583,6 +583,11 @@ async function initServices() {
         slidesPerView: 'auto', 
         spaceBetween: 20,      // На мобилках поменьше, чтобы лучше смотрелось
         centeredSlides: true,  // Чтобы слайд был ровно по центру
+
+        navigation: {
+            nextEl: '.swiper-next',
+            prevEl: '.swiper-prev',
+        },
         
         breakpoints: {
             // Когда ширина экрана >= 768px
@@ -689,68 +694,56 @@ async function initPortfolio() {
     let activeIndex = originalSlidesCount;
 
     function updateSlider(animate = true) {
-        const containerWidth = slider.offsetWidth;
-        const centerOffset = containerWidth / 2;
+            const sliderWidth = slider.offsetWidth;
+            const centerOffset = sliderWidth / 2;
 
-        let activeX = 0;
-        allSlides.forEach((slide, i) => {
-            const targetWidth = (i === activeIndex) ? wide : narrow;
-            if (i < activeIndex) activeX += targetWidth + gap;
-            if (i === activeIndex) activeX += targetWidth / 2;
-        });
+            // 1. Позиционируем активный слайд по центру
+            const activeX = centerOffset - (wide / 2);
 
-        const startX = centerOffset - activeX;
-        let runningX = startX;
-
-        allSlides.forEach((slide, i) => {
-            const isActive = (i === activeIndex);
-            const targetWidth = isActive ? wide : narrow;
-            
-            gsap.to(slide, {
-                x: runningX,
-                width: targetWidth,
-                duration: animate ? 0.7 : 0,
-                ease: "power3.out",
-                overwrite: true,
-                onComplete: () => {
-                    if (animate) {
-                        if (activeIndex >= originalSlidesCount * 2) {
-                            activeIndex -= originalSlidesCount;
-                            updateSlider(false);
-                        } else if (activeIndex < originalSlidesCount) {
-                            activeIndex += originalSlidesCount;
-                            updateSlider(false);
-                        }
-                    }
-                }
+            // 2. Ставим активный слайд
+            gsap.to(allSlides[activeIndex], { 
+                x: activeX, 
+                width: wide, 
+                duration: animate ? 0.7 : 0, 
+                ease: "power3.out", 
+                overwrite: true 
             });
-            slide.classList.toggle('is-active', isActive);
-            runningX += targetWidth + gap;
-        });
-    }
+            allSlides[activeIndex].classList.add('is-active');
 
-    window.addEventListener('resize', () => {
-        const newSizes = getSizes();
-        narrow = newSizes.narrow;
-        wide = newSizes.wide;
-        gap = newSizes.gap;
-        updateSlider(false);
-    });
-
-    allSlides.forEach((slide, i) => {
-        slide.addEventListener('click', () => {
-            if (activeIndex !== i) {
-                activeIndex = i;
-                updateSlider();
-            } else {
-                const id = slide.querySelector('.portfolio-card').getAttribute('data-id');
-                openCase(id);
+            // 3. Расставляем слайды ВЛЕВО от активного
+            let leftX = activeX - gap - narrow;
+            for (let i = activeIndex - 1; i >= 0; i--) {
+                gsap.to(allSlides[i], { x: leftX, width: narrow, duration: animate ? 0.7 : 0, ease: "power3.out" });
+                allSlides[i].classList.remove('is-active');
+                leftX -= (narrow + gap);
             }
-        });
-    });
 
-    updateSlider(false);
-}
+            // 4. Расставляем слайды ВПРАВО от активного
+            let rightX = activeX + wide + gap;
+            for (let i = activeIndex + 1; i < allSlides.length; i++) {
+                gsap.to(allSlides[i], { x: rightX, width: narrow, duration: animate ? 0.7 : 0, ease: "power3.out" });
+                allSlides[i].classList.remove('is-active');
+                rightX += (narrow + gap);
+            }
+
+            // 5. Логика циклического сброса (чтобы бесконечно крутить)
+            if (animate) {
+                // Если ушли слишком далеко вправо
+                if (activeIndex >= originalSlidesCount * 2) {
+                    setTimeout(() => {
+                        activeIndex -= originalSlidesCount;
+                        updateSlider(false);
+                    }, 700);
+                } 
+                // Если ушли слишком далеко влево
+                else if (activeIndex < originalSlidesCount) {
+                    setTimeout(() => {
+                        activeIndex += originalSlidesCount;
+                        updateSlider(false);
+                    }, 700);
+                }
+            }
+        }
 
 async function initTestimonials() {
     // Относительный путь к файлу [source: 2]
