@@ -5417,3 +5417,8 @@ body.mode-form .topbar {
     .logo-desktop { display: none; }
     .logo-mobile { display: block; }
 }
+
+
+.portfolio-card, .portfolio-slide {
+    box-sizing: border-box; /* Это критически важно! */
+}
