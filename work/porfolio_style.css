@@ -7,8 +7,8 @@ body {
 }
 
 .container {
-  max-width: 75%;
-  margin-left: 12.5%;
+  max-width: 80%;
+  margin-left: 10%;
 }
 
 /* HEADER */
@@ -81,7 +81,7 @@ nav a:hover { color: #fff; }
 .hero {
   display: flex;
   flex-direction: column;
-  padding: 7rem 0 3rem;
+  padding: 10rem 0 2rem;
 }
 
 .hero h1 {
