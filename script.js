@@ -788,41 +788,43 @@ async function initPortfolio() {
             const containerWidth = slider.offsetWidth;
             const centerOffset = containerWidth / 2;
 
-            let activeX = 0;
-            allSlides.forEach((slide, i) => {
-                const targetWidth = (i === activeIndex) ? wideWidth : narrowWidth;
-                if (i < activeIndex) activeX += targetWidth + gap;
-                if (i === activeIndex) activeX += targetWidth / 2;
-            });
+            // 1. Всегда ставим активный слайд ровно по центру контейнера
+            const activeX = centerOffset - (wideWidth / 2);
 
-            const startX = centerOffset - activeX;
-            let runningX = startX;
-
+            // 2. Расставляем слайды
             allSlides.forEach((slide, i) => {
                 const isActive = (i === activeIndex);
                 const targetWidth = isActive ? wideWidth : narrowWidth;
                 
+                // Рассчитываем позицию x:
+                // Если слайд активный — activeX
+                // Если справа от активного — activeX + wideWidth + gap + (дистанция)
+                // Если слева от активного — activeX - gap - narrowWidth - (дистанция)
+                let xPos;
+                if (i === activeIndex) {
+                    xPos = activeX;
+                } else if (i > activeIndex) {
+                    xPos = activeX + (wideWidth / 2) + gap + (narrowWidth / 2) + ((i - activeIndex - 1) * (narrowWidth + gap));
+                } else {
+                    xPos = activeX - (narrowWidth / 2) - gap - (narrowWidth / 2) - ((activeIndex - i - 1) * (narrowWidth + gap));
+                }
+
                 gsap.to(slide, {
-                    x: runningX,
+                    x: xPos,
                     width: targetWidth,
                     duration: animate ? 0.7 : 0,
                     ease: "power3.out",
                     overwrite: true,
                     onComplete: () => {
-                        // Бесшовный переброс для бесконечности
-                        if (animate) {
-                            if (activeIndex >= originalSlidesCount * 2) {
-                                activeIndex -= originalSlidesCount;
-                                updateSlider(false);
-                            } else if (activeIndex < originalSlidesCount) {
-                                activeIndex += originalSlidesCount;
-                                updateSlider(false);
-                            }
+                        if (animate && (activeIndex >= originalSlidesCount * 2 || activeIndex < originalSlidesCount)) {
+                             // Логика зацикливания остается прежней
+                             if (activeIndex >= originalSlidesCount * 2) activeIndex -= originalSlidesCount;
+                             else if (activeIndex < originalSlidesCount) activeIndex += originalSlidesCount;
+                             updateSlider(false);
                         }
                     }
                 });
                 slide.classList.toggle('is-active', isActive);
-                runningX += targetWidth + gap;
             });
         }
 
