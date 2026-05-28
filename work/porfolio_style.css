@@ -1,27 +1,215 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #111;
+  color: #fff;
+  font-family: sans-serif;
+}
+
+/* HEADER */
+header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2.5rem;
+  height: 80px;
+  background: rgba(30, 30, 30, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.07);
+}
+
+.logo img {
+  height: 70px;
+  width: auto;
+  display: block;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+nav a {
+  font-size: 17px;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+nav a:hover { color: #fff; }
+
+.cv-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 0.5px solid rgba(255, 255, 255, 0.2);
+  padding: 6px 14px;
+  border-radius: 20px;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.cv-link:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.cv-link svg {
+  width: 12px;
+  height: 12px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.6;
+}
+
+/* HERO */
 .hero {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  text-align: center;
   padding: 0 2.5rem;
+  padding-top: 80px;
 }
 
 .hero h1 {
-      font-family: sans-serif;
-      font-size: clamp(40px, 6vw, 80px);
-      font-weight: 500;
-      line-height: 1.08;
-      letter-spacing: -0.02em;
-      color: #ffffff;
-      margin-bottom: 1.2rem;
-    }
+  font-size: clamp(40px, 6vw, 80px);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: #fff;
+  margin-bottom: 1.2rem;
+}
 
-    .hero-sub {
-      font-family: sans-serif;
-      font-size: 16px;
-      color: rgba(255, 255, 255, 0.4);
-      line-height: 1.6;
-      letter-spacing: 0.01em;
-    }
+.hero-sub {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.4);
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+}
+
+/* WORK */
+.work {
+  padding: 5rem 2.5rem;
+}
+
+.section-label {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.3);
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+}
+
+.work-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+/* CARD */
+.work-card { cursor: pointer; }
+
+.work-card-media {
+  position: relative;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  border-radius: 4px;
+  background: #1a1a1a;
+  margin-bottom: 1rem;
+}
+
+.work-card-slides {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.4s ease;
+}
+
+.slide {
+  min-width: 100%;
+  height: 100%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.slide.placeholder {
+  background: #222;
+  border: 0.5px solid rgba(255,255,255,0.06);
+}
+
+.slide.placeholder:nth-child(2) { background: #1e1e1e; }
+.slide.placeholder:nth-child(3) { background: #1a1a1a; }
+
+.behance-slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #111;
+}
+
+.behance-btn {
+  font-size: 13px;
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  border: 0.5px solid rgba(255,255,255,0.25);
+  padding: 10px 24px;
+  border-radius: 20px;
+  transition: all 0.2s;
+}
+
+.behance-btn:hover {
+  color: #fff;
+  border-color: rgba(255,255,255,0.6);
+}
+
+.slide-dots {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 5px;
+}
+
+.dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  transition: background 0.2s;
+}
+
+.dot.active { background: #fff; }
+
+.work-card-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.work-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.work-tags {
+  font-size: 12px;
+  color: rgba(255,255,255,0.35);
+}
+
+.work-year {
+  font-size: 13px;
+  color: rgba(255,255,255,0.3);
+  white-space: nowrap;
+}
