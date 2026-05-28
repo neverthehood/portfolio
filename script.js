@@ -207,115 +207,12 @@ function openCase(id) {
     if (!project) return;
 
     const viewer = document.getElementById('case-viewer');
-    const title = document.getElementById('case-title');
-    const client = document.getElementById('case-client');
-    const desc = document.getElementById('case-desc');
-    const tags = document.getElementById('case-tags');
+    document.getElementById('case-title').innerText = project.title;
+    document.getElementById('case-client').innerText = `Client: ${project.client}`;
+    document.getElementById('case-desc').innerText = project.desc || "";
+    document.getElementById('case-tags').innerHTML = project.tags ? project.tags.map(t => `<span>${t}</span>`).join('') : "";
+
     const stack = document.getElementById('case-images-stack');
-
-    if (!viewer) return;
-
-    title.innerText = project.title;
-    client.innerText = `Client: ${project.client}`;
-    desc.innerText = project.desc || "";
-    tags.innerHTML = project.tags ? project.tags.map(t => `<span>${t}</span>`).join('') : "";
-
-    stack.innerHTML = "";
-    if (project.gallery && project.gallery.length > 0) {
-        project.gallery.forEach(imgName => {
-            const img = document.createElement('img');
-            img.src = `assets/portfolio/${imgName}`;
-            img.loading = "lazy";
-            stack.appendChild(img);
-        });
-    } else {
-        const img = document.createElement('img');
-        img.src = `assets/portfolio/${project.wideImg || project.storyImg}`;
-        stack.appendChild(img);
-    }
-
-    viewer.classList.add('is-active');
-    document.body.style.overflow = 'hidden';
-}
-
-function closeCase() {
-    const viewer = document.getElementById('case-viewer');
-    if (viewer) {
-        viewer.classList.remove('is-active');
-        document.body.style.overflow = '';
-    }
-}
-
-// ===============================
-// CASE VIEWER (LIGHTBOX)
-// ===============================
-
-function openCase(id) {
-    const project = pData.find(p => p.id === id);
-    if (!project) return;
-
-    const viewer = document.getElementById('case-viewer');
-    const title = document.getElementById('case-title');
-    const client = document.getElementById('case-client');
-    const desc = document.getElementById('case-desc');
-    const tags = document.getElementById('case-tags');
-    const stack = document.getElementById('case-images-stack');
-
-    if (!viewer) return;
-
-    title.innerText = project.title;
-    client.innerText = `Client: ${project.client}`;
-    desc.innerText = project.desc || "";
-    tags.innerHTML = project.tags ? project.tags.map(t => `<span>${t}</span>`).join('') : "";
-
-    stack.innerHTML = "";
-    if (project.gallery && project.gallery.length > 0) {
-        project.gallery.forEach(imgName => {
-            const img = document.createElement('img');
-            img.src = `assets/portfolio/${imgName}`;
-            img.loading = "lazy";
-            stack.appendChild(img);
-        });
-    } else {
-        const img = document.createElement('img');
-        img.src = `assets/portfolio/${project.wideImg || project.storyImg}`;
-        stack.appendChild(img);
-    }
-
-    viewer.classList.add('is-active');
-    document.body.style.overflow = 'hidden';
-}
-
-function closeCase() {
-    const viewer = document.getElementById('case-viewer');
-    if (viewer) {
-        viewer.classList.remove('is-active');
-        document.body.style.overflow = '';
-    }
-}
-
-// ===============================
-// CASE VIEWER (LIGHTBOX)
-// ===============================
-
-function openCase(id) {
-    const project = pData.find(p => p.id === id);
-    if (!project) return;
-
-    const viewer = document.getElementById('case-viewer');
-    const title = document.getElementById('case-title');
-    const client = document.getElementById('case-client');
-    const desc = document.getElementById('case-desc');
-    const tags = document.getElementById('case-tags');
-    const stack = document.getElementById('case-images-stack');
-
-    if (!viewer) return;
-
-    title.innerText = project.title;
-    client.innerText = `Client: ${project.client}`;
-    desc.innerText = project.desc || "";
-    tags.innerHTML = project.tags ? project.tags.map(t => `<span>${t}</span>`).join('') : "";
-
     stack.innerHTML = "";
     if (project.gallery && project.gallery.length > 0) {
         project.gallery.forEach(imgName => {
@@ -735,138 +632,124 @@ async function initPortfolio() {
     const portfolioUrl = './assets/data/portfolio.json';
     const list = document.getElementById('portfolio-list');
 
-    // Проверка наличия контейнера для карточек[cite: 2]
     if (!list) {
         console.error("Ошибка: Элемент #portfolio-list не найден в HTML");
         return;
     }
 
-    let portfolioLoop;
+    let pData = [];
+    try {
+        const response = await fetch(portfolioUrl);
+        if (!response.ok) throw new Error("Network response was not ok");
+        pData = await response.json();
+        console.log("Данные портфолио загружены:", pData);
+    } catch (e) {
+        console.error("Не удалось загрузить данные портфолио:", e);
+        return;
+    }
 
-    function renderPortfolioSlider() {
-        if (!pData || pData.length === 0) {
-            console.warn("Данные портфолио пусты");
-            list.innerHTML = "<p>Projects coming soon</p>";
-            return;
-        }
+    const slider = document.querySelector('.portfolio-slider');
+    const container = document.getElementById('portfolio-list');
+    const originalSlidesCount = pData.length;
 
-        // Рендерим слайды. Текст теперь внутри portfolio-card__meta, который будет наложен поверх.
-        const renderSlide = (item) => `
-            <div class="portfolio-slide">
-                <div class="portfolio-card" data-id="${item.id}">
-                    <div class="portfolio-card__img-box">
-                        <img src="assets/portfolio/${item.wideImg || item.storyImg}" alt="${item.title}" class="portfolio-card__img" loading="lazy">
-                    </div>
-                    <div class="portfolio-card__meta">
-                        <span class="p-client">${item.client}</span>
-                        <h3 class="p-title">${item.title}</h3>
-                        <p class="p-desc">${item.desc || ''}</p>
-                        <div class="p-tags">
-                            ${item.tags ? item.tags.map(t => `<span>${t}</span>`).join('') : ''}
-                        </div>
+    if (!slider || !container || originalSlidesCount === 0) return;
+
+    function getSizes() {
+        const isMobile = window.innerWidth < 768;
+        return {
+            narrow: isMobile ? 260 : 340,
+            wide: isMobile ? 280 : 720,
+            gap: isMobile ? 15 : 30
+        };
+    }
+
+    let { narrow, wide, gap } = getSizes();
+
+    const renderSlide = (item) => `
+        <div class="portfolio-slide">
+            <div class="portfolio-card" data-id="${item.id}">
+                <div class="portfolio-card__img-box">
+                    <img src="assets/portfolio/${item.wideImg || item.storyImg}" alt="${item.title}" class="portfolio-card__img" loading="lazy">
+                </div>
+                <div class="portfolio-card__meta">
+                    <span class="p-client">${item.client}</span>
+                    <h3 class="p-title">${item.title}</h3>
+                    <p class="p-desc">${item.desc || ''}</p>
+                    <div class="p-tags">
+                        ${item.tags ? item.tags.map(t => `<span>${t}</span>`).join('') : ''}
                     </div>
                 </div>
             </div>
-        `;
+        </div>
+    `;
 
-        const gap = 30;
-        const narrowWidth = 340;
-        const wideWidth = 720;
-        const slider = document.querySelector('.portfolio-slider');
-        const container = document.getElementById('portfolio-list');
-        const originalSlidesCount = pData.length;
+    container.innerHTML = [...pData, ...pData, ...pData].map(renderSlide).join('');
+    
+    const allSlides = gsap.utils.toArray(".portfolio-slide");
+    let activeIndex = originalSlidesCount;
 
-        if (!slider || !container || originalSlidesCount === 0) return;
+    function updateSlider(animate = true) {
+        const containerWidth = slider.offsetWidth;
+        const centerOffset = containerWidth / 2;
 
-        // Клонируем для бесконечности (3 набора: [клоны][оригиналы][клоны])
-        container.innerHTML = [...pData, ...pData, ...pData].map(renderSlide).join('');
-        
-        const allSlides = gsap.utils.toArray(".portfolio-slide");
-        let activeIndex = originalSlidesCount; // Начинаем с первого слайда среднего набора
+        let activeX = 0;
+        allSlides.forEach((slide, i) => {
+            const targetWidth = (i === activeIndex) ? wide : narrow;
+            if (i < activeIndex) activeX += targetWidth + gap;
+            if (i === activeIndex) activeX += targetWidth / 2;
+        });
 
-        function updateSlider(animate = true) {
-            const containerWidth = slider.offsetWidth;
-            const centerOffset = containerWidth / 2;
+        const startX = centerOffset - activeX;
+        let runningX = startX;
 
-            let activeX = 0;
-            allSlides.forEach((slide, i) => {
-                const targetWidth = (i === activeIndex) ? wideWidth : narrowWidth;
-                if (i < activeIndex) activeX += targetWidth + gap;
-                if (i === activeIndex) activeX += targetWidth / 2;
-            });
-
-            const startX = centerOffset - activeX;
-            let runningX = startX;
-
-            allSlides.forEach((slide, i) => {
-                const isActive = (i === activeIndex);
-                const targetWidth = isActive ? wideWidth : narrowWidth;
-                
-                gsap.to(slide, {
-                    x: runningX,
-                    width: targetWidth,
-                    duration: animate ? 0.7 : 0,
-                    ease: "power3.out",
-                    overwrite: true,
-                    onComplete: () => {
-                        // Бесшовный переброс для бесконечности
-                        if (animate) {
-                            if (activeIndex >= originalSlidesCount * 2) {
-                                activeIndex -= originalSlidesCount;
-                                updateSlider(false);
-                            } else if (activeIndex < originalSlidesCount) {
-                                activeIndex += originalSlidesCount;
-                                updateSlider(false);
-                            }
+        allSlides.forEach((slide, i) => {
+            const isActive = (i === activeIndex);
+            const targetWidth = isActive ? wide : narrow;
+            
+            gsap.to(slide, {
+                x: runningX,
+                width: targetWidth,
+                duration: animate ? 0.7 : 0,
+                ease: "power3.out",
+                overwrite: true,
+                onComplete: () => {
+                    if (animate) {
+                        if (activeIndex >= originalSlidesCount * 2) {
+                            activeIndex -= originalSlidesCount;
+                            updateSlider(false);
+                        } else if (activeIndex < originalSlidesCount) {
+                            activeIndex += originalSlidesCount;
+                            updateSlider(false);
                         }
                     }
-                });
-                slide.classList.toggle('is-active', isActive);
-                runningX += targetWidth + gap;
-            });
-        }
-
-        // Логика кликов
-        allSlides.forEach((slide, i) => {
-            slide.addEventListener('click', (e) => {
-                if (activeIndex !== i) {
-                    // Если слайд не активен - центрируем и делаем активным
-                    activeIndex = i;
-                    updateSlider();
-                } else {
-                    // Если уже активен - открываем кейс
-                    const id = slide.querySelector('.portfolio-card').getAttribute('data-id');
-                    openCase(id);
                 }
             });
+            slide.classList.toggle('is-active', isActive);
+            runningX += targetWidth + gap;
         });
+    }
 
-        // Навигация кнопками
-        document.querySelector('.portfolio-next')?.addEventListener('click', () => {
-            activeIndex++;
-            updateSlider();
-        });
-
-        document.querySelector('.portfolio-prev')?.addEventListener('click', () => {
-            activeIndex--;
-            updateSlider();
-        });
-
-        window.addEventListener('resize', () => updateSlider(false));
+    window.addEventListener('resize', () => {
+        const newSizes = getSizes();
+        narrow = newSizes.narrow;
+        wide = newSizes.wide;
+        gap = newSizes.gap;
         updateSlider(false);
-        setTimeout(() => slider.classList.add('is-ready'), 100);
-    }
+    });
 
-    try {
-        const res = await fetch(portfolioUrl, { cache: 'no-store' });
-        if (!res.ok) throw new Error("Не удалось загрузить portfolio.json");
-        pData = await res.json();
-        renderPortfolioSlider();
-    } catch (e) {
-        console.warn("Ошибка загрузки portfolio.json:", e.message);
-        pData = [];
-        renderPortfolioSlider();
-    }
+    allSlides.forEach((slide, i) => {
+        slide.addEventListener('click', () => {
+            if (activeIndex !== i) {
+                activeIndex = i;
+                updateSlider();
+            } else {
+                const id = slide.querySelector('.portfolio-card').getAttribute('data-id');
+                openCase(id);
+            }
+        });
+    });
+
+    updateSlider(false);
 }
 
 async function initTestimonials() {
@@ -959,6 +842,3 @@ async function initTestimonials() {
         },
     });
 }
-
-
-// Запуск при загрузке страницы [source: 2]

@@ -400,6 +400,7 @@
   margin-inline: auto !important;
   
   margin-bottom: var(--gap-lg);
+  padding-bottom: 30px;
 }
 
 .services-asset-block {
@@ -1775,7 +1776,7 @@ height: 34px;
 border-radius: 999px;
 display:grid;
 place-items:center;
-background: rgba(255,255,255,.18);
+background: transparent;
 }
 
 .cta__icon img {
@@ -2545,11 +2546,11 @@ border-radius: 10px;
    ========================================================================== */
 
 .portfolio-slider {
-    width: 100%;
-    height: 650px;
+    width: 100% !important;
+    max-width: 100vw !important;
+    overflow: hidden !important;
     position: relative;
-    overflow: hidden;
-    cursor: grab;
+    padding-inline: 20px !important; /* Безопасные отступы */
 }
 
 .portfolio-slider:active {
@@ -2564,12 +2565,12 @@ border-radius: 10px;
 }
 
 .portfolio-slide {
-    position: absolute;
+    position: absolute !important;
     top: 0;
     left: 0;
     flex-shrink: 0;
     width: 340px;
-    height: 600px;
+    height: 100% !important;
     will-change: width, transform;
 }
 
@@ -2843,20 +2844,6 @@ border-radius: 10px;
     display: flex;
     overflow: hidden;
     scroll-snap-align: center;
-}
-
-/* Адаптивность для мобильных */
-@media (max-width: 768px) {
-    .services-slider-wrap {
-        padding-left: 20px; /* Отступ от края на мобилках */
-    }
-    .services-slider-wrap .swiper-slide {
-        width: calc(100vw - 40px); /* Карточка почти на весь экран */
-    }
-    .service-card {
-        flex-direction: column; /* Левая часть над правой */
-        height: auto;
-    }
 }
 
 .services-slider-main {
@@ -5363,4 +5350,30 @@ body.mode-form .topbar {
     /* Убедись, что нет никаких свойств, влияющих на захват */
     touch-action: pan-y !important;
     user-select: none;
+}
+
+
+/* =========================================
+   ПОРТФОЛИО: ФИКС УЕЗЖАНИЯ ВЛЕВО
+   ========================================= */
+.portfolio-slider-wrap {
+  width: 100% !important;
+  overflow: hidden !important;
+  /* Отступы задаем только для родителя, не для обертки слайдера */
+  padding-inline: 20px !important; 
+  margin-left: 0 !important;
+}
+
+.portfolio-slider-wrap .swiper-wrapper {
+  display: flex !important;
+  /* Важно: никакого margin-left на обертке! */
+  margin-left: 0 !important; 
+}
+
+.portfolio-slider-wrap .swiper-slide {
+  /* Слайд должен физически занимать 100% ширины, 
+     а визуально сжиматься для красоты */
+  width: 90% !important; 
+  display: flex !important;
+  justify-content: center !important;
 }
