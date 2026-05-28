@@ -5411,7 +5411,9 @@ body.mode-form .topbar {
 
 
 /* По умолчанию показываем десктопный вариант */
-.logo-mobile { display: none !important; }
+img.logo-mobile {
+    display: none;
+}
 
 @media (max-width: 767px) {
     .logo-desktop { display: none; }
