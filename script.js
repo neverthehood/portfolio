@@ -207,12 +207,115 @@ function openCase(id) {
     if (!project) return;
 
     const viewer = document.getElementById('case-viewer');
-    document.getElementById('case-title').innerText = project.title;
-    document.getElementById('case-client').innerText = `Client: ${project.client}`;
-    document.getElementById('case-desc').innerText = project.desc || "";
-    document.getElementById('case-tags').innerHTML = project.tags ? project.tags.map(t => `<span>${t}</span>`).join('') : "";
-
+    const title = document.getElementById('case-title');
+    const client = document.getElementById('case-client');
+    const desc = document.getElementById('case-desc');
+    const tags = document.getElementById('case-tags');
     const stack = document.getElementById('case-images-stack');
+
+    if (!viewer) return;
+
+    title.innerText = project.title;
+    client.innerText = `Client: ${project.client}`;
+    desc.innerText = project.desc || "";
+    tags.innerHTML = project.tags ? project.tags.map(t => `<span>${t}</span>`).join('') : "";
+
+    stack.innerHTML = "";
+    if (project.gallery && project.gallery.length > 0) {
+        project.gallery.forEach(imgName => {
+            const img = document.createElement('img');
+            img.src = `assets/portfolio/${imgName}`;
+            img.loading = "lazy";
+            stack.appendChild(img);
+        });
+    } else {
+        const img = document.createElement('img');
+        img.src = `assets/portfolio/${project.wideImg || project.storyImg}`;
+        stack.appendChild(img);
+    }
+
+    viewer.classList.add('is-active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeCase() {
+    const viewer = document.getElementById('case-viewer');
+    if (viewer) {
+        viewer.classList.remove('is-active');
+        document.body.style.overflow = '';
+    }
+}
+
+// ===============================
+// CASE VIEWER (LIGHTBOX)
+// ===============================
+
+function openCase(id) {
+    const project = pData.find(p => p.id === id);
+    if (!project) return;
+
+    const viewer = document.getElementById('case-viewer');
+    const title = document.getElementById('case-title');
+    const client = document.getElementById('case-client');
+    const desc = document.getElementById('case-desc');
+    const tags = document.getElementById('case-tags');
+    const stack = document.getElementById('case-images-stack');
+
+    if (!viewer) return;
+
+    title.innerText = project.title;
+    client.innerText = `Client: ${project.client}`;
+    desc.innerText = project.desc || "";
+    tags.innerHTML = project.tags ? project.tags.map(t => `<span>${t}</span>`).join('') : "";
+
+    stack.innerHTML = "";
+    if (project.gallery && project.gallery.length > 0) {
+        project.gallery.forEach(imgName => {
+            const img = document.createElement('img');
+            img.src = `assets/portfolio/${imgName}`;
+            img.loading = "lazy";
+            stack.appendChild(img);
+        });
+    } else {
+        const img = document.createElement('img');
+        img.src = `assets/portfolio/${project.wideImg || project.storyImg}`;
+        stack.appendChild(img);
+    }
+
+    viewer.classList.add('is-active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeCase() {
+    const viewer = document.getElementById('case-viewer');
+    if (viewer) {
+        viewer.classList.remove('is-active');
+        document.body.style.overflow = '';
+    }
+}
+
+// ===============================
+// CASE VIEWER (LIGHTBOX)
+// ===============================
+
+function openCase(id) {
+    const project = pData.find(p => p.id === id);
+    if (!project) return;
+
+    const viewer = document.getElementById('case-viewer');
+    const title = document.getElementById('case-title');
+    const client = document.getElementById('case-client');
+    const desc = document.getElementById('case-desc');
+    const tags = document.getElementById('case-tags');
+    const stack = document.getElementById('case-images-stack');
+
+    if (!viewer) return;
+
+    title.innerText = project.title;
+    client.innerText = `Client: ${project.client}`;
+    desc.innerText = project.desc || "";
+    tags.innerHTML = project.tags ? project.tags.map(t => `<span>${t}</span>`).join('') : "";
+
     stack.innerHTML = "";
     if (project.gallery && project.gallery.length > 0) {
         project.gallery.forEach(imgName => {
@@ -583,11 +686,6 @@ async function initServices() {
         slidesPerView: 'auto', 
         spaceBetween: 20,      // На мобилках поменьше, чтобы лучше смотрелось
         centeredSlides: true,  // Чтобы слайд был ровно по центру
-
-        navigation: {
-            nextEl: '.swiper-next',
-            prevEl: '.swiper-prev',
-        },
         
         breakpoints: {
             // Когда ширина экрана >= 768px
@@ -637,129 +735,139 @@ async function initPortfolio() {
     const portfolioUrl = './assets/data/portfolio.json';
     const list = document.getElementById('portfolio-list');
 
+    // Проверка наличия контейнера для карточек[cite: 2]
     if (!list) {
         console.error("Ошибка: Элемент #portfolio-list не найден в HTML");
         return;
     }
 
-    let pData = [];
-    try {
-        const response = await fetch(portfolioUrl);
-        if (!response.ok) throw new Error("Network response was not ok");
-        pData = await response.json();
-        console.log("Данные портфолио загружены:", pData);
-    } catch (e) {
-        console.error("Не удалось загрузить данные портфолио:", e);
-        return;
-    }
+    let portfolioLoop;
 
-    const slider = document.querySelector('.portfolio-slider');
-    const container = document.getElementById('portfolio-list');
-    const originalSlidesCount = pData.length;
+    function renderPortfolioSlider() {
+        if (!pData || pData.length === 0) {
+            console.warn("Данные портфолио пусты");
+            list.innerHTML = "<p>Projects coming soon</p>";
+            return;
+        }
 
-    if (!slider || !container || originalSlidesCount === 0) return;
-
-    function getSizes() {
-        const isMobile = window.innerWidth < 768;
-        return {
-            narrow: isMobile ? 260 : 340,
-            wide: isMobile ? 280 : 720,
-            gap: isMobile ? 15 : 80
-        };
-    }
-
-    let { narrow, wide, gap } = getSizes();
-
-    const renderSlide = (item) => `
-        <div class="portfolio-slide">
-            <div class="portfolio-card" data-id="${item.id}">
-                <div class="portfolio-card__img-box">
-                    <img src="assets/portfolio/${item.wideImg || item.storyImg}" alt="${item.title}" class="portfolio-card__img" loading="lazy">
-                </div>
-                <div class="portfolio-card__meta">
-                    <span class="p-client">${item.client}</span>
-                    <h3 class="p-title">${item.title}</h3>
-                    <p class="p-desc">${item.desc || ''}</p>
-                    <div class="p-tags">
-                        ${item.tags ? item.tags.map(t => `<span>${t}</span>`).join('') : ''}
+        // Рендерим слайды. Текст теперь внутри portfolio-card__meta, который будет наложен поверх.
+        const renderSlide = (item) => `
+            <div class="portfolio-slide">
+                <div class="portfolio-card" data-id="${item.id}">
+                    <div class="portfolio-card__img-box">
+                        <img src="assets/portfolio/${item.wideImg || item.storyImg}" alt="${item.title}" class="portfolio-card__img" loading="lazy">
+                    </div>
+                    <div class="portfolio-card__meta">
+                        <span class="p-client">${item.client}</span>
+                        <h3 class="p-title">${item.title}</h3>
+                        <p class="p-desc">${item.desc || ''}</p>
+                        <div class="p-tags">
+                            ${item.tags ? item.tags.map(t => `<span>${t}</span>`).join('') : ''}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    `;
+        `;
 
-    container.innerHTML = [...pData, ...pData, ...pData].map(renderSlide).join('');
-    
-    const allSlides = gsap.utils.toArray(".portfolio-slide");
-    let activeIndex = originalSlidesCount;
+        const gap = 30;
+        const narrowWidth = 340;
+        const wideWidth = 720;
+        const slider = document.querySelector('.portfolio-slider');
+        const container = document.getElementById('portfolio-list');
+        const originalSlidesCount = pData.length;
 
-    // 1. САМАЯ ФУНКЦИЯ АНИМАЦИИ (только логика движения)
+        if (!slider || !container || originalSlidesCount === 0) return;
+
+        // Клонируем для бесконечности (3 набора: [клоны][оригиналы][клоны])
+        container.innerHTML = [...pData, ...pData, ...pData].map(renderSlide).join('');
+        
+        const allSlides = gsap.utils.toArray(".portfolio-slide");
+        let activeIndex = originalSlidesCount; // Начинаем с первого слайда среднего набора
+
         function updateSlider(animate = true) {
-            const sliderWidth = slider.offsetWidth;
-            const centerOffset = sliderWidth / 2;
-            const activeX = centerOffset - (wide / 2);
+            const containerWidth = slider.offsetWidth;
+            const centerOffset = containerWidth / 2;
 
-            // Ставим активный
-            gsap.to(allSlides[activeIndex], { x: activeX, width: wide, duration: animate ? 0.7 : 0, ease: "power3.out", overwrite: true });
-            allSlides[activeIndex].classList.add('is-active');
+            let activeX = 0;
+            allSlides.forEach((slide, i) => {
+                const targetWidth = (i === activeIndex) ? wideWidth : narrowWidth;
+                if (i < activeIndex) activeX += targetWidth + gap;
+                if (i === activeIndex) activeX += targetWidth / 2;
+            });
 
-            // Влево
-            let leftX = activeX - gap - narrow;
-            for (let i = activeIndex - 1; i >= 0; i--) {
-                gsap.to(allSlides[i], { x: leftX, width: narrow, duration: animate ? 0.7 : 0, ease: "power3.out" });
-                allSlides[i].classList.remove('is-active');
-                leftX -= (narrow + gap);
-            }
+            const startX = centerOffset - activeX;
+            let runningX = startX;
 
-            // Вправо
-            let rightX = activeX + wide + gap;
-            for (let i = activeIndex + 1; i < allSlides.length; i++) {
-                gsap.to(allSlides[i], { x: rightX, width: narrow, duration: animate ? 0.7 : 0, ease: "power3.out" });
-                allSlides[i].classList.remove('is-active');
-                rightX += (narrow + gap);
-            }
-
-            // Логика зацикливания
-            if (animate) {
-                if (activeIndex >= originalSlidesCount * 2) {
-                    setTimeout(() => { activeIndex -= originalSlidesCount; updateSlider(false); }, 700);
-                } else if (activeIndex < originalSlidesCount) {
-                    setTimeout(() => { activeIndex += originalSlidesCount; updateSlider(false); }, 700);
-                }
-            }
+            allSlides.forEach((slide, i) => {
+                const isActive = (i === activeIndex);
+                const targetWidth = isActive ? wideWidth : narrowWidth;
+                
+                gsap.to(slide, {
+                    x: runningX,
+                    width: targetWidth,
+                    duration: animate ? 0.7 : 0,
+                    ease: "power3.out",
+                    overwrite: true,
+                    onComplete: () => {
+                        // Бесшовный переброс для бесконечности
+                        if (animate) {
+                            if (activeIndex >= originalSlidesCount * 2) {
+                                activeIndex -= originalSlidesCount;
+                                updateSlider(false);
+                            } else if (activeIndex < originalSlidesCount) {
+                                activeIndex += originalSlidesCount;
+                                updateSlider(false);
+                            }
+                        }
+                    }
+                });
+                slide.classList.toggle('is-active', isActive);
+                runningX += targetWidth + gap;
+            });
         }
 
-        // 2. ВСЕ СОБЫТИЯ ВЕШАЕМ ОДИН РАЗ ЗДЕСЬ (вне updateSlider!)
-        
-        // Свайпы
-        let startX = 0;
-        slider.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; });
-        slider.addEventListener('touchend', (e) => {
-            let diff = startX - e.changedTouches[0].clientX;
-            if (Math.abs(diff) > 50) {
-                activeIndex = diff > 0 ? Math.min(activeIndex + 1, allSlides.length - 1) : Math.max(activeIndex - 1, 0);
-                updateSlider();
-            }
-        });
-
-        // Кнопки
-        document.querySelector('.portfolio-next')?.addEventListener('click', () => { activeIndex++; updateSlider(); });
-        document.querySelector('.portfolio-prev')?.addEventListener('click', () => { activeIndex--; updateSlider(); });
-
-        // Ресайз и клики
-        window.addEventListener('resize', () => { 
-            let s = getSizes(); narrow=s.narrow; wide=s.wide; gap=s.gap; updateSlider(false); 
-        });
-
+        // Логика кликов
         allSlides.forEach((slide, i) => {
-            slide.addEventListener('click', () => {
-                if (activeIndex !== i) { activeIndex = i; updateSlider(); }
-                else { openCase(slide.querySelector('.portfolio-card').dataset.id); }
+            slide.addEventListener('click', (e) => {
+                if (activeIndex !== i) {
+                    // Если слайд не активен - центрируем и делаем активным
+                    activeIndex = i;
+                    updateSlider();
+                } else {
+                    // Если уже активен - открываем кейс
+                    const id = slide.querySelector('.portfolio-card').getAttribute('data-id');
+                    openCase(id);
+                }
             });
         });
 
-        updateSlider(false); // Первый запуск
-    } // Конец initPortfolio
+        // Навигация кнопками
+        document.querySelector('.portfolio-next')?.addEventListener('click', () => {
+            activeIndex++;
+            updateSlider();
+        });
+
+        document.querySelector('.portfolio-prev')?.addEventListener('click', () => {
+            activeIndex--;
+            updateSlider();
+        });
+
+        window.addEventListener('resize', () => updateSlider(false));
+        updateSlider(false);
+        setTimeout(() => slider.classList.add('is-ready'), 100);
+    }
+
+    try {
+        const res = await fetch(portfolioUrl, { cache: 'no-store' });
+        if (!res.ok) throw new Error("Не удалось загрузить portfolio.json");
+        pData = await res.json();
+        renderPortfolioSlider();
+    } catch (e) {
+        console.warn("Ошибка загрузки portfolio.json:", e.message);
+        pData = [];
+        renderPortfolioSlider();
+    }
+}
 
 async function initTestimonials() {
     // Относительный путь к файлу [source: 2]
@@ -851,3 +959,6 @@ async function initTestimonials() {
         },
     });
 }
+
+
+// Запуск при загрузке страницы [source: 2]
