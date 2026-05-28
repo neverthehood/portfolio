@@ -7,8 +7,8 @@ body {
 }
 
 .container {
-  max-width: 80%;
-  margin-left: 10%;
+  max-width: 90%;
+  margin-left: 5%;
 }
 
 /* HEADER */
@@ -27,6 +27,8 @@ header .container {
   align-items: center;
   justify-content: space-between;
   height: 80px;
+  max-width: 90%;
+  margin-left: 5%;
 }
 
 .logo img {
