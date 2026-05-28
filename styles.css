@@ -3014,9 +3014,9 @@ div#services-counter {
 
 /* Позиционирование кнопок навигации */
 .reviews-nav {
-  position: absolute;
+  position: relative;
   right: 0;
-  top: 100%; /* Сразу под картинкой Num_5 */
+  top: 0; /* Сразу под картинкой Num_5 */
   display: flex;
   gap: 10px;
   margin-top: 10px;
@@ -4934,6 +4934,15 @@ margin-top:40px;
     }
 
 }
+
+    .reviews-nav {
+      display: none;
+    }
+
+    .portfolio-nav {
+      display: none;
+    }
+
 }
 
 

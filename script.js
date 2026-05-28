@@ -726,24 +726,58 @@ async function initPortfolio() {
                 rightX += (narrow + gap);
             }
 
-            // 5. Логика циклического сброса (чтобы бесконечно крутить)
-            if (animate) {
-                // Если ушли слишком далеко вправо
-                if (activeIndex >= originalSlidesCount * 2) {
-                    setTimeout(() => {
-                        activeIndex -= originalSlidesCount;
-                        updateSlider(false);
-                    }, 700);
-                } 
-                // Если ушли слишком далеко влево
-                else if (activeIndex < originalSlidesCount) {
-                    setTimeout(() => {
-                        activeIndex += originalSlidesCount;
-                        updateSlider(false);
-                    }, 700);
-                }
+            // 5. Логика циклического сброса
+                    if (animate) {
+                        if (activeIndex >= originalSlidesCount * 2) {
+                            setTimeout(() => {
+                                activeIndex -= originalSlidesCount;
+                                updateSlider(false);
+                            }, 700);
+                        } else if (activeIndex < originalSlidesCount) {
+                            setTimeout(() => {
+                                activeIndex += originalSlidesCount;
+                                updateSlider(false);
+                            }, 700);
+                        }
+                    }
+                } // Конец функции updateSlider
+
+                // Кнопки навигации (ИНИЦИАЛИЗИРУЕМ ОДИН РАЗ ЗДЕСЬ)
+                const portfolioNext = document.querySelector('.portfolio-next');
+                const portfolioPrev = document.querySelector('.portfolio-prev');
+
+                portfolioNext?.addEventListener('click', () => {
+                    activeIndex = (activeIndex + 1) % allSlides.length;
+                    updateSlider();
+                });
+
+                portfolioPrev?.addEventListener('click', () => {
+                    activeIndex = (activeIndex - 1 + allSlides.length) % allSlides.length;
+                    updateSlider();
+                });
+
+                window.addEventListener('resize', () => {
+                    const newSizes = getSizes();
+                    narrow = newSizes.narrow;
+                    wide = newSizes.wide;
+                    gap = newSizes.gap;
+                    updateSlider(false);
+                });
+
+                allSlides.forEach((slide, i) => {
+                    slide.addEventListener('click', () => {
+                        if (activeIndex !== i) {
+                            activeIndex = i;
+                            updateSlider();
+                        } else {
+                            const id = slide.querySelector('.portfolio-card').getAttribute('data-id');
+                            openCase(id);
+                        }
+                    });
+                });
+
+                updateSlider(false);
             }
-        }
 
 async function initTestimonials() {
     // Относительный путь к файлу [source: 2]
