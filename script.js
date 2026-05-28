@@ -785,48 +785,47 @@ async function initPortfolio() {
         let activeIndex = originalSlidesCount; // Начинаем с первого слайда среднего набора
 
         function updateSlider(animate = true) {
-            const containerWidth = slider.offsetWidth;
-            const centerOffset = containerWidth / 2;
+                const sliderWidth = slider.offsetWidth;
+                const centerOffset = sliderWidth / 2;
 
-            // 1. Всегда ставим активный слайд ровно по центру контейнера
-            const activeX = centerOffset - (wideWidth / 2);
+                // 1. Всегда ставим активный слайд ровно по центру
+                const activeX = centerOffset - (wideWidth / 2);
 
-            // 2. Расставляем слайды
-            allSlides.forEach((slide, i) => {
-                const isActive = (i === activeIndex);
-                const targetWidth = isActive ? wideWidth : narrowWidth;
-                
-                // Рассчитываем позицию x:
-                // Если слайд активный — activeX
-                // Если справа от активного — activeX + wideWidth + gap + (дистанция)
-                // Если слева от активного — activeX - gap - narrowWidth - (дистанция)
-                let xPos;
-                if (i === activeIndex) {
-                    xPos = activeX;
-                } else if (i > activeIndex) {
-                    xPos = activeX + (wideWidth / 2) + gap + (narrowWidth / 2) + ((i - activeIndex - 1) * (narrowWidth + gap));
-                } else {
-                    xPos = activeX - (narrowWidth / 2) - gap - (narrowWidth / 2) - ((activeIndex - i - 1) * (narrowWidth + gap));
+                // 2. Анимация активного слайда
+                gsap.to(allSlides[activeIndex], { 
+                    x: activeX, 
+                    width: wideWidth, 
+                    duration: animate ? 0.7 : 0, 
+                    ease: "power3.out", 
+                    overwrite: true 
+                });
+                allSlides[activeIndex].classList.add('is-active');
+
+                // 3. Расставляем соседей влево
+                let leftX = activeX - gap - narrowWidth;
+                for (let i = activeIndex - 1; i >= 0; i--) {
+                    gsap.to(allSlides[i], { x: leftX, width: narrowWidth, duration: animate ? 0.7 : 0, ease: "power3.out" });
+                    allSlides[i].classList.remove('is-active');
+                    leftX -= (narrowWidth + gap);
                 }
 
-                gsap.to(slide, {
-                    x: xPos,
-                    width: targetWidth,
-                    duration: animate ? 0.7 : 0,
-                    ease: "power3.out",
-                    overwrite: true,
-                    onComplete: () => {
-                        if (animate && (activeIndex >= originalSlidesCount * 2 || activeIndex < originalSlidesCount)) {
-                             // Логика зацикливания остается прежней
-                             if (activeIndex >= originalSlidesCount * 2) activeIndex -= originalSlidesCount;
-                             else if (activeIndex < originalSlidesCount) activeIndex += originalSlidesCount;
-                             updateSlider(false);
-                        }
+                // 4. Расставляем соседей вправо
+                let rightX = activeX + wideWidth + gap;
+                for (let i = activeIndex + 1; i < allSlides.length; i++) {
+                    gsap.to(allSlides[i], { x: rightX, width: narrowWidth, duration: animate ? 0.7 : 0, ease: "power3.out" });
+                    allSlides[i].classList.remove('is-active');
+                    rightX += (narrowWidth + gap);
+                }
+
+                // 5. Логика бесшовного зацикливания
+                if (animate) {
+                    if (activeIndex >= originalSlidesCount * 2) {
+                        setTimeout(() => { activeIndex -= originalSlidesCount; updateSlider(false); }, 700);
+                    } else if (activeIndex < originalSlidesCount) {
+                        setTimeout(() => { activeIndex += originalSlidesCount; updateSlider(false); }, 700);
                     }
-                });
-                slide.classList.toggle('is-active', isActive);
-            });
-        }
+                }
+            }
 
         // Логика кликов
         allSlides.forEach((slide, i) => {
