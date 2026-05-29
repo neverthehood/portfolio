@@ -5,15 +5,15 @@ document.querySelectorAll('.work-card').forEach(card => {
   const total = allSlides.length;
   let current = 0;
 
-  // Берём предпоследний слайд как блюр-фон для behance-slide
+  // Берём первый слайд как блюр-фон для behance-slide
   const behanceSlide = card.querySelector('.behance-slide');
   if (behanceSlide) {
-    const prevSlide = allSlides[total - 2];
+    const firstSlide = allSlides[0];
     let bgUrl = null;
-    if (prevSlide && prevSlide.tagName === 'IMG') {
-      bgUrl = prevSlide.src;
-    } else if (prevSlide && prevSlide.tagName === 'VIDEO') {
-      bgUrl = prevSlide.getAttribute('poster') || null;
+    if (firstSlide && firstSlide.tagName === 'IMG') {
+      bgUrl = firstSlide.src;
+    } else if (firstSlide && firstSlide.tagName === 'VIDEO') {
+      bgUrl = firstSlide.getAttribute('poster') || null;
     }
     if (bgUrl) {
       const bg = document.createElement('div');
@@ -38,8 +38,15 @@ document.querySelectorAll('.work-card').forEach(card => {
     });
   }
 
-  card.querySelector('.work-card-media').addEventListener('click', () => {
-    const next = (current + 1) % total;
-    goTo(next);
+  card.querySelector('.work-card-media').addEventListener('click', (e) => {
+    // Если кликнули на ссылку behance — не перехватываем
+    if (e.target.closest('.behance-btn')) return;
+
+    // Если сейчас последний слайд (behance) — возвращаемся к первому
+    if (current === total - 1) {
+      goTo(0);
+    } else {
+      goTo(current + 1);
+    }
   });
 });
