@@ -5,23 +5,46 @@ document.querySelectorAll('.work-card').forEach(card => {
   const total = allSlides.length;
   let current = 0;
 
-  // Берём первый слайд как блюр-фон для behance-slide
-  const behanceSlide = card.querySelector('.behance-slide');
-  if (behanceSlide) {
-    const firstSlide = allSlides[0];
-    let bgUrl = null;
-    if (firstSlide && firstSlide.tagName === 'IMG') {
-      bgUrl = firstSlide.src;
-    } else if (firstSlide && firstSlide.tagName === 'VIDEO') {
-      bgUrl = firstSlide.getAttribute('poster') || null;
-    }
-    if (bgUrl) {
-      const bg = document.createElement('div');
-      bg.className = 'behance-slide-bg';
-      bg.style.backgroundImage = `url(${bgUrl})`;
+  // Захватываем первый кадр видео через canvas для блюр-фона
+  function setBehansBg(sourceEl) {
+    const behanceSlide = card.querySelector('.behance-slide');
+    if (!behanceSlide) return;
+
+    // Удаляем старый bg если есть
+    const oldBg = behanceSlide.querySelector('.behance-slide-bg');
+    if (oldBg) oldBg.remove();
+
+    const bg = document.createElement('div');
+    bg.className = 'behance-slide-bg';
+
+    if (sourceEl.tagName === 'IMG') {
+      bg.style.backgroundImage = `url(${sourceEl.src})`;
       behanceSlide.insertBefore(bg, behanceSlide.firstChild);
+    } else if (sourceEl.tagName === 'VIDEO') {
+      // Если видео уже загружено — захватываем кадр сразу
+      const capture = () => {
+        try {
+          const canvas = document.createElement('canvas');
+          canvas.width = sourceEl.videoWidth || 640;
+          canvas.height = sourceEl.videoHeight || 360;
+          canvas.getContext('2d').drawImage(sourceEl, 0, 0, canvas.width, canvas.height);
+          bg.style.backgroundImage = `url(${canvas.toDataURL()})`;
+        } catch (e) {
+          // CORS или другая ошибка — оставляем тёмный фон
+        }
+        behanceSlide.insertBefore(bg, behanceSlide.firstChild);
+      };
+
+      if (sourceEl.readyState >= 2) {
+        capture();
+      } else {
+        sourceEl.addEventListener('loadeddata', capture, { once: true });
+      }
     }
   }
+
+  // Инициализируем блюр с первого слайда
+  setBehansBg(allSlides[0]);
 
   // create dots
   for (let i = 0; i < total; i++) {
@@ -36,13 +59,21 @@ document.querySelectorAll('.work-card').forEach(card => {
     card.querySelectorAll('.dot').forEach((d, i) => {
       d.classList.toggle('active', i === current);
     });
+
+    // Перезапускаем все видео: играем только активное
+    card.querySelectorAll('.slide video').forEach((video, i) => {
+      if (i === current) {
+        video.currentTime = 0;
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    });
   }
 
   card.querySelector('.work-card-media').addEventListener('click', (e) => {
-    // Если кликнули на ссылку behance — не перехватываем
     if (e.target.closest('.behance-btn')) return;
 
-    // Если сейчас последний слайд (behance) — возвращаемся к первому
     if (current === total - 1) {
       goTo(0);
     } else {
