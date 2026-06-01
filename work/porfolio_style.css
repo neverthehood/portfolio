@@ -135,6 +135,18 @@ nav a:hover { color: #fff; }
   width: 100%;
 }
 
+.work-card-media::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  background: linear-gradient(to top, rgba(0,0,0,0.45) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
 .work-card-slides {
   display: flex;
   width: 100%;
@@ -216,6 +228,7 @@ nav a:hover { color: #fff; }
   transform: translateX(-50%);
   display: flex;
   gap: 5px;
+  z-index: 1; /* добавить */
 }
 
 .dot {
