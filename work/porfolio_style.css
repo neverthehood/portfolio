@@ -127,7 +127,7 @@ nav a:hover { color: #fff; }
 
 .work-card-media {
   position: relative;
-  aspect-ratio: 4/3;
+  aspect-ratio: 1/1;
   overflow: hidden;
   border-radius: 4px;
   background: #1a1a1a;
