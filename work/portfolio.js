@@ -31,7 +31,6 @@ document.querySelectorAll('.work-card').forEach(card => {
         behanceSlide.insertBefore(bg, behanceSlide.firstChild);
       };
 
-      // timeupdate гарантирует что первый кадр реально отрисован
       if (sourceEl.readyState >= 3 && sourceEl.currentTime > 0) {
         capture();
       } else {
@@ -56,7 +55,6 @@ document.querySelectorAll('.work-card').forEach(card => {
       d.classList.toggle('active', i === current);
     });
 
-    // Перезапускаем видео: индекс среди всех слайдов, не только видео
     allSlides.forEach((slide, i) => {
       const video = slide.tagName === 'VIDEO' ? slide : slide.querySelector('video');
       if (!video) return;
@@ -71,6 +69,9 @@ document.querySelectorAll('.work-card').forEach(card => {
 
   card.querySelector('.work-card-media').addEventListener('click', (e) => {
     if (e.target.closest('.behance-btn')) return;
-    goTo(current === total - 1 ? 0 : current + 1);
+    // Если текущий слайд — behance-slide, возвращаемся к первому
+    // Иначе просто идём дальше по кругу
+    const isBehance = allSlides[current].classList.contains('behance-slide');
+    goTo(isBehance ? 0 : (current + 1) % total);
   });
 });
