@@ -687,6 +687,11 @@ async function initServices() {
         spaceBetween: 20,      // На мобилках поменьше, чтобы лучше смотрелось
         centeredSlides: true,  // Чтобы слайд был ровно по центру
         
+        navigation: {
+            nextEl: '.swiper-next',
+            prevEl: '.swiper-prev',
+        },
+        
         breakpoints: {
             // Когда ширина экрана >= 768px
             768: {
