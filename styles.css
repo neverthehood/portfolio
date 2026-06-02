@@ -492,10 +492,11 @@ img.logo-desktop {
 /* ФИКС ДЛЯ МОБИЛОК: Унифицируем размеры заголовков разделов */
 @media (max-width: 768px) {
   .services-header-grid {
-    padding-inline: 20px !important;
+    padding-inline: 0px !important;
     max-width: 100vw !important;
     gap: 15px !important;
     margin-bottom: 30px !important;
+    justify-content: space-between;
   }
   
   .services-asset-block {
@@ -510,6 +511,7 @@ img.logo-desktop {
   .assets-right {
     width: 25% !important;
     max-width: 25% !important;
+    text-align: -webkit-right;
   }
 
   .services-bg-img {
@@ -2792,7 +2794,7 @@ border-radius: 10px;
 }
 
 /* Футер */
-.portfolio-footer { margin-top: 70px; }
+.portfolio-footer { margin-top: 150px; }
 .footer-socials { display: flex; align-items: center; justify-content: center; gap: 24px; }
 .social-icons { display: flex; gap: 20px; }
 .social-icons img { width: 28px; height: 28px; }
