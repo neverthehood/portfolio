@@ -2543,23 +2543,22 @@ border-radius: 10px;
     z-index: 1;
 }
 
-/* На десктопе 4-я карточка занимает всю ширину под остальными */
+/* На десктопе 4-я карточка скрыта */
 .collab-card:nth-child(4) {
-    grid-column: span 3;
-    max-width: 420px;
-    margin: 0 auto;
+    display: none !important;
 }
 
 .collab-card--cta {
     cursor: pointer;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1200px) and (min-width: 601px) {
     .collaboration__grid {
         grid-template-columns: repeat(2, 1fr);
     }
     
     .collab-card:nth-child(4) {
+        display: flex !important; /* Показываем только на планшетах */
         grid-column: span 1;
         max-width: none;
         margin: 0;
@@ -2574,6 +2573,14 @@ border-radius: 10px;
     .collaboration__grid {
         grid-template-columns: 1fr;
     }
+    
+    /* На мобилках тоже скрываем 4-ю карточку */
+    .collab-card:nth-child(4) {
+        display: none !important;
+    }
+    
+    /* И на мобилках возвращаем текстовую кнопку, если нужно, 
+       или оставляем скрытой. По умолчанию скрываем footer выше для < 1200px. */
 }
 
 .collab-card {
