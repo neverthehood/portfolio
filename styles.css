@@ -5297,6 +5297,14 @@ body.mode-form .hero__visual-main {
   display: none !important;
 }
 
+/* Hide logo in form mode on smaller screens to avoid overlap with "Let's connect" */
+@media (max-width: 1562px) {
+  body.mode-form .brand__logo,
+  body.mode-form .brand {
+    display: none !important;
+  }
+}
+
 @media (max-width: 1024px) {
   .hero {
     min-height: auto !important;
@@ -5328,15 +5336,8 @@ body.mode-form .hero__visual-main {
     flex: 1 1 50% !important;
     padding-bottom: 0 !important;
   }
-
-  /* Hide logo in form mode on tablets to avoid overlap with "Let's connect" */
-  body.mode-form .brand__logo {
-    display: none !important;
-  }
 }
 
-
-/* Fix header: button should disappear exactly when burger appears */
 @media (max-width: 900px) { 
   .cta--header {
     display: none !important; /* Hide button earlier so it doesn't interfere with menu */;
