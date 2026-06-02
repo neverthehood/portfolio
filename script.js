@@ -694,13 +694,13 @@ async function initServices() {
 
         on: {
             init: function (swiper) {
-                const counter = document.querySelector('.services-counter');
+                const counter = document.getElementById('services-counter');
                 if (counter) {
                     counter.textContent = `1/${swiper.slides.length}`;
                 }
             },
             slideChange: function (swiper) {
-                const counter = document.querySelector('.services-counter');
+                const counter = document.getElementById('services-counter');
                 if (counter) {
                     counter.textContent = `${swiper.realIndex + 1}/${swiper.slides.length}`;
                 }

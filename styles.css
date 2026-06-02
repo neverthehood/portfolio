@@ -5328,6 +5328,11 @@ body.mode-form .hero__visual-main {
     flex: 1 1 50% !important;
     padding-bottom: 0 !important;
   }
+
+  /* Hide logo in form mode on tablets to avoid overlap with "Let's connect" */
+  body.mode-form .brand__logo {
+    display: none !important;
+  }
 }
 
 
