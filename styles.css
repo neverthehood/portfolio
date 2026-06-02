@@ -5297,8 +5297,9 @@ body.mode-form .hero__visual-main {
   display: none !important;
 }
 
-/* Hide logo in form mode on smaller screens to avoid overlap with "Let's connect" */
-@media (max-width: 1562px) {
+/* Hide logo in form mode on smaller screens to avoid overlap with "Let's connect" 
+   But keep it on mobile (below 900px) as the layout there allows it */
+@media (min-width: 901px) and (max-width: 1562px) {
   body.mode-form .brand__logo,
   body.mode-form .brand {
     display: none !important;
