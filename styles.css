@@ -1045,6 +1045,7 @@ a:-webkit-any-link {
   padding: 0;
   margin: 0;
   width: 100%;
+  text-align: left;
 }
 
 .case-viewer__title {
@@ -2531,14 +2532,47 @@ border-radius: 10px;
 
 .collaboration__grid {
     display: grid;
-    /* Автоматическое количество колонок: 
-       минимум 280px, если места нет — перенос на новую строку */
-    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    /* На десктопе по умолчанию 3 колонки, 4-я уйдет вниз. 
+       Но мы ниже переопределим это для красоты */
+    grid-template-columns: repeat(3, 1fr);
     gap: 12px; 
     margin-top: 20px; 
-    padding: 0 clamp(20px, 5vw, 80px); /* Резиновый отступ, который "тает" */
+    padding: 0 clamp(20px, 5vw, 80px);
     position: relative;
     z-index: 1;
+}
+
+/* На десктопе 4-я карточка занимает всю ширину под остальными */
+.collab-card:nth-child(4) {
+    grid-column: span 3;
+    max-width: 420px;
+    margin: 0 auto;
+}
+
+.collab-card--cta {
+    cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+    .collaboration__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .collab-card:nth-child(4) {
+        grid-column: span 1;
+        max-width: none;
+        margin: 0;
+    }
+
+    .collab-hint-btn {
+        display: none !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .collaboration__grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .collab-card {
@@ -2783,6 +2817,11 @@ border-radius: 10px;
     flex-wrap: wrap;
     justify-content: center;
     margin-top: 10px;
+}
+
+/* Выравнивание тегов по левому краю внутри лайтбокса */
+.case-viewer__info .p-tags {
+    justify-content: flex-start;
 }
 
 .p-tags span {

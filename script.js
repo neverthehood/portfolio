@@ -692,13 +692,15 @@ async function initServices() {
             768: {
                 slidesPerView: 1.4,
                 spaceBetween: 30,
-                centeredSlides: false // На десктопе обычно удобнее прижать к краю
+                centeredSlides: false, // На десктопе обычно удобнее прижать к краю
+                slidesOffsetAfter: 100 // Добавляем отступ после последнего слайда на планшетах
             },
             // Когда ширина экрана >= 1320px
             1320: {
                 slidesPerView: 1.2, 
                 spaceBetween: 60,
-                centeredSlides: false
+                centeredSlides: false,
+                slidesOffsetAfter: 0 // На больших экранах отступ не нужен
             }
         }
     });
