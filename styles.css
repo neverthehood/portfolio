@@ -780,6 +780,7 @@ img.logo-desktop {
   width: min(920px, calc(100% - 47px));
   height: auto;
   display: block;
+  margin-inline: auto; /* Центрирование */
   margin-bottom: -18px;
 }
 
@@ -2553,7 +2554,7 @@ border-radius: 10px;
     cursor: pointer;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
     .collaboration__grid {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -2564,7 +2565,7 @@ border-radius: 10px;
         margin: 0;
     }
 
-    .collab-hint-btn {
+    .collaboration__footer {
         display: none !important;
     }
 }
@@ -5333,6 +5334,12 @@ body.mode-form .topbar {
   backdrop-filter: none !important;
   border-bottom: none !important;
   box-shadow: none !important;
+}
+
+/* Скрываем контент Hero при открытой форме */
+body.mode-form .hero__content,
+body.mode-form .hero__visual-main {
+  display: none !important;
 }
 
 @media (max-width: 1024px) {
