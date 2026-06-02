@@ -751,23 +751,31 @@ async function initPortfolio() {
         }
 
         // Рендерим слайды. Текст теперь внутри portfolio-card__meta, который будет наложен поверх.
-        const renderSlide = (item) => `
-            <div class="portfolio-slide">
-                <div class="portfolio-card" data-id="${item.id}">
-                    <div class="portfolio-card__img-box">
-                        <img src="assets/portfolio/${item.wideImg || item.storyImg}" alt="${item.title}" class="portfolio-card__img" loading="lazy">
-                    </div>
-                    <div class="portfolio-card__meta">
-                        <span class="p-client">${item.client}</span>
-                        <h3 class="p-title">${item.title}</h3>
-                        <p class="p-desc">${item.desc || ''}</p>
-                        <div class="p-tags">
-                            ${item.tags ? item.tags.map(t => `<span>${t}</span>`).join('') : ''}
+        const renderSlide = (item) => {
+            const isMobileInitial = window.innerWidth <= 900;
+            // На мобилках ВСЕГДА используем storyImg. На десктопе по умолчанию wideImg (для активного), 
+            // но так как при рендере мы не знаем, какой будет активным, 
+            // логика смены src вынесена в updateSlider.
+            const initialImg = isMobileInitial ? (item.storyImg || item.wideImg) : (item.wideImg || item.storyImg);
+            
+            return `
+                <div class="portfolio-slide">
+                    <div class="portfolio-card" data-id="${item.id}">
+                        <div class="portfolio-card__img-box">
+                            <img src="assets/portfolio/${initialImg}" alt="${item.title}" class="portfolio-card__img" loading="lazy">
+                        </div>
+                        <div class="portfolio-card__meta">
+                            <span class="p-client">${item.client}</span>
+                            <h3 class="p-title">${item.title}</h3>
+                            <p class="p-desc">${item.desc || ''}</p>
+                            <div class="p-tags">
+                                ${item.tags ? item.tags.map(t => `<span>${t}</span>`).join('') : ''}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        `;
+            `;
+        };
 
         const isMobile = window.innerWidth <= 900;
         const gap = isMobile ? 16 : 30;
@@ -813,11 +821,36 @@ async function initPortfolio() {
             animateTo(allSlides[activeIndex], activeX, currentWideWidth);
             allSlides[activeIndex].classList.add('is-active');
 
+            // Обновляем картинку активного слайда (wide на десктопе, story на мобиле)
+            const activeImg = allSlides[activeIndex].querySelector('.portfolio-card__img');
+            if (activeImg) {
+                const project = pData.find(p => p.id === allSlides[activeIndex].querySelector('.portfolio-card').dataset.id);
+                if (project) {
+                    const targetSrc = isMobileNow ? (project.storyImg || project.wideImg) : (project.wideImg || project.storyImg);
+                    if (!activeImg.src.includes(targetSrc)) {
+                        activeImg.src = `assets/portfolio/${targetSrc}`;
+                    }
+                }
+            }
+
             // 4. Расставляем соседей влево
             let leftX = activeX - currentGap - currentNarrowWidth;
             for (let i = activeIndex - 1; i >= 0; i--) {
                 animateTo(allSlides[i], leftX, currentNarrowWidth);
                 allSlides[i].classList.remove('is-active');
+                
+                // Для неактивных всегда storyImg
+                const img = allSlides[i].querySelector('.portfolio-card__img');
+                if (img) {
+                    const project = pData.find(p => p.id === allSlides[i].querySelector('.portfolio-card').dataset.id);
+                    if (project) {
+                        const targetSrc = project.storyImg || project.wideImg;
+                        if (!img.src.includes(targetSrc)) {
+                            img.src = `assets/portfolio/${targetSrc}`;
+                        }
+                    }
+                }
+                
                 leftX -= (currentNarrowWidth + currentGap);
             }
 
@@ -826,6 +859,19 @@ async function initPortfolio() {
             for (let i = activeIndex + 1; i < allSlides.length; i++) {
                 animateTo(allSlides[i], rightX, currentNarrowWidth);
                 allSlides[i].classList.remove('is-active');
+
+                // Для неактивных всегда storyImg
+                const img = allSlides[i].querySelector('.portfolio-card__img');
+                if (img) {
+                    const project = pData.find(p => p.id === allSlides[i].querySelector('.portfolio-card').dataset.id);
+                    if (project) {
+                        const targetSrc = project.storyImg || project.wideImg;
+                        if (!img.src.includes(targetSrc)) {
+                            img.src = `assets/portfolio/${targetSrc}`;
+                        }
+                    }
+                }
+
                 rightX += (currentNarrowWidth + currentGap);
             }
 
