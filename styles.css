@@ -2605,16 +2605,14 @@ border-radius: 10px;
 
 .portfolio-slider {
     display: flex;
-    justify-content: center; /* Центрируем содержимое */
+    justify-content: center;
     align-items: center;
     width: 100%;
     overflow: visible;
     position: relative;
-    padding-inline: 20px !important; /* Безопасные отступы */
+    padding-inline: 0 !important;
     height: 500px !important;
-    touch-action: pan-y; 
-    overflow: visible !important;
-    max-width: fit-content;
+    touch-action: pan-y;
 }
 
 .portfolio-slider:active {
@@ -4537,12 +4535,12 @@ body.mode-form .chip--category:hover {
     line-height: 1.15;
   }
 
-  .portfolio-slide { width: 280px !important; height: 450px !important; }
-  .portfolio-slide.is-active { width: 320px !important; }
+  .portfolio-slide { height: 450px !important; }
+  .portfolio-slide.is-active { }
 
   .portfolio-card {
-    height: 610px !important;
-    width: 130%;
+    height: 450px !important;
+    width: 100%;
   }
 
   .p-title {

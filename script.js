@@ -769,9 +769,10 @@ async function initPortfolio() {
             </div>
         `;
 
-        const gap = 30;
-        const narrowWidth = 340;
-        const wideWidth = 720;
+        const isMobile = window.innerWidth <= 900;
+        const gap = isMobile ? 16 : 30;
+        const narrowWidth = isMobile ? 280 : 340;
+        const wideWidth = isMobile ? 320 : 720;
         const slider = document.querySelector('.portfolio-slider');
         const container = document.getElementById('portfolio-list');
         const originalSlidesCount = pData.length;
@@ -785,11 +786,16 @@ async function initPortfolio() {
         let activeIndex = originalSlidesCount; // Начинаем с первого слайда среднего набора
 
         function updateSlider(animate = true) {
+            const isMobileNow = window.innerWidth <= 900;
+            const currentWideWidth = isMobileNow ? 320 : 720;
+            const currentNarrowWidth = isMobileNow ? 280 : 340;
+            const currentGap = isMobileNow ? 16 : 30;
+
             const sliderWidth = slider.offsetWidth;
             const centerOffset = sliderWidth / 2;
 
             // 1. Ставим активный слайд ровно по центру
-            const activeX = centerOffset - (wideWidth / 2);
+            const activeX = centerOffset - (currentWideWidth / 2);
 
             // 2. Функция для плавного движения
             const animateTo = (el, xPos, width) => {
@@ -803,25 +809,23 @@ async function initPortfolio() {
             };
 
             // 3. Анимация активного слайда
-            animateTo(allSlides[activeIndex], activeX, wideWidth);
+            animateTo(allSlides[activeIndex], activeX, currentWideWidth);
             allSlides[activeIndex].classList.add('is-active');
 
             // 4. Расставляем соседей влево
-            // Начинаем от края активного слайда минус отступ
-            let leftX = activeX - gap - narrowWidth;
+            let leftX = activeX - currentGap - currentNarrowWidth;
             for (let i = activeIndex - 1; i >= 0; i--) {
-                animateTo(allSlides[i], leftX, narrowWidth);
+                animateTo(allSlides[i], leftX, currentNarrowWidth);
                 allSlides[i].classList.remove('is-active');
-                leftX -= (narrowWidth + gap);
+                leftX -= (currentNarrowWidth + currentGap);
             }
 
             // 5. Расставляем соседей вправо
-            // Начинаем от края активного слайда плюс отступ
-            let rightX = activeX + wideWidth + gap;
+            let rightX = activeX + currentWideWidth + currentGap;
             for (let i = activeIndex + 1; i < allSlides.length; i++) {
-                animateTo(allSlides[i], rightX, narrowWidth);
+                animateTo(allSlides[i], rightX, currentNarrowWidth);
                 allSlides[i].classList.remove('is-active');
-                rightX += (narrowWidth + gap);
+                rightX += (currentNarrowWidth + currentGap);
             }
 
             // 6. Логика бесшовного зацикливания
