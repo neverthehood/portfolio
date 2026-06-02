@@ -525,24 +525,24 @@ async function initServices() {
         const mediaContainer = card.querySelector('.render-media-container');
         const titleEl = card.querySelector('[data-project-title]');
         const tagsEl = card.querySelector('[data-project-tags]');
-        const skillItems = card.querySelectorAll('.skill-item'); // Список пунктов
+        const skillItems = card.querySelectorAll('.skill-item'); // List of items
         const nextBtn = card.querySelector('.next');
         const prevBtn = card.querySelector('.prev');
 
         if (!mediaContainer) return;
 
         // ==========================================
-        // 1. ЛОГИКА АККОРДЕОНА (ДОБАВЛЕНО)
+        // 1. ACCORDION LOGIC
         // ==========================================
         skillItems.forEach(item => {
             item.addEventListener('click', (e) => {
-                // Если кликнули по уже активному — ничего не делаем
+                // If already active — do nothing
                 if (item.classList.contains('active')) return;
 
-                // Убираем active у всех соседей в этой карточке
+                // Remove active from all siblings in this card
                 skillItems.forEach(si => si.classList.remove('active'));
                 
-                // Добавляем active текущему
+                // Add active to current
                 item.classList.add('active');
             });
         });
@@ -552,7 +552,7 @@ async function initServices() {
 
                 const stopAutoPlay = () => clearTimeout(autoPlayTimeout);
 
-                // Функция запуска таймера (только для картинок)
+                // Start timer function (for images only)
                 const scheduleNext = () => {
                     stopAutoPlay();
                     if (isHovered) return;
@@ -566,7 +566,7 @@ async function initServices() {
                     }, 5000);
                 };
 
-                // Функция перелистывания на следующий слайд
+                // Go to next slide function
                 const goNext = () => {
                     const len = dataForSlider[cat]?.length || 0;
                     if (len > 1) {
@@ -584,7 +584,7 @@ async function initServices() {
                     const oldMedia = mediaContainer.querySelector('.render-img, .render-video');
                     if (oldMedia) oldMedia.classList.add('is-switching');
 
-                    // Останавливаем таймер перед сменой контента
+                    // Stop timer before changing content
                     stopAutoPlay();
 
                     setTimeout(() => {
@@ -603,15 +603,15 @@ async function initServices() {
                             newMedia.autoplay = true;
                             newMedia.setAttribute('playsinline', '');
                             
-                            // ВАЖНО: Убираем нативный loop, чтобы сработало событие onended
+                            // IMPORTANT: Remove native loop so onended event fires
                             newMedia.loop = false; 
                             
-                            // Как только видео доиграло до конца — листаем дальше или пускаем на повтор
+                            // When video ends — go next or repeat
                             newMedia.onended = () => {
                                 if (!isHovered) {
-                                    goNext(); // Листаем на следующий навык, если мышка ушла
+                                    goNext(); // Go to next skill if mouse is out
                                 } else {
-                                    // Если пользователь держит курсор на карточке — крутим видео заново
+                                    // If user is hovering over card — repeat video
                                     newMedia.currentTime = 0;
                                     newMedia.play().catch(e => console.log('Video loop retry error:', e));
                                 }
@@ -619,14 +619,14 @@ async function initServices() {
 
                             newMedia.play().catch(e => {
                                 console.log('Video play error:', e);
-                                scheduleNext(); // Если видео заблокировалось браузером, включаем обычный таймер
+                                scheduleNext(); // If video blocked by browser, use regular timer
                             });
                         } else {
                             newMedia = document.createElement('img');
                             newMedia.src = fullPath;
                             newMedia.className = 'render-img is-switching';
                             
-                            // Если это картинка — запускаем стандартные 5 секунд отсчета
+                            // If image — start standard 5s countdown
                             scheduleNext();
                         }
 
@@ -641,7 +641,7 @@ async function initServices() {
                     }, 500);
                 }
 
-                // Обработка наведения мышки (пауза)
+                // Mouse hover handling (pause)
                 card.addEventListener('mouseenter', () => {
                     isHovered = true;
                     stopAutoPlay();
@@ -651,17 +651,17 @@ async function initServices() {
                     isHovered = false;
                     const currentVideo = mediaContainer.querySelector('video');
                     if (currentVideo) {
-                        // Если пока мы держали мышку, видео уже успело закончиться — листаем сейчас
+                        // If video ended while mouse was over — go next now
                         if (currentVideo.ended) {
                             goNext();
                         }
-                        // Иначе просто ждем — оно само перелистнется по событию onended
+                        // Otherwise just wait — it will flip on onended event
                     } else {
-                        scheduleNext(); // Для картинок запускаем таймер заново
+                        scheduleNext(); // For images start timer again
                     }
                 });
 
-                // Кнопки вперед/назад
+                // Next/Prev buttons
                 nextBtn?.addEventListener('click', (e) => {
                     e.stopPropagation();
                     goNext();
@@ -674,18 +674,18 @@ async function initServices() {
                     updateInnerContent();
                 });
 
-                // Первичный запуск при загрузке
+                // Initial run on load
                 updateInnerContent();
 
         updateInnerContent();
     });
 
-    // Главный слайдер
+    // Main slider
     const servicesSwiper = new Swiper('.services-slider-wrap', {
-        // Базовые настройки (применяются для мобильных устройств)
+        // Base settings (apply to mobile devices)
         slidesPerView: 'auto', 
-        spaceBetween: 20,      // На мобилках поменьше, чтобы лучше смотрелось
-        centeredSlides: true,  // Чтобы слайд был ровно по центру
+        spaceBetween: 20,      // Smaller on mobile for better look
+        centeredSlides: true,  // To center the slide exactly
         
         navigation: {
             nextEl: '.swiper-next',
@@ -708,19 +708,19 @@ async function initServices() {
         },
         
         breakpoints: {
-            // Когда ширина экрана >= 768px
+            // Screen width >= 768px
             768: {
                 slidesPerView: 1.4,
                 spaceBetween: 30,
-                centeredSlides: false, // На десктопе обычно удобнее прижать к краю
-                slidesOffsetAfter: 100 // Добавляем отступ после последнего слайда на планшетах
+                centeredSlides: false, // Desktop usually better aligned to edge
+                slidesOffsetAfter: 100 // Add offset after last slide on tablets
             },
-            // Когда ширина экрана >= 1320px
+            // Screen width >= 1320px
             1320: {
                 slidesPerView: 1.2, 
                 spaceBetween: 60,
                 centeredSlides: false,
-                slidesOffsetAfter: 0 // На больших экранах отступ не нужен
+                slidesOffsetAfter: 0 // Offset not needed on large screens
             }
         }
     });
@@ -735,7 +735,7 @@ async function initServices() {
     }
 }
 
-// Запускаем всё одним вызовом
+// Start everything with one call
 document.addEventListener('DOMContentLoaded', () => {
     initMobileMenu();
     initServices();
@@ -757,9 +757,9 @@ async function initPortfolio() {
     const portfolioUrl = './assets/data/portfolio.json';
     const list = document.getElementById('portfolio-list');
 
-    // Проверка наличия контейнера для карточек[cite: 2]
+    // Check for card container presence
     if (!list) {
-        console.error("Ошибка: Элемент #portfolio-list не найден в HTML");
+        console.error("Error: Element #portfolio-list not found in HTML");
         return;
     }
 
@@ -767,17 +767,17 @@ async function initPortfolio() {
 
     function renderPortfolioSlider() {
         if (!pData || pData.length === 0) {
-            console.warn("Данные портфолио пусты");
+            console.warn("Portfolio data is empty");
             list.innerHTML = "<p>Projects coming soon</p>";
             return;
         }
 
-        // Рендерим слайды. Текст теперь внутри portfolio-card__meta, который будет наложен поверх.
+        // Render slides. Text is now inside portfolio-card__meta, which will be overlaid.
         const renderSlide = (item) => {
             const isMobileInitial = window.innerWidth <= 900;
-            // На мобилках ВСЕГДА используем storyImg. На десктопе по умолчанию wideImg (для активного), 
-            // но так как при рендере мы не знаем, какой будет активным, 
-            // логика смены src вынесена в updateSlider.
+            // On mobile ALWAYS use storyImg. On desktop wideImg by default (for active), 
+            // but since we don't know which will be active during render, 
+            // src change logic is moved to updateSlider.
             const initialImg = isMobileInitial ? (item.storyImg || item.wideImg) : (item.wideImg || item.storyImg);
             
             return `
@@ -809,11 +809,11 @@ async function initPortfolio() {
 
         if (!slider || !container || originalSlidesCount === 0) return;
 
-        // Клонируем для бесконечности (3 набора: [клоны][оригиналы][клоны])
+        // Clone for infinity (3 sets: [clones][originals][clones])
         container.innerHTML = [...pData, ...pData, ...pData].map(renderSlide).join('');
         
         const allSlides = gsap.utils.toArray(".portfolio-slide");
-        let activeIndex = originalSlidesCount; // Начинаем с первого слайда среднего набора
+        let activeIndex = originalSlidesCount; // Start with first slide of middle set
 
         function updateSlider(animate = true) {
             const isMobileNow = window.innerWidth <= 900;
@@ -825,10 +825,10 @@ async function initPortfolio() {
             const sliderWidth = sliderRect.width;
             const centerOffset = sliderWidth / 2;
 
-            // 1. Ставим активный слайд ровно по центру
+            // 1. Center active slide exactly
             const activeX = centerOffset - (currentWideWidth / 2);
 
-            // 2. Функция для плавного движения
+            // 2. Smooth movement function
             const animateTo = (el, xPos, width) => {
                 gsap.to(el, { 
                     x: xPos, 
@@ -839,11 +839,11 @@ async function initPortfolio() {
                 });
             };
 
-            // 3. Анимация активного слайда
+            // 3. Active slide animation
             animateTo(allSlides[activeIndex], activeX, currentWideWidth);
             allSlides[activeIndex].classList.add('is-active');
 
-            // Обновляем картинку активного слайда (wide на десктопе, story на мобиле)
+            // Update active slide image (wide on desktop, story on mobile)
             const activeImg = allSlides[activeIndex].querySelector('.portfolio-card__img');
             if (activeImg) {
                 const project = pData.find(p => p.id === allSlides[activeIndex].querySelector('.portfolio-card').dataset.id);
@@ -855,13 +855,13 @@ async function initPortfolio() {
                 }
             }
 
-            // 4. Расставляем соседей влево
+            // 4. Position neighbors to the left
             let leftX = activeX - currentGap - currentNarrowWidth;
             for (let i = activeIndex - 1; i >= 0; i--) {
                 animateTo(allSlides[i], leftX, currentNarrowWidth);
                 allSlides[i].classList.remove('is-active');
                 
-                // Для неактивных всегда storyImg
+                // For inactive always storyImg
                 const img = allSlides[i].querySelector('.portfolio-card__img');
                 if (img) {
                     const project = pData.find(p => p.id === allSlides[i].querySelector('.portfolio-card').dataset.id);
@@ -876,13 +876,13 @@ async function initPortfolio() {
                 leftX -= (currentNarrowWidth + currentGap);
             }
 
-            // 5. Расставляем соседей вправо
+            // 5. Position neighbors to the right
             let rightX = activeX + currentWideWidth + currentGap;
             for (let i = activeIndex + 1; i < allSlides.length; i++) {
                 animateTo(allSlides[i], rightX, currentNarrowWidth);
                 allSlides[i].classList.remove('is-active');
 
-                // Для неактивных всегда storyImg
+                // For inactive always storyImg
                 const img = allSlides[i].querySelector('.portfolio-card__img');
                 if (img) {
                     const project = pData.find(p => p.id === allSlides[i].querySelector('.portfolio-card').dataset.id);
@@ -897,7 +897,7 @@ async function initPortfolio() {
                 rightX += (currentNarrowWidth + currentGap);
             }
 
-            // 6. Логика бесшовного зацикливания
+            // 6. Seamless looping logic
             if (animate) {
                 if (activeIndex >= originalSlidesCount * 2) {
                     setTimeout(() => { activeIndex -= originalSlidesCount; updateSlider(false); }, 700);
@@ -907,22 +907,22 @@ async function initPortfolio() {
             }
         }
 
-        // Логика кликов
+        // Click logic
         allSlides.forEach((slide, i) => {
             slide.addEventListener('click', (e) => {
                 if (activeIndex !== i) {
-                    // Если слайд не активен - центрируем и делаем активным
+                    // If slide is not active - center and make active
                     activeIndex = i;
                     updateSlider();
                 } else {
-                    // Если уже активен - открываем кейс
+                    // If already active - open case
                     const id = slide.querySelector('.portfolio-card').getAttribute('data-id');
                     openCase(id);
                 }
             });
         });
 
-        // Навигация кнопками
+        // Button navigation
         document.querySelector('.portfolio-next')?.addEventListener('click', () => {
             activeIndex++;
             updateSlider();
@@ -933,7 +933,7 @@ async function initPortfolio() {
             updateSlider();
         });
 
-        // Поддержка свайпа на мобильных
+        // Swipe support on mobile
         let touchStartX = 0;
         let touchEndX = 0;
 
@@ -948,10 +948,10 @@ async function initPortfolio() {
 
             if (Math.abs(diff) > threshold) {
                 if (diff > 0) {
-                    // Свайп влево -> следующий слайд
+                    // Swipe left -> next slide
                     activeIndex++;
-                } else {
-                    // Свайп вправо -> предыдущий слайд
+                } else { 
+                    // Swipe right -> prev slide
                     activeIndex--;
                 }
                 updateSlider();
@@ -965,18 +965,18 @@ async function initPortfolio() {
 
     try {
         const res = await fetch(portfolioUrl, { cache: 'no-store' });
-        if (!res.ok) throw new Error("Не удалось загрузить portfolio.json");
+        if (!res.ok) throw new Error("Failed to load portfolio.json");
         pData = await res.json();
         renderPortfolioSlider();
     } catch (e) {
-        console.warn("Ошибка загрузки portfolio.json:", e.message);
+        console.warn("Error loading portfolio.json:", e.message);
         pData = [];
         renderPortfolioSlider();
     }
 }
 
 async function initTestimonials() {
-    // Относительный путь к файлу [source: 2]
+    // Relative path to file
     const reviewsUrl = './assets/data/testimonials.json';
     const list = document.getElementById('reviews-list');
     const fallbackTestimonials = [
@@ -998,73 +998,75 @@ async function initTestimonials() {
         {
             text: 'Working with One Motion felt like an extension of our own team. They took our vague ideas and turned them into a sharp, functional digital identity.',
             author: 'David Chen',
-            company: 'Design Lead, Stellar Apps'
+            company: 'Design Lead, Bloom'
         }
     ];
 
-    if (!list) return;
+    async function loadReviews() {
+        try {
+            // 1) Priority: data from localStorage (similar to other sections)
+            const localData = localStorage.getItem('onemotion_reviews');
+            let reviewsData;
 
-    try {
-        let rData;
-
-        // 1) Приоритет: данные из localStorage (по аналогии с другими секциями)
-        const localReviews = localStorage.getItem('testimonials_db');
-        if (localReviews) {
-            rData = JSON.parse(localReviews);
-        } else {
-            // 2) Основной источник: JSON-файл проекта
-            const res = await fetch(reviewsUrl);
-            if (!res.ok) {
-                throw new Error(`Не удалось найти файл по пути: ${reviewsUrl}`);
+            if (localData) {
+                reviewsData = JSON.parse(localData);
+            } else {
+                // 2) Main source: project JSON file
+                const res = await fetch(reviewsUrl);
+                if (!res.ok) {
+                    throw new Error(`Could not find file at path: ${reviewsUrl}`);
+                }
+                reviewsData = await res.json();
             }
-            rData = await res.json();
-        }
 
-        // 3) Защита от пустых/битых данных
-        if (!Array.isArray(rData) || rData.length === 0) {
-            throw new Error('Массив отзывов пуст или имеет неверный формат');
-        }
+            // 3) Protection against empty/broken data
+            if (!Array.isArray(reviewsData) || reviewsData.length === 0) {
+                throw new Error('Reviews array is empty or has invalid format');
+            }
 
-        // Очищаем и наполняем контейнер
-        list.innerHTML = rData.map(item => `
-            <div class="swiper-slide">
-                <div class="review-item">
-                    <p class="review-text">${item.text}</p>
-                    <div class="review-author">${item.author}</div>
-                    <div class="review-company">${item.company}</div>
-                </div>
-            </div>
-        `).join('');
-    } catch (e) {
-        // Если файл недоступен (например, file://), отображаем рабочий fallback
-        console.warn('Ошибка загрузки testimonials.json, использую fallback:', e.message);
-        list.innerHTML = fallbackTestimonials.map(item => `
-            <div class="swiper-slide">
-                <div class="review-item">
-                    <p class="review-text">${item.text}</p>
-                    <div class="review-author">${item.author}</div>
-                    <div class="review-company">${item.company}</div>
-                </div>
-            </div>
-        `).join('');
+            // Clear and fill container
+            renderReviews(reviewsData);
+
+        } catch (e) {
+            // If file is unavailable (e.g., file://), show working fallback
+            console.warn('Error loading testimonials.json, using fallback:', e.message);
+            renderReviews(fallbackTestimonials);
+        }
     }
 
-    // Инициализируем слайдер после вставки HTML
-    const swiperReviews = new Swiper('.reviews-swiper', {
-        slidesPerView: 1,
-        spaceBetween: 30,
-        loop: true,
-        speed: 800,
-        autoplay: {
-            delay: 5000,
-            disableOnInteraction: false,
-        },
-        navigation: {
-            nextEl: '.reviews-next',
-            prevEl: '.reviews-prev',
-        },
-    });
+    function renderReviews(data) {
+        if (!list) return;
+        list.innerHTML = data.map(item => `
+            <div class="swiper-slide">
+                <div class="review-item">
+                    <p class="review-text">"${item.text}"</p>
+                    <p class="review-author">${item.author}</p>
+                    <p class="review-company">${item.company}</p>
+                </div>
+            </div>
+        `).join('');
+
+        // Initialize slider after inserting HTML
+        new Swiper('.reviews-swiper', {
+            slidesPerView: 1,
+            spaceBetween: 30,
+            loop: true,
+            pagination: {
+                el: '.reviews-pagination',
+                clickable: true
+            },
+            navigation: {
+                nextEl: '.reviews-next',
+                prevEl: '.reviews-prev',
+            },
+            autoplay: {
+                delay: 6000,
+                disableOnInteraction: false
+            }
+        });
+    }
+
+    loadReviews();
 }
 
-
-// Запуск при загрузке страницы [source: 2]
+// Start on page load

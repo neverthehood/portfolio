@@ -20,15 +20,15 @@ function escapeHtml(str = "") {
 }
 
 function isEmail(email = "") {
-  // простая, но нормальная проверка
+  // simple but effective check
   return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(email).trim());
 }
 
 function corsHeaders(request, env) {
   const origin = request.headers.get("Origin") || "";
 
-  // Опционально: ограничить список доменов через env.ALLOWED_ORIGINS
-  // пример: "https://onemotion.studio,https://www.onemotion.studio,http://localhost:5173"
+  // Optional: limit domain list via env.ALLOWED_ORIGINS
+  // example: "https://onemotion.studio,https://www.onemotion.studio,http://localhost:5173"
   const allowed = (env.ALLOWED_ORIGINS || "")
     .split(",")
     .map((s) => s.trim())
@@ -36,7 +36,7 @@ function corsHeaders(request, env) {
 
   const allowOrigin =
     allowed.length === 0
-      ? origin || "*" // если не задано — разрешаем текущий origin (или * если origin пустой)
+      ? origin || "*" // if not set — allow current origin (or * if origin is empty)
       : allowed.includes(origin)
         ? origin
         : allowed[0];
@@ -60,7 +60,7 @@ export async function onRequestPost(context) {
   console.log("Received request", request);
 
   try {
-    // Логируем окружение
+    // Log environment
     const RESEND_API_KEY = env.RESEND_API_KEY;
     console.log("RESEND_API_KEY:", RESEND_API_KEY);
 
@@ -85,17 +85,17 @@ export async function onRequestPost(context) {
 
     console.log("Validated data:", { name, email, details, interest });
 
-    // Валидация и отправка email
+    // Validation and email sending
     const response = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${RESEND_API_KEY}`,  // Передаем ключ в заголовках
+        "Authorization": `Bearer ${RESEND_API_KEY}`,  // Pass key in headers
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "One Motion <hello@onemotion.studio>", // От кого письмо
-        to: "hello@onemotion.studio",  // Кому отправляем
-        subject: `New contact: ${name}`,  // Тема письма
+        from: "One Motion <hello@onemotion.studio>", // From field
+        to: "hello@onemotion.studio",  // Recipient
+        subject: `New contact: ${name}`,  // Email subject
         html: `
           <h2>New request</h2>
           <p><strong>Name:</strong> ${name}</p>
@@ -103,7 +103,7 @@ export async function onRequestPost(context) {
           <p><strong>Interested in:</strong> ${interest.join(", ") || "-"}</p>
           <p><strong>Details:</strong></p>
           <p>${details || "-"}</p>
-        `,  // HTML-версия письма
+        `,  // HTML version
         text: `
           New request
           Name: ${name}
@@ -111,13 +111,13 @@ export async function onRequestPost(context) {
           Interested in: ${interest.join(", ") || "-"}
           Details:
           ${details || "-"}
-        `,  // Текстовая версия письма
-        reply_to: email,  // Ответить на этот email
+        `,  // Text version
+        reply_to: email,  // Reply-to address
       })
     });
 
     const resJson = await response.json();
-    console.log("Response from Resend:", resJson); // Логируем реальный ответ от Resend
+    console.log("Response from Resend:", resJson); // Log real response from Resend
 
     return json({ ok: true, id: resJson.id || null }, { status: 200 });
 

@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Управление контентом — One Motion</title>
+    <title>Content Management — One Motion</title>
     <style>
         body { font-family: 'Poppins', sans-serif; background: #f8f9fa; padding: 40px; color: #111; }
         .admin-panel { max-width: 500px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
@@ -20,117 +20,101 @@
 <body>
 
 <div class="admin-panel">
-    <h2>Новый кейс (Services)</h2>
-    
+    <h2>New case (Services)</h2>
     <div class="input-group">
-        <label>Категория</label>
+        <label>Category</label>
         <select id="category">
-            <option value="graphic">Graphic Design</option>
-            <option value="web">Web Design</option>
-            <option value="threeD">3D Design</option>
-            <option value="motion">Motion Design</option>
+            <option value="Product Design">Product Design</option>
+            <option value="Development">Development</option>
+            <option value="3D & Motion">3D & Motion</option>
+            <option value="Brand Identity">Brand Identity</option>
         </select>
     </div>
-
     <div class="input-group">
-        <label>Название проекта</label>
-        <input type="text" id="title" placeholder="Skinz Visual System">
+        <label>Project Title</label>
+        <input type="text" id="title" placeholder="e.g. Fintech App">
+    </div>
+    <div class="input-group">
+        <label>Tags (comma separated)</label>
+        <input type="text" id="tags" placeholder="e.g. UI/UX, Mobile">
+    </div>
+    <div class="input-group">
+        <label>Media file (Render_1.png or video.mp4)</label>
+        <input type="text" id="img" placeholder="e.g. promo.mp4">
     </div>
 
-    <div class="input-group">
-        <label>Теги (через запятую)</label>
-        <input type="text" id="tags" placeholder="Branding, 3D Assets">
+    <button class="main-btn" onclick="saveCase()">Add to site</button>
+
+    <div id="cases-list"></div>
+    <button class="main-btn" onclick="addCase()">Add Case</button>
+<button class="main-btn" style="background: #111; margin-top: 10px;" onclick="exportJSON()">Export JSON for prod</button>
+
+    <div id="output-box" style="display:none; margin-top:30px;">
+    <label>Copy this code and paste into services.json:</label>
+    <textarea id="json-output" style="width:100%; height:300px; margin-top:10px;"></textarea>
     </div>
-
-    <div class="input-group">
-        <label>Файл медиа (Render_1.png или video.mp4)</label>
-        <input type="text" id="img" placeholder="Например: promo.mp4">
-    </div>
-
-    <button class="main-btn" onclick="saveCase()">Добавить на сайт</button>
-
-    <button class="main-btn" onclick="addCase()">Добавить кейс</button>
-<button class="main-btn" style="background: #111; margin-top: 10px;" onclick="exportJSON()">Выгрузить JSON для прода</button>
-
-<div id="export-area" style="display:none; margin-top: 20px;">
-    <label>Скопируй этот код и вставь в services.json:</label>
-    <textarea id="json-output" style="width:100%; height:200px; font-family: monospace; font-size: 12px; margin-top:10px;"></textarea>
 </div>
 
-    <div class="list" id="caseList"></div>
-</div>
+    <script>
+        let currentData = {
+            "Product Design": [],
+            "Development": [],
+            "3D & Motion": [],
+            "Brand Identity": []
+        };
 
-<script>
-    function saveCase() {
-        const category = document.getElementById('category').value;
-        const title = document.getElementById('title').value;
-        const tags = document.getElementById('tags').value.split(',').map(t => t.trim());
-        const img = document.getElementById('img').value;
+        function saveCase() {
+            const cat = document.getElementById('category').value;
+            const title = document.getElementById('title').value;
+            const tags = document.getElementById('tags').value.split(',').map(s => s.trim()).filter(Boolean);
+            const img = document.getElementById('img').value;
 
-        if(!title || !img) return alert('Заполните название и имя файла');
+            if(!title || !img) return alert('Fill in the title and filename');
 
-        let db = JSON.parse(localStorage.getItem('onemotion_db')) || { graphic: [], web: [], threeD: [], motion: [] };
-        
-        db[category].push({ title, tags, img });
-        localStorage.setItem('onemotion_db', JSON.stringify(db));
-        
-        document.getElementById('title').value = '';
-        document.getElementById('img').value = '';
-        document.getElementById('tags').value = '';
-        
-        renderList();
-    }
-
-    function renderList() {
-        const db = JSON.parse(localStorage.getItem('onemotion_db')) || { graphic: [], web: [], threeD: [], motion: [] };
-        const list = document.getElementById('caseList');
-        list.innerHTML = '<h3>Добавленные кейсы:</h3>';
-        
-        for (let cat in db) {
-            db[cat].forEach((item, index) => {
-                list.innerHTML += `<div class="item">
-                    <span><b>${cat}:</b> ${item.title}</span>
-                    <button class="del-btn" onclick="deleteCase('${cat}', ${index})">Удалить</button>
-                </div>`;
-            });
+            currentData[cat].push({ title, tags, img });
+            renderList();
         }
-    }
 
-    function deleteCase(cat, index) {
-        if(!confirm('Удалить этот кейс?')) return;
-        let db = JSON.parse(localStorage.getItem('onemotion_db'));
-        db[cat].splice(index, 1);
-        localStorage.setItem('onemotion_db', JSON.stringify(db));
-        renderList();
-    }
+        function renderList() {
+            const list = document.getElementById('cases-list');
+            list.innerHTML = '<h3>Added cases:</h3>';
+            
+            for(let cat in currentData) {
+                currentData[cat].forEach((item, index) => {
+                    list.innerHTML += `
+                        <div class="case-item">
+                            <b>[${cat}]</b> ${item.title}
+                            <button class="del-btn" onclick="deleteCase('${cat}', ${index})">Delete</button>
+                        </div>
+                    `;
+                });
+            }
+        }
 
-    renderList();
+        function deleteCase(cat, index) {
+            if(!confirm('Delete this case?')) return;
+            currentData[cat].splice(index, 1);
+            renderList();
+        }
 
-    function generateJSON() {
-        const currentData = localStorage.getItem('onemotion_db');
-        // Выводим данные в консоль или в специальное текстовое поле (textarea)
-        console.log("Скопируй это в services.json:", currentData);
-        alert("JSON готов! Проверь консоль (F12) и скопируй текст в services.json");
-    }
-    
+        function exportJSON() {
+            // Output data to console or special textarea
+            console.log("Copy this to services.json:", currentData);
+            alert("JSON ready! Check console (F12) and copy text to services.json");
 
-    function exportJSON() {
-    const data = localStorage.getItem('onemotion_db');
-    const area = document.getElementById('export-area');
-    const output = document.getElementById('json-output');
+            const outputBox = document.getElementById('output-box');
+            const output = document.getElementById('json-output');
 
-    if (!data || data === '{}') {
-        alert("В базе пока пусто! Добавь хотя бы один кейс.");
-        return;
-    }
+            if(Object.values(currentData).flat().length === 0) {
+                alert("Database is empty! Add at least one case.");
+                return;
+            }
 
-    // Форматируем JSON, чтобы он был красивым (с отступами)
-    const formatted = JSON.stringify(JSON.parse(data), null, 2);
-    
-    area.style.display = 'block';
-    output.value = formatted;
-    output.select(); // Сразу выделяем текст для копирования
-}
-</script>
+            // Format JSON to be pretty (with indents)
+            output.value = JSON.stringify(currentData, null, 4);
+            outputBox.style.display = 'block';
+            output.select(); // Select text for copying
+        }
+    </script>
 </body>
 </html>

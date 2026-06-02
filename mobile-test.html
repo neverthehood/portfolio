@@ -627,33 +627,31 @@
       document.addEventListener('DOMContentLoaded', () => {
         let lastScrollY = window.scrollY;
         const topbar = document.querySelector('.topbar');
-        const scrollThreshold = 120; // Порог скролла для скрытия хедера
+        const scrollThreshold = 120; // Scroll threshold to hide header
+        const topbar = document.querySelector('.topbar');
+        let lastScrollY = window.scrollY;
 
-        // Первая проверка при загрузке страницы (на случай если страницу обновили в середине)
-        if (window.scrollY > 10) {
-          topbar.classList.add('topbar--scrolled');
-        }
-
-        window.addEventListener('scroll', () => {
+        // Initial check on page load (in case page was refreshed in the middle)
+        function updateTopbar() {
           const currentScrollY = window.scrollY;
-
-          // 1. КОНТРОЛЬ ФОНА: Если ушли с самого верха (> 10px) — включаем стекло, если вернулись — выключаем
+          
+          // 1. BACKGROUND CONTROL: If scrolled from the very top (> 10px) — enable glass effect, if back — disable
           if (currentScrollY > 10) {
             topbar.classList.add('topbar--scrolled');
           } else {
             topbar.classList.remove('topbar--scrolled');
           }
 
-          // 2. КОНТРОЛЬ СКРЫТИЯ: Если листаем вниз и прошли порог — прячем хедер
+          // 2. HIDE CONTROL: If scrolling down and passed threshold — hide header
           if (currentScrollY > lastScrollY && currentScrollY > scrollThreshold) {
             topbar.classList.add('topbar--hidden');
           } 
-          // Если листаем вверх — показываем хедер
-          else if (currentScrollY < lastScrollY) {
+          // If scrolling up — show header
+          else {
             topbar.classList.remove('topbar--hidden');
           }
 
-          // Обновляем координату для следующего шага
+          // Update coordinate for the next step
           lastScrollY = currentScrollY;
         }, { passive: true });
       });

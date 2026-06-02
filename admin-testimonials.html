@@ -17,16 +17,16 @@
 <div class="admin-wrap">
     <h2>Add New Testimonial</h2>
     <div class="form-group">
-        <label>Отзыв</label>
-        <textarea id="text" rows="4" placeholder="One Motion delivered a system..."></textarea>
+        <label>Review</label>
+        <textarea id="text" rows="4" placeholder="e.g. They are great..."></textarea>
     </div>
     <div class="form-group">
-        <label>Имя</label>
-        <input type="text" id="author" placeholder="Maria Chen">
+        <label>Name</label>
+        <input type="text" id="author" placeholder="John Doe">
     </div>
     <div class="form-group">
-        <label>Компания и должность</label>
-        <input type="text" id="company" placeholder="CPO, Clarifi">
+        <label>Company and position</label>
+        <input type="text" id="company" placeholder="CEO, TechCo">
     </div>
     <button class="btn btn-add" onclick="addReview()">Add to List</button>
     <button class="btn btn-save" onclick="downloadJSON()">Download testimonials.json</button>
@@ -42,7 +42,7 @@
             company: document.getElementById('company').value
         };
         reviews.push(item);
-        document.getElementById('status').innerText = `Добавлено отзывов: ${reviews.length}`;
+        document.getElementById('status').innerText = `Reviews added: ${reviews.length}`;
         document.querySelectorAll('input, textarea').forEach(el => el.value = '');
     }
     function downloadJSON() {

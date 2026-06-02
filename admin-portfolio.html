@@ -13,7 +13,7 @@
         label { font-weight: 500; font-size: 13px; color: #555; opacity: 0.7; }
         input, textarea { padding: 12px; border: 1px solid #eee; border-radius: 12px; font-size: 14px; background: #fafafa; font-family: inherit; }
         
-        /* Стили для управляемой очереди превью */
+        /* Styles for manageable preview queue */
         .preview-container {
             display: flex;
             flex-direction: column;
@@ -70,8 +70,8 @@
     
     <div class="grid-form">
         <div class="form-group">
-            <label>ID проекта (латиницей)</label>
-            <input type="text" id="id" placeholder="e.g. skinz-system">
+            <label>Project ID (latin characters)</label>
+            <input type="text" id="p-id" placeholder="e.g. skinz-visual">
         </div>
         <div class="form-group">
             <label>Client Name</label>
@@ -95,9 +95,9 @@
         </div>
         
         <div class="form-group full">
-            <label>Gallery / Portyanka (Очередь изображений)</label>
+            <label>Gallery / Images Queue</label>
             <input type="file" id="galleryFiles" multiple accept="image/*">
-            <p class="hint">Выберите файлы, а затем настройте их порядок кнопками</p>
+            <p class="hint">Select files, then adjust their order with buttons</p>
             <div id="galleryPreview" class="preview-container"></div>
         </div>
 
@@ -116,55 +116,45 @@
 </div>
 
 <script>
-    const pass = prompt("Введите пароль администратора:");
-    if (pass === "505Hollender") {
-        document.getElementById('adminBody').style.display = "block";
-    } else {
-        alert("Доступ запрещен");
+    const pass = prompt("Enter admin password:");
+    if (pass !== "om2026") {
+        alert("Access denied");
         window.location.href = "index.html";
     }
 
     let cases = JSON.parse(localStorage.getItem('portfolio_db')) || [];
-    
-    // Очередь файлов в виде объектов { name: '..', src: '..' }
+
+    // File queue as objects { name: '..', src: '..' }
     let galleryQueue = [];
 
-    const galleryInput = document.getElementById('galleryFiles');
-    const galleryPreview = document.getElementById('galleryPreview');
-
-    galleryInput.addEventListener('change', function() {
-        const files = Array.from(this.files);
-        
-        files.forEach(file => {
+    function handleFiles(files) {
+        Array.from(files).forEach(file => {
             const reader = new FileReader();
-            reader.onload = function(e) {
-                galleryQueue.push({
-                    name: file.name,
-                    src: e.target.result
-                });
-                renderPreview();
-            }
+            reader.onload = (e) => {
+                galleryQueue.push({ name: file.name, src: e.target.result });
+                renderQueue();
+            };
             reader.readAsDataURL(file);
         });
-        this.value = ''; // Сбрасываем инпут для повторного выбора тех же файлов
-    });
+    }
 
-    function renderPreview() {
-        galleryPreview.innerHTML = galleryQueue.length === 0 ? '<p style="text-align:center; opacity:0.5; font-size:12px;">Очередь пуста</p>' : '';
-
-        galleryQueue.forEach((item, index) => {
-            const card = document.createElement('div');
-            card.className = 'preview-card';
-            card.innerHTML = `
-                <img src="${item.src}">
-                <div class="preview-info">${item.name}</div>
-                <div class="preview-controls">
-                    <button class="ctrl-btn btn-up-down" onclick="moveItem(${index}, -1)">↑</button>
-                    <button class="ctrl-btn btn-up-down" onclick="moveItem(${index}, 1)">↓</button>
-                    <button class="ctrl-btn btn-remove" onclick="removeItem(${index})">✕</button>
+    function renderQueue() {
+        const galleryPreview = document.getElementById('galleryPreview');
+        galleryPreview.innerHTML = galleryQueue.length === 0 ? '<p style="text-align:center; opacity:0.5; font-size:12px;">Queue is empty</p>' : '';
+        
+        galleryQueue.forEach((file, index) => {
+            const div = document.createElement('div');
+            div.className = 'preview-item';
+            div.innerHTML = `
+                <img src="${file.src}" alt="${file.name}">
+                <div class="controls">
+                    <button onclick="moveItem(${index}, -1)">←</button>
+                    <button class="del" onclick="removeItem(${index})">×</button>
+                    <button onclick="moveItem(${index}, 1)">→</button>
                 </div>
+                <div style="font-size:10px; margin-top:5px; overflow:hidden; text-overflow:ellipsis;">${file.name}</div>
             `;
-            galleryPreview.appendChild(card);
+            galleryPreview.appendChild(div);
         });
     }
 
@@ -189,7 +179,7 @@
         cases.forEach((c, i) => {
             list.innerHTML += `
                 <div class="item">
-                    <span><strong>${c.id}</strong>: ${c.title}</span>
+                    <span><strong>${c.id}</strong>: ${c.title} (${c.gallery.length} images)</span>
                     <button class="btn-del" onclick="deleteCase(${i})">Delete</button>
                 </div>
             `;
@@ -206,11 +196,11 @@
             wideImg: document.getElementById('wideImg').value,
             storyImg: document.getElementById('storyImg').value,
             tags: document.getElementById('tags').value.split(',').map(t => t.trim()),
-            // Берем имена из нашей отсортированной очереди
+            // Get names from our sorted queue
             gallery: galleryQueue.map(item => item.name)
         };
         
-        if (!newCase.id || !newCase.title) return alert("ID и Title обязательны!");
+        if (!newCase.id || !newCase.title) return alert("ID and Title are required!");
         
         cases.push(newCase);
         renderList();
@@ -221,7 +211,7 @@
     }
 
     function deleteCase(index) {
-        if (confirm("Удалить этот проект?")) {
+        if (confirm("Delete this project?")) {
             cases.splice(index, 1);
             renderList();
         }
