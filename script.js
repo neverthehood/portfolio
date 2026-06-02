@@ -791,7 +791,8 @@ async function initPortfolio() {
             const currentNarrowWidth = isMobileNow ? 280 : 340;
             const currentGap = isMobileNow ? 16 : 30;
 
-            const sliderWidth = slider.offsetWidth;
+            const sliderRect = slider.getBoundingClientRect();
+            const sliderWidth = sliderRect.width;
             const centerOffset = sliderWidth / 2;
 
             // 1. Ставим активный слайд ровно по центру

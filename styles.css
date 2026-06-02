@@ -793,7 +793,7 @@ body.mode-form #contact-final {
   }
 
   .contacts-final__left h2 {
-    font-size: clamp(28px, 10vw, 52px);
+    font-size: clamp(18px, 7vw, 52px);
   }
 
   .contacts-final__right {
@@ -994,10 +994,19 @@ a:-webkit-any-link {
 .case-viewer__header-inner {
     max-width: 1240px;
     margin: 0 auto;
-    padding: 0 48px; /* Добавили отступ слева и справа */
+    padding: 0 48px;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+}
+
+@media (max-width: 768px) {
+    .case-viewer__header-inner {
+        padding: 0 24px;
+    }
+    .case-viewer__desc-wrap {
+        padding: 0 24px !important;
+    }
 }
 
 .case-viewer__description {
@@ -2607,7 +2616,9 @@ border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 100vw; /* На всю ширину окна */
+    left: 50%;
+    transform: translateX(-50%);
     overflow: visible;
     position: relative;
     padding-inline: 0 !important;
