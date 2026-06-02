@@ -2617,7 +2617,7 @@ border-radius: 10px;
     justify-content: center;
     align-items: center;
     width: 100vw; /* На всю ширину окна */
-    left: 50%;
+    left: 0%;
     transform: translateX(-50%);
     overflow: visible;
     position: relative;
