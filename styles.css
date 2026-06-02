@@ -5337,6 +5337,12 @@ body.mode-form .topbar {
 }
 
 /* Скрываем контент Hero при открытой форме */
+body.mode-form .hero {
+  min-height: 0 !important;
+  height: auto !important;
+  padding: 0 !important;
+}
+
 body.mode-form .hero__content,
 body.mode-form .hero__visual-main {
   display: none !important;

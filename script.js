@@ -691,6 +691,21 @@ async function initServices() {
             nextEl: '.swiper-next',
             prevEl: '.swiper-prev',
         },
+
+        on: {
+            init: function (swiper) {
+                const counter = document.querySelector('.services-counter');
+                if (counter) {
+                    counter.textContent = `1/${swiper.slides.length}`;
+                }
+            },
+            slideChange: function (swiper) {
+                const counter = document.querySelector('.services-counter');
+                if (counter) {
+                    counter.textContent = `${swiper.realIndex + 1}/${swiper.slides.length}`;
+                }
+            }
+        },
         
         breakpoints: {
             // Когда ширина экрана >= 768px
