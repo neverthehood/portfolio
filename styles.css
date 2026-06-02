@@ -489,6 +489,36 @@ img.logo-desktop {
   display: block;
 }
 
+/* ФИКС ДЛЯ МОБИЛОК: Унифицируем размеры заголовков разделов */
+@media (max-width: 768px) {
+  .services-header-grid {
+    padding-inline: 20px !important;
+    max-width: 100vw !important;
+    gap: 15px !important;
+    margin-bottom: 30px !important;
+  }
+  
+  .services-asset-block {
+    flex: 0 0 auto !important; /* Отключаем автоподстройку */
+  }
+
+  .assets-left {
+    width: 65% !important;
+    max-width: 65% !important;
+  }
+
+  .assets-right {
+    width: 25% !important;
+    max-width: 25% !important;
+  }
+
+  .services-bg-img {
+    max-height: 40px !important; /* Уменьшаем высоту для мобилок, чтобы текст/номер не были огромными */
+    width: auto !important; /* Позволяем картинке занять нужную ширину в пределах контейнера */
+    max-width: 100% !important;
+  }
+}
+
 /* =========================================
    СЕКЦИЯ: ENGAGEMENT MODELS
    ========================================= */
@@ -2762,7 +2792,7 @@ border-radius: 10px;
 }
 
 /* Футер */
-.portfolio-footer { margin-top: 40px; }
+.portfolio-footer { margin-top: 70px; }
 .footer-socials { display: flex; align-items: center; justify-content: center; gap: 24px; }
 .social-icons { display: flex; gap: 20px; }
 .social-icons img { width: 28px; height: 28px; }
@@ -4546,11 +4576,11 @@ body.mode-form .chip--category:hover {
     line-height: 1.15;
   }
 
-  .portfolio-slide { height: 450px !important; }
+  .portfolio-slide { height: 610px !important; }
   .portfolio-slide.is-active { }
 
   .portfolio-card {
-    height: 450px !important;
+    height: 610px !important;
     width: 100%;
   }
 
