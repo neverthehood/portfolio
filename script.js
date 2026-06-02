@@ -860,6 +860,31 @@ async function initPortfolio() {
             updateSlider();
         });
 
+        // Поддержка свайпа на мобильных
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        slider.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        slider.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            const diff = touchStartX - touchEndX;
+            const threshold = 50;
+
+            if (Math.abs(diff) > threshold) {
+                if (diff > 0) {
+                    // Свайп влево -> следующий слайд
+                    activeIndex++;
+                } else {
+                    // Свайп вправо -> предыдущий слайд
+                    activeIndex--;
+                }
+                updateSlider();
+            }
+        }, { passive: true });
+
         window.addEventListener('resize', () => updateSlider(false));
         updateSlider(false);
         setTimeout(() => slider.classList.add('is-ready'), 100);
