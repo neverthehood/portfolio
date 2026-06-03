@@ -1182,8 +1182,20 @@ body.mode-form .menu-toggle span {
 /* --- MOBILE STYLES (max-width: 900px) --- */
 @media (max-width: 900px) {
   .topbar {
-    top: 20px;
-    transition: background 0.3s ease;
+    top: 0;
+    padding-top: 20px;
+    transition: background 0.3s ease, transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  /* Sticky background for mobile on scroll */
+  .topbar--scrolled {
+    background: rgba(255, 255, 255, 0.88) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02) !important;
+    top: 0 !important;
+    padding-top: 0 !important;
   }
 
   body:has(.site-nav--active) .topbar {
@@ -1451,6 +1463,8 @@ opacity:.6;
   left: 0;
   right: 0;
   z-index: 1000 !important;   /* Force above our 3D-letters (they have z-index: 30) */
+  top: 0;
+  padding-top: 20px;
   
   /* Add smoothness for the transform property */
   transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), background 0.3s ease, top 0.3s ease !important;
@@ -5266,6 +5280,9 @@ margin-top:40px;
   
   /* Soft veil shadow to separate header from content */
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02) !important;
+
+  top: 0 !important;
+  padding-top: 0 !important;
 }
 
 
