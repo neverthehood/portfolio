@@ -735,9 +735,45 @@ async function initServices() {
     }
 }
 
+function initHeaderScroll() {
+  const topbar = document.querySelector('.topbar');
+  if (!topbar) return;
+
+  let lastScrollY = window.scrollY;
+  const scrollThreshold = 120; // Distance to scroll down before hiding
+
+  window.addEventListener('scroll', () => {
+    const currentScrollY = window.scrollY;
+
+    // 1. BACKGROUND CONTROL: Glass effect when scrolled > 10px
+    if (currentScrollY > 10) {
+      topbar.classList.add('topbar--scrolled');
+    } else {
+      topbar.classList.remove('topbar--scrolled');
+    }
+
+    // 2. HIDE/SHOW LOGIC
+    // Don't hide header if mobile menu is open
+    const isMenuOpen = document.querySelector('.site-nav--active');
+    
+    if (!isMenuOpen) {
+      if (currentScrollY > lastScrollY && currentScrollY > scrollThreshold) {
+        // Scrolling DOWN
+        topbar.classList.add('topbar--hidden');
+      } else if (currentScrollY < lastScrollY) {
+        // Scrolling UP
+        topbar.classList.remove('topbar--hidden');
+      }
+    }
+
+    lastScrollY = currentScrollY;
+  }, { passive: true });
+}
+
 // Start everything with one call
 document.addEventListener('DOMContentLoaded', () => {
     initMobileMenu();
+    initHeaderScroll();
     initServices();
     initPortfolio();
     initTestimonials();
