@@ -245,7 +245,7 @@
 .hero {
   position: relative !important;
   width: 100% !important;
-  min-height: 100vh !important; 
+  min-height: 85vh !important; /* Reduced from 100vh to minimize gap */
   display: flex !important;
   align-items: center !important;
   padding-top: 80px !important; 
@@ -2807,7 +2807,7 @@ border-radius: 10px;
 
 .services {
     position: relative;
-    padding: 80px 0 100px;
+    padding: 40px 0 100px; /* Reduced top padding from 80px to 40px */
 }
 
 .services-lines {
@@ -2988,18 +2988,20 @@ border-radius: 10px;
 }
 
 .main-nav__counter {
-    font-family: var(--fontHeading);
-    font-size: 18px;
-    font-weight: 500;
+    font-family: var(--fontBody); /* Use body font for cleaner look */
+    font-size: 16px;
+    font-weight: 400; /* Less bold as requested */
     color: #111;
     margin-right: 12px;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
+    opacity: 0.8; /* Slight transparency for elegance */
 }
 
 div#services-counter {
     align-content: center;
     margin-right: 16px;
-    font-size: 20px;
+    font-size: 16px;
+    font-weight: 400;
 }
 
 /* Button styles as in mockup */
