@@ -710,15 +710,15 @@ async function initServices() {
         breakpoints: {
             // Screen width >= 768px
             768: {
-                slidesPerView: 1.4,
+                slidesPerView: 'auto',
                 spaceBetween: 30,
                 centeredSlides: false, // Desktop usually better aligned to edge
                 slidesOffsetAfter: 100 // Add offset after last slide on tablets
             },
             // Screen width >= 1320px
             1320: {
-                slidesPerView: 1.2, 
-                spaceBetween: 60,
+                slidesPerView: 'auto', 
+                spaceBetween: 30, // Tighter gap
                 centeredSlides: false,
                 slidesOffsetAfter: 0 // Offset not needed on large screens
             }
@@ -735,9 +735,45 @@ async function initServices() {
     }
 }
 
+function initHeaderScroll() {
+  const topbar = document.querySelector('.topbar');
+  if (!topbar) return;
+
+  let lastScrollY = window.scrollY;
+  const scrollThreshold = 120; // Distance to scroll down before hiding
+
+  window.addEventListener('scroll', () => {
+    const currentScrollY = window.scrollY;
+
+    // 1. BACKGROUND CONTROL: Glass effect when scrolled > 10px
+    if (currentScrollY > 10) {
+      topbar.classList.add('topbar--scrolled');
+    } else {
+      topbar.classList.remove('topbar--scrolled');
+    }
+
+    // 2. HIDE/SHOW LOGIC
+    // Don't hide header if mobile menu is open
+    const isMenuOpen = document.querySelector('.site-nav--active');
+    
+    if (!isMenuOpen) {
+      if (currentScrollY > lastScrollY && currentScrollY > scrollThreshold) {
+        // Scrolling DOWN
+        topbar.classList.add('topbar--hidden');
+      } else if (currentScrollY < lastScrollY) {
+        // Scrolling UP
+        topbar.classList.remove('topbar--hidden');
+      }
+    }
+
+    lastScrollY = currentScrollY;
+  }, { passive: true });
+}
+
 // Start everything with one call
 document.addEventListener('DOMContentLoaded', () => {
     initMobileMenu();
+    initHeaderScroll();
     initServices();
     initPortfolio();
     initTestimonials();
