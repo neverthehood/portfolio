@@ -18,6 +18,8 @@
 /* Mandatory reset to prevent padding from increasing block width */
 *, *::before, *::after {
   box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* =========================================
@@ -274,7 +276,7 @@
     font-family: var(--fontHeading);
     font-size: clamp(32px, 4vw, 82px) !important;
     line-height: 1.1 !important;
-    font-weight: 300; 
+    font-weight: 400; 
     color: var(--text);
     text-transform: none; 
     margin: 0 0 20px 0;
