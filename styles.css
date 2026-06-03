@@ -4276,10 +4276,6 @@ body.mode-form .brand__whatsapp {
     gap: 30px !important; /* Reduced gap between content and image inside card */
   }
 
-  .swiper-slide {
-    margin-right: 30px !important; /* Control spacing between Swiper slides */
-  }
-
   .service-card__title {
     font-size: 84px !important;
   }

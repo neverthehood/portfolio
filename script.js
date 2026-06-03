@@ -710,15 +710,15 @@ async function initServices() {
         breakpoints: {
             // Screen width >= 768px
             768: {
-                slidesPerView: 1.4,
+                slidesPerView: 'auto',
                 spaceBetween: 30,
                 centeredSlides: false, // Desktop usually better aligned to edge
                 slidesOffsetAfter: 100 // Add offset after last slide on tablets
             },
             // Screen width >= 1320px
             1320: {
-                slidesPerView: 1.2, 
-                spaceBetween: 60,
+                slidesPerView: 'auto', 
+                spaceBetween: 30, // Tighter gap
                 centeredSlides: false,
                 slidesOffsetAfter: 0 // Offset not needed on large screens
             }
