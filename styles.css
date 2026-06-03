@@ -63,6 +63,7 @@
   /* Physical slide shell on mobile */
   .services-slider-wrap .swiper-slide {
     width: 100% !important;
+    max-width: none !important;
     height: auto !important; 
     display: flex !important;
     padding: 0 !important;
@@ -74,6 +75,7 @@
     /* Flip axis: left part (text) goes UP, right (image) goes DOWN */
     flex-direction: column !important; 
     width: 100% !important;
+    max-width: none !important;
     height: auto !important;
     background: #f9f9f9;
     border-radius: 24px;
@@ -2955,6 +2957,7 @@ border-radius: 10px;
 
 
 .service-card {
+    width: 1080px !important; /* Fixed width to ensure media fits perfectly */
     height: 660px !important;
     background: #deeaff;
     border-radius: 40px;
