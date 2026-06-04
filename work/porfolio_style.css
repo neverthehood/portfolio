@@ -112,7 +112,7 @@ nav a:hover { color: #fff; }
   letter-spacing: 0.12em;
   color: rgba(255, 255, 255, 0.3);
   text-transform: uppercase;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .work-grid {
@@ -275,7 +275,7 @@ nav a:hover { color: #fff; }
   color: rgba(255, 255, 255, 0.55);
   line-height: 1.7;
   letter-spacing: 0.01em;
-  margin-bottom: 1rem;
+  margin-bottom: 0.8rem;
 }
 
 .tools-label {
