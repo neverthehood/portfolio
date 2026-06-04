@@ -41,7 +41,8 @@ document.querySelectorAll('.work-card').forEach(card => {
 
   setBehansBg(allSlides[0]);
 
-  // create dots
+  if (total <= 1) return;
+
   for (let i = 0; i < total; i++) {
     const dot = document.createElement('div');
     dot.className = 'dot' + (i === 0 ? ' active' : '');
@@ -69,8 +70,6 @@ document.querySelectorAll('.work-card').forEach(card => {
 
   card.querySelector('.work-card-media').addEventListener('click', (e) => {
     if (e.target.closest('.behance-btn')) return;
-    // Если текущий слайд — behance-slide, возвращаемся к первому
-    // Иначе просто идём дальше по кругу
     const isBehance = allSlides[current].classList.contains('behance-slide');
     goTo(isBehance ? 0 : (current + 1) % total);
   });
