@@ -506,8 +506,6 @@ async function initServices() {
                     stopAutoPlay();
 
                     setTimeout(() => {
-                        mediaContainer.innerHTML = ''; 
-
                         const fileName = data.img;
                         const isVideo = fileName.toLowerCase().endsWith('.mp4');
                         const fullPath = fileName.includes('assets') ? fileName : rendersPath + fileName;
@@ -516,7 +514,7 @@ async function initServices() {
                         if (isVideo) {
                             newMedia = document.createElement('video');
                             newMedia.src = fullPath;
-                            newMedia.className = 'render-video is-switching';
+                            newMedia.className = 'render-video';
                             newMedia.muted = true;
                             newMedia.autoplay = true;
                             newMedia.setAttribute('playsinline', '');
@@ -542,12 +540,21 @@ async function initServices() {
                         } else {
                             newMedia = document.createElement('img');
                             newMedia.src = fullPath;
-                            newMedia.className = 'render-img is-switching';
+                            newMedia.className = 'render-img';
                             
                             // If image — start standard 6s countdown
                             scheduleNext();
                         }
 
+                        // Ставим новое изображение справа (за пределами видимости)
+                        newMedia.style.position = 'absolute';
+                        newMedia.style.top = '0';
+                        newMedia.style.left = '0';
+                        newMedia.style.width = '100%';
+                        newMedia.style.height = '100%';
+                        newMedia.style.transform = 'translateX(100%)';
+                        newMedia.style.opacity = '1';
+                        
                         mediaContainer.appendChild(newMedia);
 
                         if (titleEl) titleEl.innerText = data.title || 'Untitled';
@@ -555,11 +562,36 @@ async function initServices() {
                             tagsEl.innerHTML = data.tags.map(tag => `<span>${tag}</span>`).join('');
                         }
 
-                        // Плавный fade-in: сначала убираем is-switching, потом добавляем небольшой delay для полной прозрачности
+                        // Анимируем: новое заезжает справа, старое уезжает влево
                         requestAnimationFrame(() => {
-                            requestAnimationFrame(() => {
-                                newMedia.classList.remove('is-switching');
-                            });
+                            // Новое: убираем translateX — заезжает в центр
+                            newMedia.style.transform = 'translateX(0)';
+                            
+                            // Старое: уезжает влево
+                            if (oldMedia) {
+                                oldMedia.style.transform = 'translateX(-100%)';
+                                oldMedia.style.opacity = '0';
+                                
+                                // Удаляем старое после завершения анимации
+                                const onTransitionEnd = () => {
+                                    oldMedia.removeEventListener('transitionend', onTransitionEnd);
+                                    oldMedia.remove();
+                                };
+                                oldMedia.addEventListener('transitionend', onTransitionEnd);
+                                // Fallback на случай если transitionend не сработает
+                                setTimeout(() => {
+                                    if (oldMedia.parentNode) oldMedia.remove();
+                                }, 700);
+                            }
+                            
+                            // Убираем absolute позиционирование у нового после анимации
+                            const onNewTransitionEnd = () => {
+                                newMedia.removeEventListener('transitionend', onNewTransitionEnd);
+                                newMedia.style.position = '';
+                                newMedia.style.top = '';
+                                newMedia.style.left = '';
+                            };
+                            newMedia.addEventListener('transitionend', onNewTransitionEnd);
                         });
                     }, 600);
                 }

@@ -3427,16 +3427,19 @@ div#services-counter {
 }
 
 .render-img {
-    transition: opacity 0.8s cubic-bezier(0.65, 0, 0.35, 1), transform 1.2s cubic-bezier(0.65, 0, 0.35, 1), filter 0.8s ease !important;
-    transform: translateX(0) scale(1);
+    transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transform: translateX(0);
     opacity: 1;
-    filter: blur(0px);
 }
 
 .render-img.is-switching {
     opacity: 0;
-    transform: translateX(20px) scale(1.08); /* Image smoothly goes to the right */
-    filter: blur(12px);
+    transform: translateX(-20px);
+}
+
+.render-video.is-switching {
+    opacity: 0;
+    transform: translateX(-20px);
 }
 
 
@@ -3449,25 +3452,27 @@ div#services-counter {
 }
 
 /* General style for media content */
+.render-media-container {
+    position: relative;
+    overflow: hidden;
+}
+
 .render-img, .render-video {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
     transition: 
-        opacity 0.8s cubic-bezier(0.65, 0, 0.35, 1), 
-        transform 1.2s cubic-bezier(0.65, 0, 0.35, 1), 
-        filter 0.8s ease;
-    transform: scale(1);
-    filter: blur(0px);
+        opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+        transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateX(0);
     opacity: 1;
 }
 
-/* Effect during switching */
+/* Effect during switching — уезжает влево */
 .is-switching {
-    opacity: 0 !important;
-    transform: scale(1.08) !important;
-    filter: blur(12px) !important;
+    opacity: 0;
+    transform: translateX(-20px);
 }
 
 
