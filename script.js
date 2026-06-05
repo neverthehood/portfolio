@@ -894,23 +894,21 @@ async function initPortfolio() {
                 rightX += (currentNarrowWidth + currentGap);
             }
 
-            // 6. Seamless looping logic — reset position after animation completes
+            // 6. Seamless looping — reset BEFORE the next animation starts
             if (animate) {
                 const animDuration = 900;
-                if (activeIndex >= originalSlidesCount * 2) {
+                setTimeout(() => { isAnimating = false; }, animDuration);
+                
+                if (activeIndex >= originalSlidesCount * 2 - 1) {
                     setTimeout(() => { 
                         activeIndex -= originalSlidesCount; 
-                        isAnimating = false;
                         updateSlider(false); 
                     }, animDuration);
-                } else if (activeIndex < originalSlidesCount) {
+                } else if (activeIndex <= 1 && activeIndex < originalSlidesCount) {
                     setTimeout(() => { 
                         activeIndex += originalSlidesCount; 
-                        isAnimating = false;
                         updateSlider(false); 
                     }, animDuration);
-                } else {
-                    setTimeout(() => { isAnimating = false; }, animDuration);
                 }
             } else {
                 isAnimating = false;
