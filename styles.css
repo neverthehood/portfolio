@@ -2505,9 +2505,11 @@ border-radius: 10px;
     grid-template-columns: repeat(3, 1fr);
     gap: 12px; 
     margin-top: 20px; 
+    margin-inline: auto;
     padding: 0 clamp(20px, 5vw, 80px);
     position: relative;
     z-index: 1;
+    max-width: 1400px;
 }
 
 /* 4th card hidden on desktop */
@@ -2579,7 +2581,7 @@ border-radius: 10px;
 
 .collab-card__visual img {
     max-width: 100%;
-    max-height: 400px;
+    max-height: 100%;
     width: auto;
     height: auto;
     object-fit: contain;
@@ -3473,6 +3475,30 @@ div#services-counter {
 .is-switching {
     opacity: 0;
     transform: translateX(-20px);
+}
+
+/* Render slides wrap — как в work/portfolio.js */
+.render-media-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    background: #f0f0f0; 
+}
+
+.render-slides-wrap {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.render-slide {
+    min-width: 100%;
+    max-width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 

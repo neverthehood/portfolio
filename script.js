@@ -449,6 +449,44 @@ async function initServices() {
 
         if (!mediaContainer) return;
 
+        // Создаём flex-контейнер для всех слайдов (как в work/portfolio.js)
+        let slidesWrap = mediaContainer.querySelector('.render-slides-wrap');
+        if (!slidesWrap) {
+            slidesWrap = document.createElement('div');
+            slidesWrap.className = 'render-slides-wrap';
+            mediaContainer.appendChild(slidesWrap);
+        }
+
+        // Заполняем все слайды из данных
+        const categoryData = dataForSlider[cat];
+        if (categoryData && categoryData.length > 0) {
+            slidesWrap.innerHTML = '';
+            categoryData.forEach((item, idx) => {
+                const fileName = item.img;
+                const isVideo = fileName.toLowerCase().endsWith('.mp4');
+                const fullPath = fileName.includes('assets') ? fileName : rendersPath + fileName;
+                
+                let el;
+                if (isVideo) {
+                    el = document.createElement('video');
+                    el.src = fullPath;
+                    el.muted = true;
+                    el.loop = true;
+                    el.autoplay = idx === 0;
+                    el.setAttribute('playsinline', '');
+                    el.className = 'render-slide';
+                } else {
+                    el = document.createElement('img');
+                    el.src = fullPath;
+                    el.className = 'render-slide';
+                    el.loading = 'lazy';
+                }
+                slidesWrap.appendChild(el);
+            });
+            // Устанавливаем начальную позицию
+            slidesWrap.style.transform = 'translateX(0)';
+        }
+
         // ==========================================
         // 1. ACCORDION LOGIC
         // ==========================================
@@ -499,101 +537,40 @@ async function initServices() {
 
                     const data = categoryData[currentIndex];
                     
-                    const oldMedia = mediaContainer.querySelector('.render-img, .render-video');
-                    if (oldMedia) oldMedia.classList.add('is-switching');
-
                     // Stop timer before changing content
                     stopAutoPlay();
 
-                    setTimeout(() => {
-                        const fileName = data.img;
-                        const isVideo = fileName.toLowerCase().endsWith('.mp4');
-                        const fullPath = fileName.includes('assets') ? fileName : rendersPath + fileName;
+                    // Сдвигаем весь контейнер со слайдами
+                    if (slidesWrap) {
+                        slidesWrap.style.transform = `translateX(-${currentIndex * 100}%)`;
+                    }
 
-                        let newMedia;
-                        if (isVideo) {
-                            newMedia = document.createElement('video');
-                            newMedia.src = fullPath;
-                            newMedia.className = 'render-video';
-                            newMedia.muted = true;
-                            newMedia.autoplay = true;
-                            newMedia.setAttribute('playsinline', '');
-                            
-                            // IMPORTANT: Remove native loop so onended event fires
-                            newMedia.loop = false; 
-                            
-                            // When video ends — go next or repeat
-                            newMedia.onended = () => {
-                                if (!isHovered) {
-                                    goNext(); // Go to next skill if mouse is out
+                    if (titleEl) titleEl.innerText = data.title || 'Untitled';
+                    if (tagsEl && data.tags) {
+                        tagsEl.innerHTML = data.tags.map(tag => `<span>${tag}</span>`).join('');
+                    }
+
+                    // Показываем/скрываем автоплей видео
+                    const allSlides = slidesWrap?.children;
+                    if (allSlides) {
+                        const slides = Array.from(allSlides);
+                        slides.forEach((slide, i) => {
+                            if (slide.tagName === 'VIDEO') {
+                                if (i === currentIndex) {
+                                    slide.play().catch(() => {});
                                 } else {
-                                    // If user is hovering over card — repeat video
-                                    newMedia.currentTime = 0;
-                                    newMedia.play().catch(e => console.log('Video loop retry error:', e));
+                                    slide.pause();
                                 }
-                            };
-
-                            newMedia.play().catch(e => {
-                                console.log('Video play error:', e);
-                                scheduleNext(); // If video blocked by browser, use regular timer
-                            });
-                        } else {
-                            newMedia = document.createElement('img');
-                            newMedia.src = fullPath;
-                            newMedia.className = 'render-img';
-                            
-                            // If image — start standard 6s countdown
-                            scheduleNext();
-                        }
-
-                        // Ставим новое изображение справа (за пределами видимости)
-                        newMedia.style.position = 'absolute';
-                        newMedia.style.top = '0';
-                        newMedia.style.left = '0';
-                        newMedia.style.width = '100%';
-                        newMedia.style.height = '100%';
-                        newMedia.style.transform = 'translateX(100%)';
-                        newMedia.style.opacity = '1';
-                        
-                        mediaContainer.appendChild(newMedia);
-
-                        if (titleEl) titleEl.innerText = data.title || 'Untitled';
-                        if (tagsEl && data.tags) {
-                            tagsEl.innerHTML = data.tags.map(tag => `<span>${tag}</span>`).join('');
-                        }
-
-                        // Анимируем: новое заезжает справа, старое уезжает влево
-                        requestAnimationFrame(() => {
-                            // Новое: убираем translateX — заезжает в центр
-                            newMedia.style.transform = 'translateX(0)';
-                            
-                            // Старое: уезжает влево
-                            if (oldMedia) {
-                                oldMedia.style.transform = 'translateX(-100%)';
-                                oldMedia.style.opacity = '0';
-                                
-                                // Удаляем старое после завершения анимации
-                                const onTransitionEnd = () => {
-                                    oldMedia.removeEventListener('transitionend', onTransitionEnd);
-                                    oldMedia.remove();
-                                };
-                                oldMedia.addEventListener('transitionend', onTransitionEnd);
-                                // Fallback на случай если transitionend не сработает
-                                setTimeout(() => {
-                                    if (oldMedia.parentNode) oldMedia.remove();
-                                }, 700);
                             }
-                            
-                            // Убираем absolute позиционирование у нового после анимации
-                            const onNewTransitionEnd = () => {
-                                newMedia.removeEventListener('transitionend', onNewTransitionEnd);
-                                newMedia.style.position = '';
-                                newMedia.style.top = '';
-                                newMedia.style.left = '';
-                            };
-                            newMedia.addEventListener('transitionend', onNewTransitionEnd);
                         });
-                    }, 600);
+                    }
+
+                    // Если изображение — запускаем таймер
+                    const fileName = data.img;
+                    const isVideo = fileName.toLowerCase().endsWith('.mp4');
+                    if (!isVideo) {
+                        scheduleNext();
+                    }
                 }
 
                 // Mouse hover handling (pause)
