@@ -2502,7 +2502,7 @@ border-radius: 10px;
     /* On desktop, 3 columns by default, 4th will go down. 
        But we'll override this below for better layout */
     grid-template-columns: repeat(3, 1fr);
-    gap: 12px; 
+    gap: clamp(16px, 3vw, 40px); 
     margin-top: 20px; 
     margin-inline: auto;
     padding: 0 clamp(20px, 5vw, 80px);
@@ -2570,13 +2570,18 @@ border-radius: 10px;
 
 .collab-card__visual {
     width: 100%;
-    aspect-ratio: 16 / 9; 
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    background: #f5f7fa;
     border-radius: 12px;
+    max-height: 360px;
+}
+
+@media (min-width: 2500px) {
+    .collab-card__visual {
+        max-height: 440px;
+    }
 }
 
 .collab-card__visual img {
@@ -2588,9 +2593,7 @@ border-radius: 10px;
     display: block;
 }
 
-.collab-card__visual {
-    background: none;
-}
+
 
 .collab-card__title {
     font-size: 20px;
