@@ -1,10 +1,14 @@
 document.querySelectorAll('.work-card').forEach(card => {
   const slides = card.querySelector('.work-card-slides');
   const dotsContainer = card.querySelector('.slide-dots');
-  // FIX 2: Only count visible slides (exclude hide-mobile on mobile)
-  const allSlides = Array.from(card.querySelectorAll('.slide')).filter(s => {
-    return getComputedStyle(s).display !== 'none';
-  });
+
+  // Remove hide-mobile slides from DOM on mobile so they don't affect translateX offsets
+  const isMobile = window.innerWidth <= 768;
+  if (isMobile) {
+    card.querySelectorAll('.slide.hide-mobile').forEach(s => s.remove());
+  }
+
+  const allSlides = Array.from(card.querySelectorAll('.slide'));
   const total = allSlides.length;
   let current = 0;
   let isDragging = false;
@@ -47,10 +51,6 @@ document.querySelectorAll('.work-card').forEach(card => {
 
   if (total <= 1) return;
 
-  // FIX 2: Build index map from visible slides to their real DOM position
-  const allDomSlides = Array.from(card.querySelectorAll('.slide'));
-  const visibleIndices = allSlides.map(s => allDomSlides.indexOf(s));
-
   for (let i = 0; i < total; i++) {
     const dot = document.createElement('div');
     dot.className = 'dot' + (i === 0 ? ' active' : '');
@@ -59,9 +59,7 @@ document.querySelectorAll('.work-card').forEach(card => {
 
   function goTo(index) {
     current = index;
-    // Translate based on real DOM index of the visible slide
-    const domIndex = visibleIndices[current];
-    slides.style.transform = `translateX(-${domIndex * 100}%)`;
+    slides.style.transform = `translateX(-${current * 100}%)`;
     card.querySelectorAll('.dot').forEach((d, i) => {
       d.classList.toggle('active', i === current);
     });
@@ -80,7 +78,6 @@ document.querySelectorAll('.work-card').forEach(card => {
 
   const media = card.querySelector('.work-card-media');
 
-  // Click (only fires if not a drag)
   media.addEventListener('click', (e) => {
     if (isDragging) return;
     if (e.target.closest('.behance-btn')) return;
@@ -105,7 +102,7 @@ document.querySelectorAll('.work-card').forEach(card => {
     }
   });
 
-  // FIX 1: Mouse drag — track on document to handle out-of-bounds mouseup
+  // Mouse drag — tracked on document to handle out-of-bounds mouseup
   let mouseStartX = 0;
   let dragActive = false;
 
@@ -113,7 +110,7 @@ document.querySelectorAll('.work-card').forEach(card => {
     mouseStartX = e.clientX;
     isDragging = false;
     dragActive = true;
-    e.preventDefault(); // prevent text selection during drag
+    e.preventDefault();
   });
 
   document.addEventListener('mousemove', (e) => {
@@ -132,7 +129,6 @@ document.querySelectorAll('.work-card').forEach(card => {
         goTo((current - 1 + total) % total);
       }
     }
-    // Reset isDragging after click handler has a chance to check it
     setTimeout(() => { isDragging = false; }, 0);
   });
 
