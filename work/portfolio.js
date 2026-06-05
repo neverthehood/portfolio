@@ -4,6 +4,7 @@ document.querySelectorAll('.work-card').forEach(card => {
   const allSlides = card.querySelectorAll('.slide');
   const total = allSlides.length;
   let current = 0;
+  let isDragging = false;
 
   function setBehansBg(sourceEl) {
     const behanceSlide = card.querySelector('.behance-slide');
@@ -68,21 +69,48 @@ document.querySelectorAll('.work-card').forEach(card => {
     });
   }
 
-  card.querySelector('.work-card-media').addEventListener('click', (e) => {
+  const media = card.querySelector('.work-card-media');
+
+  // Click
+  media.addEventListener('click', (e) => {
+    if (isDragging) return;
     if (e.target.closest('.behance-btn')) return;
     const isBehance = allSlides[current].classList.contains('behance-slide');
     goTo(isBehance ? 0 : (current + 1) % total);
   });
 
-  // Swipe support
+  // Touch swipe
   let touchStartX = 0;
 
-  card.querySelector('.work-card-media').addEventListener('touchstart', (e) => {
+  media.addEventListener('touchstart', (e) => {
     touchStartX = e.touches[0].clientX;
   }, { passive: true });
 
-  card.querySelector('.work-card-media').addEventListener('touchend', (e) => {
+  media.addEventListener('touchend', (e) => {
     const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) < 30) return;
+    if (diff > 0) {
+      goTo((current + 1) % total);
+    } else {
+      goTo((current - 1 + total) % total);
+    }
+  });
+
+  // Mouse drag
+  let mouseStartX = 0;
+
+  media.addEventListener('mousedown', (e) => {
+    mouseStartX = e.clientX;
+    isDragging = false;
+  });
+
+  media.addEventListener('mousemove', (e) => {
+    if (Math.abs(e.clientX - mouseStartX) > 5) isDragging = true;
+  });
+
+  media.addEventListener('mouseup', (e) => {
+    const diff = mouseStartX - e.clientX;
+    if (!isDragging) return;
     if (Math.abs(diff) < 30) return;
     if (diff > 0) {
       goTo((current + 1) % total);
