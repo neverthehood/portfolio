@@ -942,24 +942,28 @@ a:-webkit-any-link {
     position: fixed;
     inset: 0;
     z-index: 9999;
-    display: none; 
+    display: block;
+    visibility: hidden;
+    opacity: 0;
     background: rgba(18, 18, 18, 0.9); 
     overflow-y: auto; 
     overflow-x: hidden;
     padding: 40px 0; /* Top and bottom paddings so the window doesn't hit the edges */
+    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .case-viewer.is-active {
-    display: block;
+    visibility: visible;
+    opacity: 1;
 }
 
 .case-viewer__inner {
     position: relative;
     width: 90%; /* Mobile width */
     max-width: 1200px; /* Fixed width similar to Behance */
-    margin: 0 auto; /* Centering */
+    margin: 40px auto; /* Centering with top margin */
     background: #fff; /* White content background */
-    min-height: 100vh;
+    min-height: auto;
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: column;

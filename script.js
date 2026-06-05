@@ -215,121 +215,39 @@ function openCase(id) {
 
     if (!viewer) return;
 
+    // Заполняем текст до того, как покажем viewer
     title.innerText = project.title;
     client.innerText = `Client: ${project.client}`;
     desc.innerText = project.desc || "";
     tags.innerHTML = project.tags ? project.tags.map(t => `<span>${t}</span>`).join('') : "";
 
-    stack.innerHTML = "";
-    if (project.gallery && project.gallery.length > 0) {
-        project.gallery.forEach(imgName => {
+    // Reset scroll position
+    viewer.scrollTop = 0;
+
+    // Строим изображения (сначала пустой контейнер, чтобы не прыгало)
+    stack.innerHTML = '<div class="case-images-stack__loader" style="height:1px;"></div>';
+
+    // Создаём первое изображение с уже установленной шириной/высотой
+    const images = project.gallery && project.gallery.length > 0 ? project.gallery : [project.wideImg || project.storyImg];
+    
+    // Предзагружаем первое изображение
+    const preloadImg = new Image();
+    preloadImg.onload = () => {
+        // Когда первое изображение загружено — показываем viewer и вставляем картинки
+        stack.innerHTML = '';
+        images.forEach(imgName => {
             const img = document.createElement('img');
             img.src = `assets/portfolio/${imgName}`;
             img.loading = "lazy";
+            img.style.width = '100%';
+            img.style.display = 'block';
+            img.style.height = 'auto';
             stack.appendChild(img);
         });
-    } else {
-        const img = document.createElement('img');
-        img.src = `assets/portfolio/${project.wideImg || project.storyImg}`;
-        stack.appendChild(img);
-    }
+    };
+    preloadImg.src = `assets/portfolio/${images[0]}`;
 
-    viewer.classList.add('is-active');
-    document.body.style.overflow = 'hidden';
-}
-
-function closeCase() {
-    const viewer = document.getElementById('case-viewer');
-    if (viewer) {
-        viewer.classList.remove('is-active');
-        document.body.style.overflow = '';
-    }
-}
-
-// ===============================
-// CASE VIEWER (LIGHTBOX)
-// ===============================
-
-function openCase(id) {
-    const project = pData.find(p => p.id === id);
-    if (!project) return;
-
-    const viewer = document.getElementById('case-viewer');
-    const title = document.getElementById('case-title');
-    const client = document.getElementById('case-client');
-    const desc = document.getElementById('case-desc');
-    const tags = document.getElementById('case-tags');
-    const stack = document.getElementById('case-images-stack');
-
-    if (!viewer) return;
-
-    title.innerText = project.title;
-    client.innerText = `Client: ${project.client}`;
-    desc.innerText = project.desc || "";
-    tags.innerHTML = project.tags ? project.tags.map(t => `<span>${t}</span>`).join('') : "";
-
-    stack.innerHTML = "";
-    if (project.gallery && project.gallery.length > 0) {
-        project.gallery.forEach(imgName => {
-            const img = document.createElement('img');
-            img.src = `assets/portfolio/${imgName}`;
-            img.loading = "lazy";
-            stack.appendChild(img);
-        });
-    } else {
-        const img = document.createElement('img');
-        img.src = `assets/portfolio/${project.wideImg || project.storyImg}`;
-        stack.appendChild(img);
-    }
-
-    viewer.classList.add('is-active');
-    document.body.style.overflow = 'hidden';
-}
-
-function closeCase() {
-    const viewer = document.getElementById('case-viewer');
-    if (viewer) {
-        viewer.classList.remove('is-active');
-        document.body.style.overflow = '';
-    }
-}
-
-// ===============================
-// CASE VIEWER (LIGHTBOX)
-// ===============================
-
-function openCase(id) {
-    const project = pData.find(p => p.id === id);
-    if (!project) return;
-
-    const viewer = document.getElementById('case-viewer');
-    const title = document.getElementById('case-title');
-    const client = document.getElementById('case-client');
-    const desc = document.getElementById('case-desc');
-    const tags = document.getElementById('case-tags');
-    const stack = document.getElementById('case-images-stack');
-
-    if (!viewer) return;
-
-    title.innerText = project.title;
-    client.innerText = `Client: ${project.client}`;
-    desc.innerText = project.desc || "";
-    tags.innerHTML = project.tags ? project.tags.map(t => `<span>${t}</span>`).join('') : "";
-
-    stack.innerHTML = "";
-    if (project.gallery && project.gallery.length > 0) {
-        project.gallery.forEach(imgName => {
-            const img = document.createElement('img');
-            img.src = `assets/portfolio/${imgName}`;
-            img.loading = "lazy";
-            stack.appendChild(img);
-        });
-    } else {
-        const img = document.createElement('img');
-        img.src = `assets/portfolio/${project.wideImg || project.storyImg}`;
-        stack.appendChild(img);
-    }
-
+    // Показываем viewer (с плавным появлением через CSS opacity transition)
     viewer.classList.add('is-active');
     document.body.style.overflow = 'hidden';
 }
