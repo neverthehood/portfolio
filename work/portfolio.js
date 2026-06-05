@@ -73,4 +73,30 @@ document.querySelectorAll('.work-card').forEach(card => {
     const isBehance = allSlides[current].classList.contains('behance-slide');
     goTo(isBehance ? 0 : (current + 1) % total);
   });
+
+  // Swipe support
+  let touchStartX = 0;
+
+  card.querySelector('.work-card-media').addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+
+  card.querySelector('.work-card-media').addEventListener('touchend', (e) => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) < 30) return;
+    if (diff > 0) {
+      goTo((current + 1) % total);
+    } else {
+      goTo((current - 1 + total) % total);
+    }
+  });
+
+});
+
+// Lazy load non-first videos after page load
+window.addEventListener('load', () => {
+  document.querySelectorAll('video[data-src]').forEach(video => {
+    video.src = video.dataset.src;
+    video.removeAttribute('data-src');
+  });
 });
