@@ -126,6 +126,12 @@ nav a:hover { color: #fff; }
 .work-card { cursor: pointer; }
 
 .work-card-media {
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.work-card-media {
   position: relative;
   aspect-ratio: 1/1;
   overflow: hidden;
