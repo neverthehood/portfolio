@@ -2588,6 +2588,10 @@ border-radius: 10px;
     display: block;
 }
 
+.collab-card__visual {
+    background: none;
+}
+
 .collab-card__title {
     font-size: 20px;
     font-weight: 700;

@@ -462,26 +462,30 @@ async function initServices() {
         if (categoryData && categoryData.length > 0) {
             slidesWrap.innerHTML = '';
             categoryData.forEach((item, idx) => {
-                const fileName = item.img;
-                const isVideo = fileName.toLowerCase().endsWith('.mp4');
-                const fullPath = fileName.includes('assets') ? fileName : rendersPath + fileName;
+        const fileName = item.img;
+        const isVideo = fileName.toLowerCase().endsWith('.mp4');
+        const fullPath = fileName.includes('assets') ? fileName : rendersPath + fileName;
                 
-                let el;
-                if (isVideo) {
-                    el = document.createElement('video');
-                    el.src = fullPath;
-                    el.muted = true;
-                    el.loop = true;
-                    el.autoplay = idx === 0;
-                    el.setAttribute('playsinline', '');
-                    el.className = 'render-slide';
-                } else {
-                    el = document.createElement('img');
-                    el.src = fullPath;
-                    el.className = 'render-slide';
-                    el.loading = 'lazy';
-                }
-                slidesWrap.appendChild(el);
+        let el;
+        if (isVideo) {
+            el = document.createElement('video');
+            el.src = fullPath;
+            el.muted = true;
+            el.loop = true;
+            el.autoplay = true;
+            el.setAttribute('playsinline', '');
+            el.className = 'render-slide';
+            // Если не первый слайд — ставим на паузу сразу после создания
+            if (idx !== 0) {
+                el.pause();
+            }
+        } else {
+            el = document.createElement('img');
+            el.src = fullPath;
+            el.className = 'render-slide';
+            el.loading = 'lazy';
+        }
+        slidesWrap.appendChild(el);
             });
             // Устанавливаем начальную позицию
             slidesWrap.style.transform = 'translateX(0)';
