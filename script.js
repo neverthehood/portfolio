@@ -850,8 +850,13 @@ async function initPortfolio() {
         
         const allSlides = gsap.utils.toArray(".portfolio-slide");
         let activeIndex = originalSlidesCount; // Start with first slide of middle set
+        let isAnimating = false;
+        let touchHandled = false;
 
         function updateSlider(animate = true) {
+            // Prevent overlapping updates during animation
+            if (isAnimating && animate) return;
+            
             const isMobileNow = window.innerWidth <= 900;
             const currentWideWidth = isMobileNow ? 320 : 720;
             const currentNarrowWidth = isMobileNow ? 280 : 340;
@@ -864,16 +869,22 @@ async function initPortfolio() {
             // 1. Center active slide exactly
             const activeX = centerOffset - (currentWideWidth / 2);
 
-            // 2. Smooth movement function
+            // 2. Position function
             const animateTo = (el, xPos, width) => {
-                gsap.to(el, { 
-                    x: xPos, 
-                    width: width, 
-                    duration: animate ? 0.7 : 0, 
-                    ease: "power3.out", 
-                    overwrite: true 
-                });
+                if (animate) {
+                    gsap.to(el, { 
+                        x: xPos, 
+                        width: width, 
+                        duration: 0.7, 
+                        ease: "power3.out", 
+                        overwrite: 'auto'
+                    });
+                } else {
+                    gsap.set(el, { x: xPos, width: width });
+                }
             };
+
+            if (animate) isAnimating = true;
 
             // 3. Active slide animation
             animateTo(allSlides[activeIndex], activeX, currentWideWidth);
@@ -933,19 +944,33 @@ async function initPortfolio() {
                 rightX += (currentNarrowWidth + currentGap);
             }
 
-            // 6. Seamless looping logic
+            // 6. Seamless looping logic — reset position after animation completes
             if (animate) {
+                const animDuration = 700;
                 if (activeIndex >= originalSlidesCount * 2) {
-                    setTimeout(() => { activeIndex -= originalSlidesCount; updateSlider(false); }, 700);
+                    setTimeout(() => { 
+                        activeIndex -= originalSlidesCount; 
+                        isAnimating = false;
+                        updateSlider(false); 
+                    }, animDuration);
                 } else if (activeIndex < originalSlidesCount) {
-                    setTimeout(() => { activeIndex += originalSlidesCount; updateSlider(false); }, 700);
+                    setTimeout(() => { 
+                        activeIndex += originalSlidesCount; 
+                        isAnimating = false;
+                        updateSlider(false); 
+                    }, animDuration);
+                } else {
+                    setTimeout(() => { isAnimating = false; }, animDuration);
                 }
+            } else {
+                isAnimating = false;
             }
         }
 
         // Click logic
         allSlides.forEach((slide, i) => {
             slide.addEventListener('click', (e) => {
+                if (isAnimating) return;
                 if (activeIndex !== i) {
                     // If slide is not active - center and make active
                     activeIndex = i;
@@ -960,11 +985,13 @@ async function initPortfolio() {
 
         // Button navigation
         document.querySelector('.portfolio-next')?.addEventListener('click', () => {
+            if (isAnimating) return;
             activeIndex++;
             updateSlider();
         });
 
         document.querySelector('.portfolio-prev')?.addEventListener('click', () => {
+            if (isAnimating) return;
             activeIndex--;
             updateSlider();
         });
@@ -975,14 +1002,17 @@ async function initPortfolio() {
 
         slider.addEventListener('touchstart', e => {
             touchStartX = e.changedTouches[0].screenX;
+            touchHandled = false;
         }, { passive: true });
 
         slider.addEventListener('touchend', e => {
+            if (touchHandled || isAnimating) return;
             touchEndX = e.changedTouches[0].screenX;
             const diff = touchStartX - touchEndX;
             const threshold = 50;
 
             if (Math.abs(diff) > threshold) {
+                touchHandled = true;
                 if (diff > 0) {
                     // Swipe left -> next slide
                     activeIndex++;
@@ -994,7 +1024,13 @@ async function initPortfolio() {
             }
         }, { passive: true });
 
-        window.addEventListener('resize', () => updateSlider(false));
+        // Debounced resize to avoid rapid recalculations
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => updateSlider(false), 150);
+        });
+        
         updateSlider(false);
         setTimeout(() => slider.classList.add('is-ready'), 100);
     }
