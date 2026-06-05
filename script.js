@@ -720,7 +720,7 @@ async function initServices() {
                 slidesPerView: 'auto', 
                 spaceBetween: 30, // Tighter gap
                 centeredSlides: false,
-                slidesOffsetAfter: 0 // Offset not needed on large screens
+                slidesOffsetAfter: 200 // Right padding for last slide so it doesn't touch screen edge
             }
         }
     });
