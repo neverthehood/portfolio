@@ -187,17 +187,18 @@
 
 
   .services-header-grid {
-  display: flex !important;
-  flex-direction: row !important;
-  flex-wrap: nowrap !important;
-  align-items: flex-start;
-  justify-content: space-between;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: flex-start;
+    justify-content: space-between;
   
-  max-width: 90vw !important; 
-  margin-inline: auto !important;
+    max-width: 90vw !important; 
+    margin-inline: auto !important;
   
-  margin-bottom: var(--gap-lg);
-}
+    margin-bottom: var(--gap-md);
+  }
+
 
   .main-nav__wrapper {
     display: flex;
@@ -422,8 +423,8 @@ img.logo-desktop {
   max-width: 90vw !important; 
   margin-inline: auto !important;
   
-  margin-bottom: var(--gap-lg);
-  padding-bottom: 30px;
+  margin-bottom: var(--gap-md);
+  padding-bottom: 0px;
 }
 
 .services-asset-block {
