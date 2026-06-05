@@ -193,7 +193,6 @@
     align-items: flex-start;
     justify-content: space-between;
   
-    max-width: 90vw !important; 
     margin-inline: auto !important;
   
     margin-bottom: var(--gap-md);
@@ -420,7 +419,6 @@ img.logo-desktop {
   flex-wrap: nowrap !important;
   justify-content: space-between;
   
-  max-width: 90vw !important; 
   margin-inline: auto !important;
   
   margin-bottom: var(--gap-md);
