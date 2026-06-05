@@ -1,7 +1,10 @@
 document.querySelectorAll('.work-card').forEach(card => {
   const slides = card.querySelector('.work-card-slides');
   const dotsContainer = card.querySelector('.slide-dots');
-  const allSlides = card.querySelectorAll('.slide');
+  // FIX 2: Only count visible slides (exclude hide-mobile on mobile)
+  const allSlides = Array.from(card.querySelectorAll('.slide')).filter(s => {
+    return getComputedStyle(s).display !== 'none';
+  });
   const total = allSlides.length;
   let current = 0;
   let isDragging = false;
@@ -44,6 +47,10 @@ document.querySelectorAll('.work-card').forEach(card => {
 
   if (total <= 1) return;
 
+  // FIX 2: Build index map from visible slides to their real DOM position
+  const allDomSlides = Array.from(card.querySelectorAll('.slide'));
+  const visibleIndices = allSlides.map(s => allDomSlides.indexOf(s));
+
   for (let i = 0; i < total; i++) {
     const dot = document.createElement('div');
     dot.className = 'dot' + (i === 0 ? ' active' : '');
@@ -52,7 +59,9 @@ document.querySelectorAll('.work-card').forEach(card => {
 
   function goTo(index) {
     current = index;
-    slides.style.transform = `translateX(-${current * 100}%)`;
+    // Translate based on real DOM index of the visible slide
+    const domIndex = visibleIndices[current];
+    slides.style.transform = `translateX(-${domIndex * 100}%)`;
     card.querySelectorAll('.dot').forEach((d, i) => {
       d.classList.toggle('active', i === current);
     });
@@ -71,7 +80,7 @@ document.querySelectorAll('.work-card').forEach(card => {
 
   const media = card.querySelector('.work-card-media');
 
-  // Click
+  // Click (only fires if not a drag)
   media.addEventListener('click', (e) => {
     if (isDragging) return;
     if (e.target.closest('.behance-btn')) return;
@@ -96,20 +105,25 @@ document.querySelectorAll('.work-card').forEach(card => {
     }
   });
 
-  // Mouse drag
+  // FIX 1: Mouse drag — track on document to handle out-of-bounds mouseup
   let mouseStartX = 0;
+  let dragActive = false;
 
   media.addEventListener('mousedown', (e) => {
     mouseStartX = e.clientX;
     isDragging = false;
+    dragActive = true;
+    e.preventDefault(); // prevent text selection during drag
   });
 
-  media.addEventListener('mousemove', (e) => {
-    if (e.buttons === 0) return;
+  document.addEventListener('mousemove', (e) => {
+    if (!dragActive) return;
     if (Math.abs(e.clientX - mouseStartX) > 5) isDragging = true;
   });
 
-  media.addEventListener('mouseup', (e) => {
+  document.addEventListener('mouseup', (e) => {
+    if (!dragActive) return;
+    dragActive = false;
     const diff = mouseStartX - e.clientX;
     if (isDragging && Math.abs(diff) >= 30) {
       if (diff > 0) {
@@ -118,6 +132,7 @@ document.querySelectorAll('.work-card').forEach(card => {
         goTo((current - 1 + total) % total);
       }
     }
+    // Reset isDragging after click handler has a chance to check it
     setTimeout(() => { isDragging = false; }, 0);
   });
 
