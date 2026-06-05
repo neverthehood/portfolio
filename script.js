@@ -481,7 +481,7 @@ async function initServices() {
                     autoPlayTimeout = setTimeout(() => {
                         currentIndex = (currentIndex + 1) % len;
                         updateInnerContent();
-                    }, 5000);
+                    }, 6000);
                 };
 
                 // Go to next slide function
@@ -544,7 +544,7 @@ async function initServices() {
                             newMedia.src = fullPath;
                             newMedia.className = 'render-img is-switching';
                             
-                            // If image — start standard 5s countdown
+                            // If image — start standard 6s countdown
                             scheduleNext();
                         }
 
@@ -555,8 +555,13 @@ async function initServices() {
                             tagsEl.innerHTML = data.tags.map(tag => `<span>${tag}</span>`).join('');
                         }
 
-                        setTimeout(() => newMedia.classList.remove('is-switching'), 50);
-                    }, 500);
+                        // Плавный fade-in: сначала убираем is-switching, потом добавляем небольшой delay для полной прозрачности
+                        requestAnimationFrame(() => {
+                            requestAnimationFrame(() => {
+                                newMedia.classList.remove('is-switching');
+                            });
+                        });
+                    }, 600);
                 }
 
                 // Mouse hover handling (pause)
@@ -793,8 +798,8 @@ async function initPortfolio() {
                     gsap.to(el, { 
                         x: xPos, 
                         width: width, 
-                        duration: 0.7, 
-                        ease: "power3.out", 
+                        duration: 0.9, 
+                        ease: "power4.out", 
                         overwrite: 'auto'
                     });
                 } else {
@@ -864,7 +869,7 @@ async function initPortfolio() {
 
             // 6. Seamless looping logic — reset position after animation completes
             if (animate) {
-                const animDuration = 700;
+                const animDuration = 900;
                 if (activeIndex >= originalSlidesCount * 2) {
                     setTimeout(() => { 
                         activeIndex -= originalSlidesCount; 

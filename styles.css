@@ -2549,13 +2549,15 @@ border-radius: 10px;
 }
 
 .collab-card {
-    background: none;
-    padding: 48px 32px;
+    background: transparent;
+    padding: 0;
     text-align: center;
     border: none;
     transition: transform 0.3s ease;
-    display: flex; /* To manage content inside */
+    display: flex;
     flex-direction: column;
+    overflow: hidden;
+    border-radius: 12px;
 }
 
 .collab-card:hover {
@@ -2563,20 +2565,21 @@ border-radius: 10px;
 }
 
 .collab-card__visual {
-    /* Change fixed height to ratio */
+    width: 100%;
     aspect-ratio: 16 / 9; 
-    margin-bottom: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
+    background: #f5f7fa;
+    border-radius: 12px;
 }
 
 .collab-card__visual img {
-    max-width: 100%;
-    max-height: 100%;
-    width: auto;
-    height: auto;
-    object-fit: contain; /* Logo always fully visible */
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
 }
 
 .collab-card__title {
@@ -3418,14 +3421,16 @@ div#services-counter {
 }
 
 .render-img {
-    transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    transform: translateX(0);
+    transition: opacity 0.8s cubic-bezier(0.65, 0, 0.35, 1), transform 1.2s cubic-bezier(0.65, 0, 0.35, 1), filter 0.8s ease !important;
+    transform: translateX(0) scale(1);
     opacity: 1;
+    filter: blur(0px);
 }
 
 .render-img.is-switching {
     opacity: 0;
-    transform: translateX(20px); /* Image smoothly goes to the right */
+    transform: translateX(20px) scale(1.08); /* Image smoothly goes to the right */
+    filter: blur(12px);
 }
 
 
@@ -3444,9 +3449,9 @@ div#services-counter {
     object-fit: cover;
     display: block;
     transition: 
-        opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
-        transform 0.9s cubic-bezier(0.4, 0, 0.2, 1), 
-        filter 0.6s ease;
+        opacity 0.8s cubic-bezier(0.65, 0, 0.35, 1), 
+        transform 1.2s cubic-bezier(0.65, 0, 0.35, 1), 
+        filter 0.8s ease;
     transform: scale(1);
     filter: blur(0px);
     opacity: 1;
@@ -3455,8 +3460,8 @@ div#services-counter {
 /* Effect during switching */
 .is-switching {
     opacity: 0 !important;
-    transform: scale(1.1) !important;
-    filter: blur(15px) !important;
+    transform: scale(1.08) !important;
+    filter: blur(12px) !important;
 }
 
 
