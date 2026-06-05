@@ -437,8 +437,9 @@ img.logo-desktop {
 
 /* RIGHT IMAGE (Ordinal number) */
 .assets-right {
-  max-width: 22% !important;
-  text-align: right;
+    max-width: 22% !important;
+    text-align: right;
+    margin-left: auto;
 }
 
 /* IMAGES */
