@@ -1353,7 +1353,7 @@ right:0;
 
 body.mode-form .footer,
 body.mode-success .footer{
-margin-top:40px;
+margin-top:20px;
 }
 
 .footer__inner{
@@ -2215,7 +2215,7 @@ font-weight: 900;
 margin-top: 40px;
 max-width: 980px;
 padding-left: 34px;
-padding-bottom: 66px;
+padding-bottom: 0;
 }
 
 .contact__grid {
@@ -2489,7 +2489,6 @@ border-radius: 10px;
 }
 
 
-/* Responsiveness for mobile devices */
 @media (max-width: 768px) {
     .collaboration__main-title {
         font-size: 16px;
@@ -2756,10 +2755,15 @@ border-radius: 10px;
     z-index: 2;
 }
 
-/* Show text when hovering over ANY slide */
+/* Show text when hovering over ANY slide — быстрое появление */
 .portfolio-slide .portfolio-card:hover .portfolio-card__meta {
     opacity: 1;
     visibility: visible;
+}
+
+/* При переключении слайда текст исчезает быстрее, чем появляется */
+.portfolio-slide:not(:hover) .portfolio-card__meta {
+    transition: opacity 0.1s ease, visibility 0.1s ease;
 }
 
 /* Effect for image when hovering over any slide */
