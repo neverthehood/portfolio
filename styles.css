@@ -440,6 +440,7 @@ img.logo-desktop {
     max-width: 22% !important;
     text-align: right;
     margin-left: auto;
+    margin-right: clamp(8px, 2vw, 24px);
 }
 
 /* IMAGES */
@@ -2509,6 +2510,7 @@ border-radius: 10px;
     position: relative;
     z-index: 1;
     max-width: 1400px;
+    margin-block: clamp(32px, 5vw, 64px);
 }
 
 /* 4th card hidden on desktop */
@@ -3008,11 +3010,11 @@ border-radius: 10px;
     display: flex;
     gap: 12px;
     padding-left: 0;
-    float: inline-end;
     padding-right: 0;
     padding-top: 20px;
     align-items: center;
-    margin-right: -16px;
+    margin-left: auto;
+    flex-shrink: 0;
 }
 
 .main-nav__counter {
