@@ -2344,6 +2344,13 @@ color:rgba(255,255,255,.85);
 }
 
 
+body.mode-form .page {
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
 body.mode-form .form {
     opacity: 1;
     transform: translateY(0);
@@ -2352,6 +2359,8 @@ body.mode-form .form {
     min-width: 1170px;
     margin: 0 auto;
     padding-top: 12px;
+    flex: 1;
+    overflow-y: auto;
 }
 
 
