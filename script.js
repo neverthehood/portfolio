@@ -584,6 +584,14 @@ async function initServices() {
                     }
                 });
 
+                // Клик по медиа-контенту → следующий слайд
+                mediaContainer.addEventListener('click', (e) => {
+                    // Не срабатывать, если клик по кнопкам
+                    if (e.target.closest('.nav-btn')) return;
+                    e.stopPropagation();
+                    goNext();
+                });
+
                 // Next/Prev buttons
                 nextBtn?.addEventListener('click', (e) => {
                     e.stopPropagation();
