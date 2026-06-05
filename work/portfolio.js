@@ -105,18 +105,20 @@ document.querySelectorAll('.work-card').forEach(card => {
   });
 
   media.addEventListener('mousemove', (e) => {
+    if (e.buttons === 0) return;
     if (Math.abs(e.clientX - mouseStartX) > 5) isDragging = true;
   });
 
   media.addEventListener('mouseup', (e) => {
     const diff = mouseStartX - e.clientX;
-    if (!isDragging) return;
-    if (Math.abs(diff) < 30) return;
-    if (diff > 0) {
-      goTo((current + 1) % total);
-    } else {
-      goTo((current - 1 + total) % total);
+    if (isDragging && Math.abs(diff) >= 30) {
+      if (diff > 0) {
+        goTo((current + 1) % total);
+      } else {
+        goTo((current - 1 + total) % total);
+      }
     }
+    setTimeout(() => { isDragging = false; }, 0);
   });
 
 });
