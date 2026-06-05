@@ -2640,7 +2640,7 @@ border-radius: 10px;
 }
 
 
-.portfolio { padding: 100px 0 10px 0; background: transparent; }
+.portfolio { padding: 100px 0 50px 0; background: transparent; }
 
 .portfolio-nav {
     display: flex;
@@ -2666,6 +2666,7 @@ border-radius: 10px;
     padding-inline: 0 !important;
     height: 500px !important;
     touch-action: pan-y;
+    margin-top: 40px;
 }
 
 .portfolio-slider:active {
@@ -2993,9 +2994,10 @@ border-radius: 10px;
     gap: 12px;
     padding-left: 0;
     float: inline-end;
-    padding-right: 16px;
+    padding-right: 0;
     padding-top: 20px;
     align-items: center;
+    margin-right: -16px;
 }
 
 .main-nav__counter {
