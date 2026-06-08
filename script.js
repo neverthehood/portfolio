@@ -808,6 +808,11 @@ async function initPortfolio() {
             }
         });
         
+        // Force-clear any stale inline width so GSAP can set it fresh
+        allSlides.forEach(s => {
+            s.style.width = '';
+        });
+        
         const allSlides = gsap.utils.toArray(".portfolio-slide");
         let activeIndex = originalSlidesCount; // Start with first slide of middle set
         let isAnimating = false;
@@ -815,32 +820,35 @@ async function initPortfolio() {
 
         /**
          * Crossfade image inside a card's img-box.
-         * Uses a single <img> element and triggers a CSS fade via class toggle.
+         * If `fade` is true → fade-out, swap, fade-in (used for active slide).
+         * If `fade` is false → instant swap with no visual transition (used for inactive slides).
          */
-        function crossfadeCardImage(imgBox, newSrc, force = false) {
+        function crossfadeCardImage(imgBox, newSrc, fade = false) {
             if (!imgBox) return;
             let img = imgBox.querySelector('.portfolio-card__img');
             if (!img) return;
 
-            // Normalize paths for comparison (strip path, keep filename)
             const currentSrc = img.src.split('/').pop();
-            if (!force && currentSrc === newSrc) return;
+            if (currentSrc === newSrc) return;
 
-            // Short crossfade: briefly fade out, swap src, fade in
-            img.style.transition = 'opacity 0.2s ease';
-            img.style.opacity = '0';
-
-            const done = () => {
-                img.src = `assets/portfolio/${newSrc}`;
-                img.style.opacity = '1';
-                // Restore original transition after a short delay
+            if (fade) {
+                // Fade-out → swap → fade-in (used for active slide)
+                img.style.transition = 'opacity 0.2s ease';
+                img.style.opacity = '0';
                 setTimeout(() => {
-                    img.style.transition = '';
-                }, 250);
-            };
-
-            // Wait for fade-out, then swap
-            setTimeout(done, 200);
+                    img.src = `assets/portfolio/${newSrc}`;
+                    img.style.opacity = '1';
+                    setTimeout(() => { img.style.transition = ''; }, 250);
+                }, 200);
+            } else {
+                // Instant swap with NO fade (used for inactive slides)
+                const prevTransition = img.style.transition;
+                img.style.transition = 'none';
+                img.src = `assets/portfolio/${newSrc}`;
+                // Force reflow so the src change applies immediately
+                void img.offsetHeight;
+                img.style.transition = prevTransition;
+            }
         }
 
         function updateSlider(animate = true) {
@@ -880,16 +888,16 @@ async function initPortfolio() {
             animateTo(allSlides[activeIndex], activeX, currentWideWidth);
             allSlides[activeIndex].classList.add('is-active');
 
-            // Crossfade image for active slide — swap starts immediately with fade
+            // Crossfade image for active slide — swap WITH fade (smooth glow-up)
             const activeSlide = allSlides[activeIndex];
             const activeImgBox = activeSlide.querySelector('.portfolio-card__img-box');
             const activeProject = pData.find(p => p.id === activeSlide.querySelector('.portfolio-card').dataset.id);
             if (activeProject) {
                 const targetSrc = isMobileNow ? (activeProject.storyImg || activeProject.wideImg) : (activeProject.wideImg || activeProject.storyImg);
-                crossfadeCardImage(activeImgBox, targetSrc, !animate);
+                crossfadeCardImage(activeImgBox, targetSrc, true);
             }
 
-            // 4. Position neighbors to the left — swap to storyImg IMMEDIATELY (no delay)
+            // 4. Position neighbors to the left — swap to storyImg INSTANTLY (no fade, no blink)
             let leftX = activeX - currentGap - currentNarrowWidth;
             for (let i = activeIndex - 1; i >= 0; i--) {
                 animateTo(allSlides[i], leftX, currentNarrowWidth);
@@ -899,13 +907,13 @@ async function initPortfolio() {
                 if (lProject) {
                     const targetSrc = lProject.storyImg || lProject.wideImg;
                     const lImgBox = allSlides[i].querySelector('.portfolio-card__img-box');
-                    crossfadeCardImage(lImgBox, targetSrc, true);
+                    crossfadeCardImage(lImgBox, targetSrc, false);
                 }
                 
                 leftX -= (currentNarrowWidth + currentGap);
             }
 
-            // 5. Position neighbors to the right — swap to storyImg IMMEDIATELY (no delay)
+            // 5. Position neighbors to the right — swap to storyImg INSTANTLY (no fade, no blink)
             let rightX = activeX + currentWideWidth + currentGap;
             for (let i = activeIndex + 1; i < allSlides.length; i++) {
                 animateTo(allSlides[i], rightX, currentNarrowWidth);
@@ -915,7 +923,7 @@ async function initPortfolio() {
                 if (rProject) {
                     const targetSrc = rProject.storyImg || rProject.wideImg;
                     const rImgBox = allSlides[i].querySelector('.portfolio-card__img-box');
-                    crossfadeCardImage(rImgBox, targetSrc, true);
+                    crossfadeCardImage(rImgBox, targetSrc, false);
                 }
 
                 rightX += (currentNarrowWidth + currentGap);
