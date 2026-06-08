@@ -760,11 +760,9 @@ async function initPortfolio() {
 
         // Render slides. Text is now inside portfolio-card__meta, which will be overlaid.
         const renderSlide = (item) => {
-            const isMobileInitial = window.innerWidth <= 900;
-            // On mobile ALWAYS use storyImg. On desktop wideImg by default (for active), 
-            // but since we don't know which will be active during render, 
-            // src change logic is moved to updateSlider.
-            const initialImg = isMobileInitial ? (item.storyImg || item.wideImg) : (item.wideImg || item.storyImg);
+            // Start with storyImg (narrow) for ALL slides.
+            // The active slide will swap to wideImg on first updateSlider() call.
+            const initialImg = item.storyImg || item.wideImg;
             
             return `
                 <div class="portfolio-slide">
@@ -811,7 +809,11 @@ async function initPortfolio() {
         function crossfadeCardImage(imgBox, newSrc) {
             if (!imgBox) return;
             const oldImg = imgBox.querySelector('.portfolio-card__img');
-            if (!oldImg || oldImg.src.includes(newSrc)) return;
+            if (!oldImg) return;
+
+            // Normalize paths for comparison
+            const currentSrc = oldImg.src.split('/').pop();
+            if (currentSrc === newSrc) return;
 
             // Make sure imgBox is positioned to contain absolute children
             const pos = getComputedStyle(imgBox).position;
@@ -892,7 +894,7 @@ async function initPortfolio() {
                 crossfadeCardImage(activeImgBox, targetSrc);
             }
 
-            // 4. Position neighbors to the left — swap to storyImg AFTER shrink completes
+            // 4. Position neighbors to the left — swap to storyImg IMMEDIATELY (no delay)
             let leftX = activeX - currentGap - currentNarrowWidth;
             for (let i = activeIndex - 1; i >= 0; i--) {
                 animateTo(allSlides[i], leftX, currentNarrowWidth);
@@ -902,13 +904,13 @@ async function initPortfolio() {
                 if (lProject) {
                     const targetSrc = lProject.storyImg || lProject.wideImg;
                     const lImgBox = allSlides[i].querySelector('.portfolio-card__img-box');
-                    setTimeout(() => crossfadeCardImage(lImgBox, targetSrc), animate ? 800 : 0);
+                    crossfadeCardImage(lImgBox, targetSrc);
                 }
                 
                 leftX -= (currentNarrowWidth + currentGap);
             }
 
-            // 5. Position neighbors to the right — swap to storyImg AFTER shrink completes
+            // 5. Position neighbors to the right — swap to storyImg IMMEDIATELY (no delay)
             let rightX = activeX + currentWideWidth + currentGap;
             for (let i = activeIndex + 1; i < allSlides.length; i++) {
                 animateTo(allSlides[i], rightX, currentNarrowWidth);
@@ -918,7 +920,7 @@ async function initPortfolio() {
                 if (rProject) {
                     const targetSrc = rProject.storyImg || rProject.wideImg;
                     const rImgBox = allSlides[i].querySelector('.portfolio-card__img-box');
-                    setTimeout(() => crossfadeCardImage(rImgBox, targetSrc), animate ? 800 : 0);
+                    crossfadeCardImage(rImgBox, targetSrc);
                 }
 
                 rightX += (currentNarrowWidth + currentGap);
