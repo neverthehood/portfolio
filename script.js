@@ -803,6 +803,49 @@ async function initPortfolio() {
         let isAnimating = false;
         let touchHandled = false;
 
+        /**
+         * Crossfade image inside a card's img-box.
+         * Creates a new <img> element, fades it in over the existing one,
+         * then removes the old img after the transition.
+         */
+        function crossfadeCardImage(imgBox, newSrc) {
+            if (!imgBox) return;
+            const oldImg = imgBox.querySelector('.portfolio-card__img');
+            if (!oldImg || oldImg.src.includes(newSrc)) return;
+
+            // Make sure imgBox is positioned to contain absolute children
+            const pos = getComputedStyle(imgBox).position;
+            if (pos === 'static') imgBox.style.position = 'relative';
+
+            // Create new image
+            const newImg = document.createElement('img');
+            newImg.className = 'portfolio-card__img';
+            newImg.src = `assets/portfolio/${newSrc}`;
+            newImg.alt = oldImg.alt || '';
+            newImg.loading = 'lazy';
+            newImg.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity 0.35s ease;z-index:1;';
+
+            imgBox.appendChild(newImg);
+
+            // Trigger fade-in on next frame
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    newImg.style.opacity = '1';
+                });
+            });
+
+            // Remove old img after crossfade completes
+            setTimeout(() => {
+                if (oldImg.parentNode === imgBox) oldImg.remove();
+                // Reset inline styles so normal CSS rules apply
+                newImg.style.position = '';
+                newImg.style.cssText = '';
+                newImg.style.width = '';
+                newImg.style.height = '';
+                newImg.style.objectFit = '';
+            }, 400);
+        }
+
         function updateSlider(animate = true) {
             // Prevent overlapping updates during animation
             if (isAnimating && animate) return;
@@ -840,16 +883,13 @@ async function initPortfolio() {
             animateTo(allSlides[activeIndex], activeX, currentWideWidth);
             allSlides[activeIndex].classList.add('is-active');
 
-            // Update active slide image (wide on desktop, story on mobile)
-            const activeImg = allSlides[activeIndex].querySelector('.portfolio-card__img');
-            if (activeImg) {
-                const project = pData.find(p => p.id === allSlides[activeIndex].querySelector('.portfolio-card').dataset.id);
-                if (project) {
-                    const targetSrc = isMobileNow ? (project.storyImg || project.wideImg) : (project.wideImg || project.storyImg);
-                    if (!activeImg.src.includes(targetSrc)) {
-                        activeImg.src = `assets/portfolio/${targetSrc}`;
-                    }
-                }
+            // Crossfade image for active slide — swap starts immediately with fade
+            const activeSlide = allSlides[activeIndex];
+            const activeImgBox = activeSlide.querySelector('.portfolio-card__img-box');
+            const activeProject = pData.find(p => p.id === activeSlide.querySelector('.portfolio-card').dataset.id);
+            if (activeProject) {
+                const targetSrc = isMobileNow ? (activeProject.storyImg || activeProject.wideImg) : (activeProject.wideImg || activeProject.storyImg);
+                crossfadeCardImage(activeImgBox, targetSrc);
             }
 
             // 4. Position neighbors to the left
@@ -858,16 +898,12 @@ async function initPortfolio() {
                 animateTo(allSlides[i], leftX, currentNarrowWidth);
                 allSlides[i].classList.remove('is-active');
                 
-                // For inactive always storyImg
-                const img = allSlides[i].querySelector('.portfolio-card__img');
-                if (img) {
-                    const project = pData.find(p => p.id === allSlides[i].querySelector('.portfolio-card').dataset.id);
-                    if (project) {
-                        const targetSrc = project.storyImg || project.wideImg;
-                        if (!img.src.includes(targetSrc)) {
-                            img.src = `assets/portfolio/${targetSrc}`;
-                        }
-                    }
+                // Crossfade for inactive slides — always storyImg
+                const leftImgBox = allSlides[i].querySelector('.portfolio-card__img-box');
+                const leftProject = pData.find(p => p.id === allSlides[i].querySelector('.portfolio-card').dataset.id);
+                if (leftProject) {
+                    const targetSrc = leftProject.storyImg || leftProject.wideImg;
+                    crossfadeCardImage(leftImgBox, targetSrc);
                 }
                 
                 leftX -= (currentNarrowWidth + currentGap);
@@ -879,16 +915,12 @@ async function initPortfolio() {
                 animateTo(allSlides[i], rightX, currentNarrowWidth);
                 allSlides[i].classList.remove('is-active');
 
-                // For inactive always storyImg
-                const img = allSlides[i].querySelector('.portfolio-card__img');
-                if (img) {
-                    const project = pData.find(p => p.id === allSlides[i].querySelector('.portfolio-card').dataset.id);
-                    if (project) {
-                        const targetSrc = project.storyImg || project.wideImg;
-                        if (!img.src.includes(targetSrc)) {
-                            img.src = `assets/portfolio/${targetSrc}`;
-                        }
-                    }
+                // Crossfade for inactive slides — always storyImg
+                const rightImgBox = allSlides[i].querySelector('.portfolio-card__img-box');
+                const rightProject = pData.find(p => p.id === allSlides[i].querySelector('.portfolio-card').dataset.id);
+                if (rightProject) {
+                    const targetSrc = rightProject.storyImg || rightProject.wideImg;
+                    crossfadeCardImage(rightImgBox, targetSrc);
                 }
 
                 rightX += (currentNarrowWidth + currentGap);
