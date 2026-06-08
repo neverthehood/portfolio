@@ -2735,11 +2735,6 @@ border-radius: 10px;
     overflow: hidden;
 }
 
-/* Support for crossfade overlay on portfolio images */
-.portfolio-card__img-box .portfolio-card__img {
-    transition: opacity 0.35s ease;
-}
-
 .portfolio-slide.is-active .portfolio-card {
     box-shadow: 0 20px 40px rgba(0,0,0,0.15); /* Active slide slightly stands out */
 }
@@ -5138,4 +5133,436 @@ margin-top:40px;
   }
 }
 
-  .brand 
+  .brand {
+    min-width: auto !important;
+    width: auto !important;
+  }
+
+  .brand__contacts {
+    min-width: auto !important;
+    gap: 20px !important;
+    margin-right: 20px;
+  }
+
+  .cta {
+    width: 190px !important;
+    min-width: auto !important;
+  }
+
+  .brand__email {
+    display: flex !important;
+  }
+
+  body.mode-form .topbar__inner {
+    background: transparent !important;
+
+    backdrop-filter: blur(20px) saturate(120%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(120%) !important;
+
+  }
+
+  .topbar__inner,
+  body.mode-form .topbar__inner {
+    width: 90vw;
+  }
+
+  .chip--glass{
+  position:relative;
+  overflow:hidden;
+  color: #0f0f0f;
+}
+}
+
+
+/* ===== iPad Portrait: hide header contacts ===== */
+@media (min-width: 768px) and (max-width: 1200px) and (orientation: portrait) {
+
+  .brand__contacts {
+    display: none !important;
+  }
+
+  body.mode-form .contact__mobileCopy {
+    display: flex !important;
+  }
+
+  .contact__mobileCopy {
+    gap: 32px !important;
+  }
+
+  body.mode-form .form {
+      width: 100% !important;
+      min-width: 0 !important;
+      max-width: 100% !important;
+      margin-top: 120px !important;
+      padding-left: 0px !important;
+      padding-right: 0px !important;
+    }
+
+    .contact {
+    width: 97% !important;
+    min-width: 0 !important;
+    margin: 0 auto !important;
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+    }
+
+  body.mode-form .contact__mobileCopy {
+    display: flex !important;
+    justify-content: center;
+    width: 100% !important;
+}
+
+  body.mode-form .brand__whatsapp {
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    width: 195px;
+    justify-content: center;
+    text-decoration: none;
+}
+
+  .brand__email {
+    text-decoration: none;
+  }
+
+  .wrap {
+    width: 88vw;
+    margin: 0 auto !important;
+}
+}
+
+@media (max-width: 768px) {
+  .hero {
+    min-height: auto !important;
+    height: auto !important;
+    padding-bottom: 40px !important;
+  }
+
+  .hero__content {
+    min-height: auto !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .services {
+    padding: 44px 0 70px;
+  }
+
+ 
+  .services-nav {
+    display: none;
+  }
+
+  .services-slider-wrap {
+    margin-left: 0 !important;
+    padding: 0 20px;
+    overflow: visible;
+  }
+
+  .services-slider-wrap .swiper-slide {
+    width: calc(100vw - 40px) !important;
+  }
+
+  .service-card {
+    width: 100%;
+    flex: 1 1 auto;
+    flex-direction: column;
+    height: auto;
+    border-radius: 26px;
+  }
+
+  .service-card__left {
+    width: 100%;
+    padding: 26px 22px 18px;
+  }
+
+  .service-card__right {
+    width: 100%;
+  }
+
+  .service-card__right .render-img {
+    width: 100%;
+    height: 436px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .services-main-nav {
+    display: none;
+  }
+
+  .inner-slider-controls .meta-nav {
+    display: none;
+  }
+}
+
+
+
+/* ==========================================================================
+   Final: Hover overlay fix and 3D composition centering
+   ========================================================================== */
+
+.word-container {
+  display: inline-flex !important;
+  flex-direction: row !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: clamp(8px, 0.9vw, 16px) !important; 
+  margin: 0 !important;
+  padding: 0 !important;
+  pointer-events: auto !important;
+  
+  /* Enable 3D space for rows */
+  perspective: 800px; 
+}
+
+
+/* ==========================================================================
+   MOBILE ADAPTIVE (Automatically centers and adapts block on smartphones)
+   ========================================================================== */
+@media (max-width: 900px) {
+  .hero__visual-main {
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 auto 32px !important;
+  }
+
+  .hero-3d-composition {
+    gap: -4px !important; /* Reduce overlap on small screens */
+  }
+  
+  .word-container {
+    gap: 4px !important;
+  }
+}
+
+
+/* Semi-transparent glass effect on scroll (Glassmorphism) */
+.topbar--scrolled {
+  /* If the site is light — keep white rgba(255, 255, 255, 0.88). 
+     If the site is dark — change to rgba(17, 17, 17, 0.88) */
+  background: rgba(255, 255, 255, 0.88) !important; 
+  
+  /* Matte background blur effect (works in Safari and Chrome) */
+  -webkit-backdrop-filter: blur(12px) !important;
+  backdrop-filter: blur(12px) !important; 
+  
+  /* Clean thin dividing line at the bottom instead of messy shadows */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important; 
+  
+  /* Soft veil shadow to separate header from content */
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02) !important;
+
+  top: 0 !important;
+  padding-top: 0 !important;
+}
+
+
+body.mode-form .topbar {
+  /* Disable fixed position on scroll */
+  position: absolute !important; 
+  
+  /* Reset hide transformation so header always stays 
+     simply at the very top of the form page and doesn't fly away */
+  transform: none !important; 
+  
+  /* Disable blur and scroll background if the form is long and scrolled */
+  background: transparent !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+
+/* Hide Hero content when form is open */
+body.mode-form .hero {
+  min-height: 0 !important;
+  height: auto !important;
+  padding: 0 !important;
+}
+
+body.mode-form .hero__content,
+body.mode-form .hero__visual-main {
+  display: none !important;
+}
+
+/* Hide logo in form mode on smaller screens to avoid overlap with "Let's connect" 
+   But keep it on mobile (below 900px) as the layout there allows it */
+@media (min-width: 901px) and (max-width: 1562px) {
+  body.mode-form .brand__logo,
+  body.mode-form .brand {
+    display: none !important;
+  }
+}
+
+@media (max-width: 1024px) {
+  .hero {
+    min-height: auto !important;
+    padding-block: 40px 40px !important; /* Give content room to breathe */
+  }
+
+  .hero-grid-wrapper {
+    /* 1. Change direction to vertical */
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 40px !important; /* Distance between image and text */
+    text-align: center !important;
+  }
+
+  .hero-3d-composition {
+    order: 1 !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    justify-content: center !important;
+  }
+
+  .hero__content {
+    order: 2 !important;
+    width: 100% !important;
+    max-width: 600px !important;
+    margin: 0 auto !important;
+    padding-right: 0 !important; /* Remove extra padding for centering */
+    flex: 1 1 50% !important;
+    padding-bottom: 0 !important;
+  }
+}
+
+@media (max-width: 900px) { 
+  .cta--header {
+    display: none !important; /* Hide button earlier so it doesn't interfere with menu */;
+}
+
+
+/* Strictly fix normal font weight so it doesn't jump */
+.hero__titleLine {
+  font-weight: 400 !important; /* Set your desired weight, e.g. 400 or 500 */
+}
+
+/* Remove composition "drift" on wide screens (1200px+) */
+@media (min-width: 1201px) {
+  .hero-grid-wrapper {
+    gap: 80px !important; /* Limit offset between text and letters */
+  }
+  
+  .topbar {
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+    }
+
+    .topbar .cta-btn {
+      display: none !important; /* Hide button on tablets/mobiles */
+    }
+}
+
+
+
+
+.topbar .cta-btn {
+  padding: 0 32px !important; /* Fix paddings so they don't grow infinitely */
+  margin-left: auto !important; /* Align button to menu */
+}
+
+
+/* Base Hero setting: vertical stack (as requested up to 1024px) */
+@media (max-width: 1024px) {
+  .hero-grid-wrapper {
+    flex-direction: column !important;
+    gap: 32px !important;
+  }
+}
+
+
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .hero__content {
+    max-width: 45% !important; /* Give more space to text */
+  }
+}
+
+
+
+@media (min-width: 901px) and (max-width: 1024px) {
+  .hero {
+    /* Force limit height so there is no "empty space" */
+    min-height: auto !important; 
+    padding-top: 100px !important;
+    padding-bottom: 40px !important;
+  }
+
+  .hero-grid-wrapper {
+    /* Force elements to tightly align to center vertically */
+    align-items: center !important;
+    gap: 20px !important;
+  }
+
+  .hero__content {
+    /* Limit content so it doesn't "stretch" height */
+    flex: 1 1 50% !important;
+    padding-bottom: 0 !important;
+  }
+
+
+  .hero__asterisk {
+    white-space: nowrap;
+    text-align: center;
+}
+}
+
+
+
+/* =========================================
+   COLLABORATION SECTION: PERFECT GRID
+   ========================================= */
+.collaboration {
+  width: 100%;
+  /* Fluid margins at screen edges */
+  padding-inline: clamp(20px, 5vw, 120px); 
+  margin-block: clamp(40px, 8vw, 100px);
+}
+
+.collaboration-grid {
+  display: grid;
+  /* Automatic grid: minimum 200px card width, 
+     rest of the space divided equally (1fr) */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: clamp(16px, 3vw, 40px); /* Adaptive gap between cards */
+  align-items: center; /* Center everything vertically */
+  justify-items: center; /* Center everything horizontally */
+  width: 100%;
+}
+
+.collaboration-item {
+  width: 100%;
+  aspect-ratio: 16 / 9; /* Maintains card ratio */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f9f9f9;
+  border-radius: 20px;
+  padding: 20px;
+  transition: transform 0.2s ease;
+}
+
+.collaboration-item img {
+  /* Image will never overflow its cell */
+  max-width: 80%; 
+  max-height: 80%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+
+.services-slider-wrap .swiper-wrapper {
+    /* This will remove extra jitters */
+    transition-timing-function: ease-out !important;
+}
+
+.services-slider-wrap .swiper-slide {
+    /* Ensure no properties affect grabbing */
+    touch-action: pan-y !important;
+    user-select: none;
+}
+
+
