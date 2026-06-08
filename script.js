@@ -797,6 +797,8 @@ async function initPortfolio() {
         // Clone for infinity (3 sets: [clones][originals][clones])
         container.innerHTML = [...pData, ...pData, ...pData].map((item, idx) => renderSlide(item, idx)).join('');
         
+        const allSlides = gsap.utils.toArray(".portfolio-slide");
+        
         // Remove any duplicate images left from previous crossfade logic
         document.querySelectorAll('.portfolio-card__img-box').forEach(box => {
             const imgs = box.querySelectorAll('.portfolio-card__img');
@@ -812,8 +814,6 @@ async function initPortfolio() {
         allSlides.forEach(s => {
             s.style.width = '';
         });
-        
-        const allSlides = gsap.utils.toArray(".portfolio-slide");
         let activeIndex = originalSlidesCount; // Start with first slide of middle set
         let isAnimating = false;
         let touchHandled = false;
