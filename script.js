@@ -892,35 +892,33 @@ async function initPortfolio() {
                 crossfadeCardImage(activeImgBox, targetSrc);
             }
 
-            // 4. Position neighbors to the left
+            // 4. Position neighbors to the left — swap to storyImg AFTER shrink completes
             let leftX = activeX - currentGap - currentNarrowWidth;
             for (let i = activeIndex - 1; i >= 0; i--) {
                 animateTo(allSlides[i], leftX, currentNarrowWidth);
                 allSlides[i].classList.remove('is-active');
                 
-                // Crossfade for inactive slides — always storyImg
-                const leftImgBox = allSlides[i].querySelector('.portfolio-card__img-box');
-                const leftProject = pData.find(p => p.id === allSlides[i].querySelector('.portfolio-card').dataset.id);
-                if (leftProject) {
-                    const targetSrc = leftProject.storyImg || leftProject.wideImg;
-                    crossfadeCardImage(leftImgBox, targetSrc);
+                const lProject = pData.find(p => p.id === allSlides[i].querySelector('.portfolio-card').dataset.id);
+                if (lProject) {
+                    const targetSrc = lProject.storyImg || lProject.wideImg;
+                    const lImgBox = allSlides[i].querySelector('.portfolio-card__img-box');
+                    setTimeout(() => crossfadeCardImage(lImgBox, targetSrc), animate ? 800 : 0);
                 }
                 
                 leftX -= (currentNarrowWidth + currentGap);
             }
 
-            // 5. Position neighbors to the right
+            // 5. Position neighbors to the right — swap to storyImg AFTER shrink completes
             let rightX = activeX + currentWideWidth + currentGap;
             for (let i = activeIndex + 1; i < allSlides.length; i++) {
                 animateTo(allSlides[i], rightX, currentNarrowWidth);
                 allSlides[i].classList.remove('is-active');
 
-                // Crossfade for inactive slides — always storyImg
-                const rightImgBox = allSlides[i].querySelector('.portfolio-card__img-box');
-                const rightProject = pData.find(p => p.id === allSlides[i].querySelector('.portfolio-card').dataset.id);
-                if (rightProject) {
-                    const targetSrc = rightProject.storyImg || rightProject.wideImg;
-                    crossfadeCardImage(rightImgBox, targetSrc);
+                const rProject = pData.find(p => p.id === allSlides[i].querySelector('.portfolio-card').dataset.id);
+                if (rProject) {
+                    const targetSrc = rProject.storyImg || rProject.wideImg;
+                    const rImgBox = allSlides[i].querySelector('.portfolio-card__img-box');
+                    setTimeout(() => crossfadeCardImage(rImgBox, targetSrc), animate ? 800 : 0);
                 }
 
                 rightX += (currentNarrowWidth + currentGap);
