@@ -796,6 +796,17 @@ async function initPortfolio() {
         // Clone for infinity (3 sets: [clones][originals][clones])
         container.innerHTML = [...pData, ...pData, ...pData].map(renderSlide).join('');
         
+        // Remove any duplicate images left from previous crossfade logic
+        document.querySelectorAll('.portfolio-card__img-box').forEach(box => {
+            const imgs = box.querySelectorAll('.portfolio-card__img');
+            if (imgs.length > 1) {
+                // Keep only the last one (should be the correct one)
+                for (let i = 0; i < imgs.length - 1; i++) {
+                    imgs[i].remove();
+                }
+            }
+        });
+        
         const allSlides = gsap.utils.toArray(".portfolio-slide");
         let activeIndex = originalSlidesCount; // Start with first slide of middle set
         let isAnimating = false;
@@ -803,49 +814,32 @@ async function initPortfolio() {
 
         /**
          * Crossfade image inside a card's img-box.
-         * Creates a new <img> element, fades it in over the existing one,
-         * then removes the old img after the transition.
+         * Uses a single <img> element and triggers a CSS fade via class toggle.
          */
         function crossfadeCardImage(imgBox, newSrc) {
             if (!imgBox) return;
-            const oldImg = imgBox.querySelector('.portfolio-card__img');
-            if (!oldImg) return;
+            let img = imgBox.querySelector('.portfolio-card__img');
+            if (!img) return;
 
-            // Normalize paths for comparison
-            const currentSrc = oldImg.src.split('/').pop();
+            // Normalize paths for comparison (strip path, keep filename)
+            const currentSrc = img.src.split('/').pop();
             if (currentSrc === newSrc) return;
 
-            // Make sure imgBox is positioned to contain absolute children
-            const pos = getComputedStyle(imgBox).position;
-            if (pos === 'static') imgBox.style.position = 'relative';
+            // Short crossfade: briefly fade out, swap src, fade in
+            img.style.transition = 'opacity 0.2s ease';
+            img.style.opacity = '0';
 
-            // Create new image
-            const newImg = document.createElement('img');
-            newImg.className = 'portfolio-card__img';
-            newImg.src = `assets/portfolio/${newSrc}`;
-            newImg.alt = oldImg.alt || '';
-            newImg.loading = 'lazy';
-            newImg.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity 0.35s ease;z-index:1;';
+            const done = () => {
+                img.src = `assets/portfolio/${newSrc}`;
+                img.style.opacity = '1';
+                // Restore original transition after a short delay
+                setTimeout(() => {
+                    img.style.transition = '';
+                }, 250);
+            };
 
-            imgBox.appendChild(newImg);
-
-            // Trigger fade-in on next frame
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    newImg.style.opacity = '1';
-                });
-            });
-
-            // Remove old img after crossfade completes
-            setTimeout(() => {
-                if (oldImg.parentNode === imgBox) oldImg.remove();
-                // Reset inline styles so normal CSS rules apply
-                newImg.style.position = '';
-                newImg.style.cssText = '';
-                newImg.style.width = '';
-                newImg.style.height = '';
-                newImg.style.objectFit = '';
-            }, 400);
+            // Wait for fade-out, then swap
+            setTimeout(done, 200);
         }
 
         function updateSlider(animate = true) {
