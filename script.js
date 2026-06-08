@@ -759,10 +759,11 @@ async function initPortfolio() {
         }
 
         // Render slides. Text is now inside portfolio-card__meta, which will be overlaid.
-        const renderSlide = (item) => {
-            // Start with storyImg (narrow) for ALL slides.
-            // The active slide will swap to wideImg on first updateSlider() call.
-            const initialImg = item.storyImg || item.wideImg;
+        const renderSlide = (item, idx) => {
+            // First slide of middle set (index === originalSlidesCount) starts as active → use wideImg
+            // All other slides start as storyImg (narrow)
+            const isActiveSlide = idx === originalSlidesCount;
+            const initialImg = isActiveSlide ? (item.wideImg || item.storyImg) : (item.storyImg || item.wideImg);
             
             return `
                 <div class="portfolio-slide">
@@ -794,7 +795,7 @@ async function initPortfolio() {
         if (!slider || !container || originalSlidesCount === 0) return;
 
         // Clone for infinity (3 sets: [clones][originals][clones])
-        container.innerHTML = [...pData, ...pData, ...pData].map(renderSlide).join('');
+        container.innerHTML = [...pData, ...pData, ...pData].map((item, idx) => renderSlide(item, idx)).join('');
         
         // Remove any duplicate images left from previous crossfade logic
         document.querySelectorAll('.portfolio-card__img-box').forEach(box => {
@@ -816,14 +817,14 @@ async function initPortfolio() {
          * Crossfade image inside a card's img-box.
          * Uses a single <img> element and triggers a CSS fade via class toggle.
          */
-        function crossfadeCardImage(imgBox, newSrc) {
+        function crossfadeCardImage(imgBox, newSrc, force = false) {
             if (!imgBox) return;
             let img = imgBox.querySelector('.portfolio-card__img');
             if (!img) return;
 
             // Normalize paths for comparison (strip path, keep filename)
             const currentSrc = img.src.split('/').pop();
-            if (currentSrc === newSrc) return;
+            if (!force && currentSrc === newSrc) return;
 
             // Short crossfade: briefly fade out, swap src, fade in
             img.style.transition = 'opacity 0.2s ease';
@@ -885,7 +886,7 @@ async function initPortfolio() {
             const activeProject = pData.find(p => p.id === activeSlide.querySelector('.portfolio-card').dataset.id);
             if (activeProject) {
                 const targetSrc = isMobileNow ? (activeProject.storyImg || activeProject.wideImg) : (activeProject.wideImg || activeProject.storyImg);
-                crossfadeCardImage(activeImgBox, targetSrc);
+                crossfadeCardImage(activeImgBox, targetSrc, !animate);
             }
 
             // 4. Position neighbors to the left — swap to storyImg IMMEDIATELY (no delay)
@@ -898,7 +899,7 @@ async function initPortfolio() {
                 if (lProject) {
                     const targetSrc = lProject.storyImg || lProject.wideImg;
                     const lImgBox = allSlides[i].querySelector('.portfolio-card__img-box');
-                    crossfadeCardImage(lImgBox, targetSrc);
+                    crossfadeCardImage(lImgBox, targetSrc, true);
                 }
                 
                 leftX -= (currentNarrowWidth + currentGap);
@@ -914,7 +915,7 @@ async function initPortfolio() {
                 if (rProject) {
                     const targetSrc = rProject.storyImg || rProject.wideImg;
                     const rImgBox = allSlides[i].querySelector('.portfolio-card__img-box');
-                    crossfadeCardImage(rImgBox, targetSrc);
+                    crossfadeCardImage(rImgBox, targetSrc, true);
                 }
 
                 rightX += (currentNarrowWidth + currentGap);
