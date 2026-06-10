@@ -112,11 +112,12 @@ nav a:hover { color: #fff; }
 }
 
 .section-label {
-  font-size: 11px;
+  font-size: 18px;
   letter-spacing: 0.12em;
   color: rgba(255, 255, 255, 0.3);
   text-transform: uppercase;
   margin-bottom: 1.5rem;
+  font-family: roadradio;
 }
 
 .work-grid {
