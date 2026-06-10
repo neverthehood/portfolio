@@ -280,11 +280,13 @@ nav a:hover { color: #fff; }
 }
 
 .about-text {
-  font-size: 16px;
+  font-size: 20px;
   color: rgba(255, 255, 255, 0.55);
   line-height: 1.7;
   letter-spacing: 0.01em;
   margin-bottom: 0.8rem;
+  font-family: Jura;
+  font-weight: 100;
 }
 
 .tools-label {
