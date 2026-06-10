@@ -257,6 +257,7 @@ nav a:hover { color: #fff; }
 }
 
 .work-title {
+  font-family: roadradio;
   font-size: 15px;
   font-weight: 500;
   color: #fff;
