@@ -87,7 +87,7 @@ nav a:hover { color: #fff; }
 }
 
 .hero h1 {
-  font-size: clamp(40px, 6vw, 80px);
+  font-size: clamp(40px, 6vw, 60px);
   font-weight: 500;
   line-height: 1.08;
   letter-spacing: -0.02em;
