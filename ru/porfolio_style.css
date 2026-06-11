@@ -6,7 +6,7 @@
 /* RoadRadio Thin (100) */
 @font-face {
   font-family: "roadradio";
-  src: url("./assets/fonts/RoadRadio-Thin.ttf") format("truetype");
+  src: url("assets/fonts/RoadRadio-Thin.ttf") format("truetype");
   font-style: normal;
   font-weight: 100;
 }
@@ -14,7 +14,7 @@
 /* RoadRadio Light (300) */
 @font-face {
   font-family: "roadradio";
-  src: url("./assets/fonts/RoadRadio-Light.ttf") format("truetype");
+  src: url("assets/fonts/RoadRadio-Light.ttf") format("truetype");
   font-style: normal;
   font-weight: 300;
 }
@@ -22,7 +22,7 @@
 /* RoadRadio Regular (400) */
 @font-face {
   font-family: "roadradio";
-  src: url("./assets/fonts/RoadRadio.ttf") format("truetype");
+  src: url("assets/fonts/RoadRadio.ttf") format("truetype");
   font-style: normal;
   font-weight: 400;
 }
@@ -30,7 +30,7 @@
 /* RoadRadio Bold (700) */
 @font-face {
   font-family: "roadradio";
-  src: url("./assets/fonts/RoadRadio-Bold.ttf") format("truetype");
+  src: url("assets/fonts/RoadRadio-Bold.ttf") format("truetype");
   font-style: normal;
   font-weight: 700;
 }
@@ -38,7 +38,7 @@
 /* RoadRadio Black (900) */
 @font-face {
   font-family: "roadradio";
-  src: url("./assets/fonts/RoadRadio-Black.ttf") format("truetype");
+  src: url("assets/fonts/RoadRadio-Black.ttf") format("truetype");
   font-style: normal;
   font-weight: 900;
 }
