@@ -1,3 +1,49 @@
+/* ===== Jura ===== */
+@import url('https://fonts.googleapis.com/css2?family=Jura:wght@300;400;500;600;700&display=swap');
+
+/* ===== RoadRadio ===== */
+
+/* RoadRadio Thin (100) */
+@font-face {
+  font-family: "RoadRadio";
+  src: url("./assets/fonts/RoadRadio-Thin.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 100;
+}
+
+/* RoadRadio Light (300) */
+@font-face {
+  font-family: "RoadRadio";
+  src: url("./assets/fonts/RoadRadio-Light.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 300;
+}
+
+/* RoadRadio Regular (400) */
+@font-face {
+  font-family: "RoadRadio";
+  src: url("./assets/fonts/RoadRadio.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+}
+
+/* RoadRadio Bold (700) */
+@font-face {
+  font-family: "RoadRadio";
+  src: url("./assets/fonts/RoadRadio-Bold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 700;
+}
+
+/* RoadRadio Black (900) */
+@font-face {
+  font-family: "RoadRadio";
+  src: url("./assets/fonts/RoadRadio-Black.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 900;
+}
+
+
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
 body {
